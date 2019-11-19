@@ -1,0 +1,34 @@
+
+
+block-boost:
+  velocity:
+    EMERALD_BLOCK:
+      multiplier: 2
+      height: 0
+    SPONGE:
+      multiplier: 2
+      height: 6
+    WET_SPONGE:
+      multiplier: 2
+      height: 3
+
+
+  #
+  exploding-blocks:
+    TNT:
+      depth: 1
+
+
+
+  effect-blocks:
+    EMERALD_ORE:
+      potion-effect: NIGHT_VISION
+      duration: 100
+    DIAMOND_ORE:
+
+
+
+  particle-blocks:
+    REDSTONE_BLOCK:
+      particle: REDSTONE
+      duration: 1
