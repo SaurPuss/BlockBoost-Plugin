@@ -1,0 +1,21 @@
+name: BlockBoost
+version: ${project.version}
+main: me.saurpuss.blockboost.BlockBoost
+api-version: 1.13
+prefix: BB
+author: SaurPuss
+description: Add special effects to in-game blocks
+website: https://github.com/SaurPuss/BlockBoost-Plugin
+
+commands:
+  bb:
+    description: BlockBoost command
+    usage: /<command> reload - reload BlockBoost config
+    aliases: [blockboost]
+    permission: bb.reload
+    permission-message: "§cYou do not have permission!"
+
+permissions:
+  bb.reload:
+    description: Permission to reload the BlockBoost config
+    default: op
