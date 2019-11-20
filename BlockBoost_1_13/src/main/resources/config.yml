@@ -14,13 +14,14 @@ block-boost:
 
 
   #
-  exploding-blocks:
+  landmine:
     TNT:
       depth: 1
+      cover-block:
 
 
 
-  effect-blocks:
+  potion:
     EMERALD_ORE:
       potion-effect: NIGHT_VISION
       duration: 100

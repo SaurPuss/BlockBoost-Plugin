@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 
-public class BlockManager {
+public class BlockMapper {
 
     private BlockBoost bb;
     private FileConfiguration config;
@@ -14,14 +14,21 @@ public class BlockManager {
     private final HashMap<Material, int[]> velocityBlocks;
 
 
-    public BlockManager(BlockBoost plugin) {
-        bb = plugin;
-        config = bb.getConfig();
+    public BlockMapper(FileConfiguration configuration) {
+//        bb = plugin;
+        config = configuration;
 
         velocityBlocks = populateVelocityBlocks();
 
     }
 
+    boolean hasVelocityBlocks() {
+        return velocityBlocks != null;
+    }
+
+    public HashMap<Material, int[]> getVelocityBlocks() {
+        return velocityBlocks;
+    }
 
     private HashMap<Material, int[]> populateVelocityBlocks() {
         if (config.getConfigurationSection("velocity-blocks").getKeys(false).size() == 0)

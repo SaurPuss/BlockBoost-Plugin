@@ -22,11 +22,15 @@ public class BlockBoostCommand implements CommandExecutor {
         // TODO logging
 
 
-        // reload eventlistener
-        bb.reloadBlockEffects();
+        // remove active eventlistener
+        bb.getBbManager().unloadListeners();
 
         // reload config
         bb.reloadConfig();
+
+        // assign new bbManager
+        bb.setBbManager();
+
         return true;
     }
 }

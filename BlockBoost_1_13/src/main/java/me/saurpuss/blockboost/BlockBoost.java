@@ -1,11 +1,12 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.events.VelocityBlockListener;
+import me.saurpuss.blockboost.commands.BlockBoostCommand;
+import me.saurpuss.blockboost.util.BBManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BlockBoost extends JavaPlugin {
 
-    private static VelocityBlockListener eventListener;
+    private static BBManager bbManager;
 
     @Override
     public void onEnable() {
@@ -14,7 +15,10 @@ public final class BlockBoost extends JavaPlugin {
         saveDefaultConfig();
 
         // Register Block Listener
-        registerBlockEffects(); // TODO move to event manager
+        bbManager = new BBManager(this);
+
+        // Register reload command
+        getCommand("bb").setExecutor(new BlockBoostCommand(this));
     }
 
     @Override
@@ -22,12 +26,10 @@ public final class BlockBoost extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private void registerBlockEffects() {
-        eventListener = new VelocityBlockListener(this);
+    public BBManager getBbManager() {
+        return bbManager;
     }
-
-    public void reloadBlockEffects() {
-        eventListener.unregister();
-        registerBlockEffects();
+    public void setBbManager() {
+        bbManager = new BBManager(this);
     }
 }
