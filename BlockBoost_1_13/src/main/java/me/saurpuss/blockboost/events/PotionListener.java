@@ -1,4 +1,4 @@
 package me.saurpuss.blockboost.events;
 
-public class PotionEffectBlockListener {
+public class PotionListener {
 }

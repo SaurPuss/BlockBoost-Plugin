@@ -49,9 +49,13 @@ block-boost:
   landmine:
     EXAMPLE_BLOCK:
       depth: 0
-      explosion: true
+      combust: true
+      effect: explosion # lightning, fire
       cover-block: true
-        block: EXAMPLE_BLOCK # TODO multiple coverblocks
+        block: EXAMPLE_BLOCK
+
+
+
   potion:
     EXAMPLE_BLOCK:
       potion-effect: EXAMPLE_POTION_EFFECT
@@ -60,3 +64,11 @@ block-boost:
     EXAMPLE_BLOCK:
       particle: EXAMPLE_PARTICLE
       duration: 0
+  noise:
+    EXAMPLE_BLOCK:
+      sound: EXAMPLE_NOISE
+      duration: 0
+  teleport:
+    EXAMPLE_BLOCK:
+      direction: random
+      distance: 5

@@ -14,21 +14,20 @@ public final class BlockBoost extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
 
-        // Register Block Listener
-        bbManager = new BBManager(this);
+        // Register Block Listeners through the manager
+        setBbManager();
 
         // Register reload command
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
+    public void onDisable() {}
 
     public BBManager getBbManager() {
         return bbManager;
     }
+
     public void setBbManager() {
         bbManager = new BBManager(this);
     }
