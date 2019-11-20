@@ -22,7 +22,7 @@ public class BlockBoostCommand implements CommandExecutor {
         // TODO logging
 
 
-        // remove active eventlistener
+        // remove active event listener
         bb.getBbManager().unloadListeners();
 
         // reload config

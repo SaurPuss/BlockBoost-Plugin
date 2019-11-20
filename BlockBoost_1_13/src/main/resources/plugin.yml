@@ -8,10 +8,10 @@ description: Add special effects to in-game blocks
 website: https://github.com/SaurPuss/BlockBoost-Plugin
 
 commands:
-  bb:
+  blockboost:
     description: BlockBoost command
     usage: /<command> reload - reload BlockBoost config
-    aliases: [blockboost]
+    aliases: [bb]
     permission: bb.reload
     permission-message: "§cYou do not have permission!"
 

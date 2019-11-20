@@ -1,10 +1,12 @@
 package me.saurpuss.blockboost.util;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.events.LandmineListener;
 import me.saurpuss.blockboost.events.VelocityListener;
-import org.bukkit.Material;
+import me.saurpuss.blockboost.util.blocks.LandmineBlock;
+import me.saurpuss.blockboost.util.blocks.VelocityBlock;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class BBManager {
 
@@ -12,15 +14,18 @@ public class BBManager {
     private BlockMapper blocks;
 
     private VelocityListener velocityListener = null;
+    private LandmineListener landmineListener = null;
 
     public BBManager(BlockBoost plugin) {
         bb = plugin;
-        blocks = new BlockMapper(bb.getConfig());
+        blocks = new BlockMapper(bb);
 
         // register event listeners
         if (blocks.hasVelocityBlocks())
             velocityListener = new VelocityListener(bb);
 
+        if (blocks.hasLandmineBlocks())
+            landmineListener = new LandmineListener(bb);
 
     }
 
@@ -28,11 +33,18 @@ public class BBManager {
         if (velocityListener != null)
             velocityListener.unregister();
 
+        if (landmineListener != null)
+            landmineListener.unregister();
 
     }
 
-
-    public HashMap<Material, int[]> getVelocityMap() {
+    public HashSet<VelocityBlock> getVelocityBlocks() {
         return blocks.getVelocityBlocks();
     }
+
+    public HashSet<LandmineBlock> getLandmineBlocks() {
+        return blocks.getLandmineBlocks();
+    }
+
+
 }

@@ -1,35 +1,62 @@
+# HEADER WITH EXAMPLES
+
+#block-boost:
+#  velocity:
+#    EMERALD_BLOCK:
+#      multiplier: 2
+#      height: 0
+#    SPONGE:
+#      multiplier: 2
+#      height: 6
+#    WET_SPONGE:
+#      multiplier: 2
+#      height: 3
+#
+#
+#  #
+#  landmine:
+#    TNT: # this is tnt buried 2 blocks underneath the player
+#      depth: 2
+#      explosion: true
+#      cover-block: false
+#        block: EXAMPLE_BLOCK
+#    REDSTONE_BLOCK: # this is a stone pressure plate on top of a redstone block
+#      depth: 0
+#      explosion: false
+#      cover-block: true
+#        block: STONE_PRESSURE_PLATE
+#
+#
+#
+#  potion:
+#    EMERALD_ORE:
+#      potion-effect: NIGHT_VISION
+#      duration: 100
+#    DIAMOND_ORE:
 
 
+# Plugin specific settings:
+
+
+
+# Set up your boosted blocks here.
+# Replace the EXAMPLE_BLOCK keys to get started.
 block-boost:
   velocity:
-    EMERALD_BLOCK:
-      multiplier: 2
+    EXAMPLE_BLOCK:
+      multiplier: 0
       height: 0
-    SPONGE:
-      multiplier: 2
-      height: 6
-    WET_SPONGE:
-      multiplier: 2
-      height: 3
-
-
-  #
   landmine:
-    TNT:
-      depth: 1
-      cover-block:
-
-
-
+    EXAMPLE_BLOCK:
+      depth: 0
+      explosion: true
+      cover-block: true
+        block: EXAMPLE_BLOCK # TODO multiple coverblocks
   potion:
-    EMERALD_ORE:
-      potion-effect: NIGHT_VISION
-      duration: 100
-    DIAMOND_ORE:
-
-
-
-  particle-blocks:
-    REDSTONE_BLOCK:
-      particle: REDSTONE
-      duration: 1
+    EXAMPLE_BLOCK:
+      potion-effect: EXAMPLE_POTION_EFFECT
+      duration: 0
+  particle:
+    EXAMPLE_BLOCK:
+      particle: EXAMPLE_PARTICLE
+      duration: 0

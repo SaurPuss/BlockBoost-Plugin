@@ -18,7 +18,7 @@ public final class BlockBoost extends JavaPlugin {
         bbManager = new BBManager(this);
 
         // Register reload command
-        getCommand("bb").setExecutor(new BlockBoostCommand(this));
+        getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
     }
 
     @Override
