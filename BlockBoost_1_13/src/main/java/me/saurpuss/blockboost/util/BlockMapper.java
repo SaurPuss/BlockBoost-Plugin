@@ -15,8 +15,8 @@ class BlockMapper {
 
     private BlockBoost bb;
     private FileConfiguration config;
-
     private final HashSet<Material> validBlocks;
+
     private final HashSet<BounceBlock> bounceBlocks;
     private final HashSet<SpeedBlock> speedBlocks;
     private final HashSet<LandmineBlock> landmineBlocks;
@@ -136,6 +136,7 @@ class BlockMapper {
                     sBlock.setSpeedCap((float)config.getDouble("block-boost.speed." + key +
                             ".cap"));
                     sBlock.setDuration(config.getLong("block-boost.speed." + key + ".duration"));
+                    sBlock.setCooldown(config.getLong("block-boost.speed." + key + ".cooldown"));
                     validMats.add(sBlock);
                 }
             }

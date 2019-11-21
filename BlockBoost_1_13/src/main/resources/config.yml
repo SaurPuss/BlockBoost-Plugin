@@ -58,8 +58,10 @@ block-boost:
       multiplier: 1.5
       cap: 1.0
       duration: 5
+      cooldown: 10
       # speed is percentage
       # duration is in seconds
+      # cooldown is in ticks
 
       # <1-10, 2 is default walk speed>
 #  velocity:

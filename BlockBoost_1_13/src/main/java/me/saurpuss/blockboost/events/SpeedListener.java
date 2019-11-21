@@ -12,11 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 public class SpeedListener implements Listener {
 
     private BlockBoost bb;
     private final HashSet<SpeedBlock> BLOCKS;
+    private static HashSet<UUID> playerDelay = new HashSet<>();
 
     public SpeedListener(BlockBoost plugin, HashSet<SpeedBlock> blocks) {
         bb = plugin;
@@ -30,20 +32,26 @@ public class SpeedListener implements Listener {
         Player player = event.getPlayer();
         Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
-        BLOCKS.forEach(material -> {
-            if (material.getMaterial() == block.getType()) {
-                float result = player.getWalkSpeed() * material.getSpeedMultiplier();
-                if (result > material.getSpeedCap())
-                    result = material.getSpeedCap();
+        // Event can only fire once a second
+        if (!playerDelay.contains(player.getUniqueId())) {
+            BLOCKS.forEach(material -> {
+                if (material.getMaterial() == block.getType()) {
+                    float result = player.getWalkSpeed() * material.getSpeedMultiplier();
+                    if (result > material.getSpeedCap())
+                        result = material.getSpeedCap();
 
-                player.setWalkSpeed(result);
-                player.sendMessage("Speed set to " + material.getSpeedMultiplier());
+                    player.setWalkSpeed(result);
+                    player.sendMessage("Speed set to " + material.getSpeedMultiplier());
+                    playerDelay.add(player.getUniqueId());
 
-                // TODO custom task
-                Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-                    player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
-            }
-        });
+                    // TODO custom task
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
+                            playerDelay.remove(player.getUniqueId()), material.getCooldown());
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
+                            player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
+                }
+            });
+        }
     }
 
     public void unregister() {

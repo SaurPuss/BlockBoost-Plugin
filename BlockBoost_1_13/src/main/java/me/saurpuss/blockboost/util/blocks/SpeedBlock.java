@@ -9,6 +9,7 @@ public class SpeedBlock {
     private float speedMultiplier;
     private float speedCap;
     private long duration;
+    private long cooldown;
 
     public Material getMaterial() {
         return material;
@@ -50,7 +51,11 @@ public class SpeedBlock {
         this.duration = duration;
     }
 
-    public String toString() {
-        return "material: " + material.toString() + " speed: " + speedMultiplier + " duration: " + duration;
+    public long getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(long cooldown) {
+        this.cooldown = cooldown;
     }
 }
