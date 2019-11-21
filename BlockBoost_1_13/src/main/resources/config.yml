@@ -36,8 +36,7 @@
 
 
 # Plugin specific settings:
-plugin-settings:
-  enabled: true
+plugin-settings: true
 
 
 
@@ -48,12 +47,25 @@ plugin-settings:
 # You can use any material that implements the BlockData interface
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 block-boost:
-  velocity:
+  bounce:
+    SPONGE:
+      height: 10
+    WET_SPONGE:
+      height: 5
+  speed:
     EMERALD_BLOCK:
-      multiplier: 4
-      height: 0
+      default: 0.2
+      multiplier: 1.5
+      cap: 1.0
+      duration: 5
+      # speed is percentage
+      # duration is in seconds
+
+      # <1-10, 2 is default walk speed>
 #  velocity:
 #    EXAMPLE_BLOCK:
+#      speed: 2
+#        duration: 0
 #      multiplier: 0
 #      height: 0
 #  landmine:

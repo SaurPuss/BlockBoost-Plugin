@@ -2,18 +2,16 @@ package me.saurpuss.blockboost.util;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.events.LandmineListener;
-import me.saurpuss.blockboost.events.VelocityListener;
-import me.saurpuss.blockboost.util.blocks.LandmineBlock;
-import me.saurpuss.blockboost.util.blocks.VelocityBlock;
-
-import java.util.HashSet;
+import me.saurpuss.blockboost.events.BounceListener;
+import me.saurpuss.blockboost.events.SpeedListener;
 
 public class BBManager {
 
     private BlockBoost bb;
     private BlockMapper blocks;
 
-    private static VelocityListener velocityListener;
+    private static BounceListener bounceListener;
+    private static SpeedListener speedListener;
     private static LandmineListener landmineListener;
 
     public BBManager(BlockBoost plugin) {
@@ -22,7 +20,10 @@ public class BBManager {
 
         // register event listeners
         if (blocks.hasVelocityBlocks())
-            velocityListener = new VelocityListener(bb, blocks.getVelocityBlocks());
+            bounceListener = new BounceListener(bb, blocks.getBounceBlocks());
+
+        if (blocks.hasSpeedBlocks())
+            speedListener = new SpeedListener(bb, blocks.getSpeedBlocks());
 
         if (blocks.hasLandmineBlocks())
             landmineListener = new LandmineListener(bb, blocks.getLandmineBlocks());
@@ -30,8 +31,11 @@ public class BBManager {
     }
 
     public void unloadListeners() {
-        if (velocityListener != null)
-            velocityListener.unregister();
+        if (bounceListener != null)
+            bounceListener.unregister();
+
+        if (speedListener != null)
+            speedListener.unregister();
 
         if (landmineListener != null)
             landmineListener.unregister();

@@ -2,7 +2,8 @@ package me.saurpuss.blockboost.util;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.blocks.LandmineBlock;
-import me.saurpuss.blockboost.util.blocks.VelocityBlock;
+import me.saurpuss.blockboost.util.blocks.BounceBlock;
+import me.saurpuss.blockboost.util.blocks.SpeedBlock;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -16,7 +17,8 @@ class BlockMapper {
     private FileConfiguration config;
 
     private final HashSet<Material> validBlocks;
-    private final HashSet<VelocityBlock> velocityBlocks;
+    private final HashSet<BounceBlock> bounceBlocks;
+    private final HashSet<SpeedBlock> speedBlocks;
     private final HashSet<LandmineBlock> landmineBlocks;
 
 
@@ -25,69 +27,122 @@ class BlockMapper {
         config = bb.getConfig();
         validBlocks = blockMaterials();
 
-        if (config.isConfigurationSection("block-boost.velocity"))
-            velocityBlocks = setVelocityBlocks();
-        else
-            velocityBlocks = null;
+        bounceBlocks = setBounceBlocks();
+        speedBlocks = setSpeedBlocks();
 
         landmineBlocks = setLandmineBlocks();
 
     }
 
     boolean hasVelocityBlocks() {
-        return velocityBlocks != null;
+        return bounceBlocks != null;
+    }
+
+    boolean hasSpeedBlocks() {
+        return speedBlocks != null;
     }
 
     boolean hasLandmineBlocks() {
         return landmineBlocks != null;
     }
 
-    HashSet<VelocityBlock> getVelocityBlocks() {
-        return velocityBlocks;
+    HashSet<BounceBlock> getBounceBlocks() {
+        return bounceBlocks;
+    }
+
+    HashSet<SpeedBlock> getSpeedBlocks() {
+        return speedBlocks;
     }
 
     HashSet<LandmineBlock> getLandmineBlocks() {
         return landmineBlocks;
     }
 
-    private HashSet<VelocityBlock> setVelocityBlocks() {
-
-        if (!config.isConfigurationSection("block-boost.velocity")) {
-            bb.getLogger().log(Level.SEVERE, "Can't find default configuration section velocity! " +
+    private HashSet<BounceBlock> setBounceBlocks() {
+        if (!config.isConfigurationSection("block-boost.bounce")) {
+            bb.getLogger().log(Level.SEVERE, "Can't find default configuration section bounce! " +
                     "Please reset the default BlockBoost config file!");
             return null;
         }
 
-        Set<String> section = config.getConfigurationSection("block-boost.velocity").getKeys(false);
+        Set<String> section = config.getConfigurationSection("block-boost.bounce").getKeys(false);
         if (section.isEmpty()) {
-            bb.getLogger().log(Level.WARNING, "No valid entries in velocity configuration " +
+            bb.getLogger().log(Level.WARNING, "No valid entries in bounce configuration " +
                     "section found!");
             return null;
         }
 
         if (section.contains("EXAMPLE_BLOCK")) {
-            bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in velocity configuration!");
+            bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in bounce configuration!");
         }
 
-        HashSet<VelocityBlock> validMats = new HashSet<>();
+        HashSet<BounceBlock> validMats = new HashSet<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
                 if (material == null || !validBlocks.contains(material)) {
-                    bb.getLogger().log(Level.WARNING, "Material " + key + " in the config velocity " +
+                    bb.getLogger().log(Level.WARNING, "Material " + key + " in the config bounce " +
                             "section is invalid! Ignoring " + key + "!");
                 } else {
-                    VelocityBlock vBlock = new VelocityBlock();
+                    BounceBlock vBlock = new BounceBlock();
                     vBlock.setMaterial(material);
-                    vBlock.setMultiplier(config.getInt("block-boost.velocity." + key + ".multiplier"));
-                    vBlock.setHeight(config.getInt("block-boost.velocity." + key + ".height"));
+                    vBlock.setHeight(config.getInt("block-boost.bounce." + key + ".height"));
                     validMats.add(vBlock);
                 }
             }
         });
 
         if (validMats.size() == 0) {
-            bb.getLogger().log(Level.WARNING, "No valid entries in velocity configuration " +
+            bb.getLogger().log(Level.WARNING, "No valid entries in bounce configuration " +
+                    "section found!");
+            return null;
+        }
+
+        return validMats;
+    }
+
+    private HashSet<SpeedBlock> setSpeedBlocks() {
+        if (!config.isConfigurationSection("block-boost.speed")) {
+            bb.getLogger().log(Level.SEVERE, "Can't find default configuration section speed! " +
+                    "Please reset the default BlockBoost config file!");
+            return null;
+        }
+
+        Set<String> section = config.getConfigurationSection("block-boost.speed").getKeys(false);
+        if (section.isEmpty()) {
+            bb.getLogger().log(Level.WARNING, "No valid entries in speed configuration " +
+                    "section found!");
+            return null;
+        }
+
+        if (section.contains("EXAMPLE_BLOCK")) {
+            bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in speed configuration!");
+        }
+
+        HashSet<SpeedBlock> validMats = new HashSet<>();
+        section.forEach(key -> {
+            if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
+                Material material = Material.getMaterial(key.toUpperCase());
+                if (material == null || !validBlocks.contains(material)) {
+                    bb.getLogger().log(Level.WARNING, "Material " + key + " in the config speed " +
+                            "section is invalid! Ignoring " + key + "!");
+                } else {
+                    SpeedBlock sBlock = new SpeedBlock();
+                    sBlock.setMaterial(material);
+                    sBlock.setDefaultSpeed((float)config.getDouble("block-boost.speed." + key +
+                            ".default"));
+                    sBlock.setSpeedMultiplier((float)config.getDouble("block-boost.speed." + key +
+                            ".multiplier"));
+                    sBlock.setSpeedMultiplier((float)config.getDouble("block-boost.speed." + key +
+                            ".cap"));
+                    sBlock.setDuration(config.getLong("block-boost.speed." + key + "duration"));
+                    validMats.add(sBlock);
+                }
+            }
+        });
+
+        if (validMats.size() == 0) {
+            bb.getLogger().log(Level.WARNING, "No valid entries in speed configuration " +
                     "section found!");
             return null;
         }
