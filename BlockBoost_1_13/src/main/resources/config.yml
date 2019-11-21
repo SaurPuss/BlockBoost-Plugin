@@ -50,8 +50,10 @@ block-boost:
   bounce:
     SPONGE:
       height: 10
+      normalize: true
     WET_SPONGE:
       height: 5
+      normalize: true
   speed:
     EMERALD_BLOCK:
       default: 0.2

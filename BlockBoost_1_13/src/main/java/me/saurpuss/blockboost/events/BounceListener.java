@@ -36,7 +36,8 @@ public class BounceListener implements Listener {
                 direction.setY(material.getHeight());
                 direction.setX(player.getVelocity().getX());
                 direction.setZ(player.getVelocity().getZ());
-                direction.normalize();
+                if (material.isNormalize())
+                    direction.normalize();
 
                 player.setVelocity(direction);
             }

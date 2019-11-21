@@ -6,24 +6,29 @@ public class BounceBlock {
 
     private Material material;
     private int height;
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
+    private boolean normalize;
 
     public Material getMaterial() {
         return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
     public int getHeight() {
         return height;
     }
 
-    public String toString() {
-        return "material: " + material.toString() + " height: " + height;
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public boolean isNormalize() {
+        return normalize;
+    }
+
+    public void setNormalize(boolean normalize) {
+        this.normalize = normalize;
     }
 }

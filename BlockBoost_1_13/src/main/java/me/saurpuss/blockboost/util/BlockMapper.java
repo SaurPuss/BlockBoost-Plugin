@@ -89,6 +89,8 @@ class BlockMapper {
                     BounceBlock vBlock = new BounceBlock();
                     vBlock.setMaterial(material);
                     vBlock.setHeight(config.getInt("block-boost.bounce." + key + ".height"));
+                    vBlock.setNormalize(config.getBoolean("block-boost.bounce." + key +
+                            ".normalize"));
                     validMats.put(material, vBlock);
                 }
             }
