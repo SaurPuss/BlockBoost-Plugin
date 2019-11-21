@@ -17,7 +17,6 @@ public class SpeedListener implements Listener {
 
     private BlockBoost bb;
     private final HashSet<SpeedBlock> BLOCKS;
-    final float defaultSpeed = 0.2f;
 
     public SpeedListener(BlockBoost plugin, HashSet<SpeedBlock> blocks) {
         bb = plugin;
@@ -34,17 +33,15 @@ public class SpeedListener implements Listener {
         BLOCKS.forEach(material -> {
             if (material.getMaterial() == block.getType()) {
                 float result = player.getWalkSpeed() * material.getSpeedMultiplier();
-                if (result >= 1)
-                    result = 1f;
+                if (result > material.getSpeedCap())
+                    result = material.getSpeedCap();
 
                 player.setWalkSpeed(result);
                 player.sendMessage("Speed set to " + material.getSpeedMultiplier());
 
                 // TODO custom task
-                Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-                    player.sendMessage("Speed set back to " + defaultSpeed);
-                    player.setWalkSpeed(defaultSpeed);
-                        }, 200L);
+                Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
+                    player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
             }
         });
     }

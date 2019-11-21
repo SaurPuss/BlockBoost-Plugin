@@ -133,9 +133,9 @@ class BlockMapper {
                             ".default"));
                     sBlock.setSpeedMultiplier((float)config.getDouble("block-boost.speed." + key +
                             ".multiplier"));
-                    sBlock.setSpeedMultiplier((float)config.getDouble("block-boost.speed." + key +
+                    sBlock.setSpeedCap((float)config.getDouble("block-boost.speed." + key +
                             ".cap"));
-                    sBlock.setDuration(config.getLong("block-boost.speed." + key + "duration"));
+                    sBlock.setDuration(config.getLong("block-boost.speed." + key + ".duration"));
                     validMats.add(sBlock);
                 }
             }
