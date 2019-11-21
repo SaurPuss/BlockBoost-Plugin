@@ -37,18 +37,19 @@ public class SpeedListener implements Listener {
             BLOCKS.forEach(material -> {
                 if (material.getMaterial() == block.getType()) {
                     float result = player.getWalkSpeed() * material.getSpeedMultiplier();
-                    if (result > material.getSpeedCap())
+                    if (result > 1.0)
+                        result = 1.0f;
+                    else if (result > material.getSpeedCap())
                         result = material.getSpeedCap();
 
                     player.setWalkSpeed(result);
-                    player.sendMessage("Speed set to " + material.getSpeedMultiplier());
                     playerDelay.add(player.getUniqueId());
 
                     // TODO custom task
                     Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
                             playerDelay.remove(player.getUniqueId()), material.getCooldown());
                     Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-                            player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
+                        player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
                 }
             });
         }

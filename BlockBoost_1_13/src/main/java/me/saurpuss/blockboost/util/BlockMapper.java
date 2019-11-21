@@ -7,6 +7,7 @@ import me.saurpuss.blockboost.util.blocks.SpeedBlock;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -58,6 +59,7 @@ class BlockMapper {
         return landmineBlocks;
     }
 
+    // TODO combine these into a single reusable method
     private HashSet<BounceBlock> setBounceBlocks() {
         if (!config.isConfigurationSection("block-boost.bounce")) {
             bb.getLogger().log(Level.SEVERE, "Can't find default configuration section bounce! " +
@@ -76,7 +78,7 @@ class BlockMapper {
             bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in bounce configuration!");
         }
 
-        HashSet<BounceBlock> validMats = new HashSet<>();
+        HashMap<Material, BounceBlock> validMats = new HashMap<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
@@ -87,7 +89,7 @@ class BlockMapper {
                     BounceBlock vBlock = new BounceBlock();
                     vBlock.setMaterial(material);
                     vBlock.setHeight(config.getInt("block-boost.bounce." + key + ".height"));
-                    validMats.add(vBlock);
+                    validMats.put(material, vBlock);
                 }
             }
         });
@@ -98,7 +100,8 @@ class BlockMapper {
             return null;
         }
 
-        return validMats;
+
+        return new HashSet<>(validMats.values());
     }
 
     private HashSet<SpeedBlock> setSpeedBlocks() {
@@ -119,7 +122,7 @@ class BlockMapper {
             bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in speed configuration!");
         }
 
-        HashSet<SpeedBlock> validMats = new HashSet<>();
+        HashMap<Material, SpeedBlock> validMats = new HashMap<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
@@ -137,7 +140,7 @@ class BlockMapper {
                             ".cap"));
                     sBlock.setDuration(config.getLong("block-boost.speed." + key + ".duration"));
                     sBlock.setCooldown(config.getLong("block-boost.speed." + key + ".cooldown"));
-                    validMats.add(sBlock);
+                    validMats.put(material, sBlock);
                 }
             }
         });
@@ -148,7 +151,7 @@ class BlockMapper {
             return null;
         }
 
-        return validMats;
+        return new HashSet<>(validMats.values());
     }
 
 
@@ -169,7 +172,7 @@ class BlockMapper {
             bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in landmine configuration!");
         }
 
-        HashSet<LandmineBlock> validMats = new HashSet<>();
+        HashMap<Material, LandmineBlock> validMats = new HashMap<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
@@ -177,6 +180,8 @@ class BlockMapper {
                     bb.getLogger().log(Level.WARNING, "Material " + key + " in the config velocity " +
                             "section is invalid! Ignoring " + key + "!");
                 } else {
+
+                    // TODO FULL REWORK
                     LandmineBlock lBlock = new LandmineBlock();
                     lBlock.setMaterial(material);
                     lBlock.setDepth(config.getInt("block-boost.landmine." + key + ".depth"));
@@ -200,12 +205,12 @@ class BlockMapper {
                                     "landmine: " + key + " section! Ignoring " + key);
                         } else {
                             lBlock.setCoverBlock(block);
-                            validMats.add(lBlock);
+                            validMats.put(material, lBlock);
                         }
                     }
                     // Landmine doesn't need a cover block
                     else {
-                        validMats.add(lBlock);
+                        validMats.put(material, lBlock);
                     }
                 }
             }
@@ -215,7 +220,7 @@ class BlockMapper {
             return null;
         }
 
-        return validMats;
+        return new HashSet<>(validMats.values());
     }
 
     private HashSet<Material> blockMaterials() {
