@@ -19,9 +19,9 @@ public class LandmineListener implements Listener {
     private BlockBoost bb;
     private final HashSet<LandmineBlock> BLOCKS;
 
-    public LandmineListener(BlockBoost plugin) {
+    public LandmineListener(BlockBoost plugin, HashSet<LandmineBlock> blocks) {
         bb = plugin;
-        BLOCKS = bb.getBbManager().getLandmineBlocks();
+        BLOCKS = blocks;
 
         bb.getServer().getPluginManager().registerEvents(this, bb);
     }

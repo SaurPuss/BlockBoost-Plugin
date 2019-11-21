@@ -36,39 +36,47 @@
 
 
 # Plugin specific settings:
+plugin-settings:
+  enabled: true
 
 
 
-# Set up your boosted blocks here.
-# Replace the EXAMPLE_BLOCK keys to get started.
+# Set up your boosted blocks here. Replace the EXAMPLE_BLOCK keys to get started! You can add
+# multiple blocks underneath each section and a block can be in multiple sections if you want to add
+# multiple effects, this doesn't mean they will work together nicely. Adding velocity to an
+# explosion may mean a player will be outside of the explosive range before the effect takes place.
+# You can use any material that implements the BlockData interface
+# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 block-boost:
   velocity:
-    EXAMPLE_BLOCK:
-      multiplier: 0
+    EMERALD_BLOCK:
+      multiplier: 4
       height: 0
-  landmine:
-    EXAMPLE_BLOCK:
-      depth: 0
-      combust: true
-      effect: explosion # lightning, fire
-      cover-block: true
-        block: EXAMPLE_BLOCK
-
-
-
-  potion:
-    EXAMPLE_BLOCK:
-      potion-effect: EXAMPLE_POTION_EFFECT
-      duration: 0
-  particle:
-    EXAMPLE_BLOCK:
-      particle: EXAMPLE_PARTICLE
-      duration: 0
-  noise:
-    EXAMPLE_BLOCK:
-      sound: EXAMPLE_NOISE
-      duration: 0
-  teleport:
-    EXAMPLE_BLOCK:
-      direction: random
-      distance: 5
+#  velocity:
+#    EXAMPLE_BLOCK:
+#      multiplier: 0
+#      height: 0
+#  landmine:
+#    EXAMPLE_BLOCK:
+#      depth: 0
+#      combust: true
+#      effect: explosion # lightning, fire
+#      cover-block: true
+#        block: EXAMPLE_BLOCK
+#
+#  potion:
+#    EXAMPLE_BLOCK:
+#      potion-effect: EXAMPLE_POTION_EFFECT
+#      duration: 0
+#  effect:
+#    EXAMPLE_BLOCK:
+#      particle: EXAMPLE_PARTICLE_EFFECT
+#      duration: 0
+#  noise:
+#    EXAMPLE_BLOCK:
+#      sound: EXAMPLE_NOISE
+#      duration: 0
+#  teleport:
+#    EXAMPLE_BLOCK:
+#      direction: random
+#      distance: 5

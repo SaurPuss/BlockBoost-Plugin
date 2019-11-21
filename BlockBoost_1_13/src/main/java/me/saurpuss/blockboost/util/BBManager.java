@@ -13,8 +13,8 @@ public class BBManager {
     private BlockBoost bb;
     private BlockMapper blocks;
 
-    private VelocityListener velocityListener = null;
-    private LandmineListener landmineListener = null;
+    private static VelocityListener velocityListener;
+    private static LandmineListener landmineListener;
 
     public BBManager(BlockBoost plugin) {
         bb = plugin;
@@ -22,10 +22,10 @@ public class BBManager {
 
         // register event listeners
         if (blocks.hasVelocityBlocks())
-            velocityListener = new VelocityListener(bb);
+            velocityListener = new VelocityListener(bb, blocks.getVelocityBlocks());
 
         if (blocks.hasLandmineBlocks())
-            landmineListener = new LandmineListener(bb);
+            landmineListener = new LandmineListener(bb, blocks.getLandmineBlocks());
 
     }
 
@@ -36,14 +36,6 @@ public class BBManager {
         if (landmineListener != null)
             landmineListener.unregister();
 
-    }
-
-    public HashSet<VelocityBlock> getVelocityBlocks() {
-        return blocks.getVelocityBlocks();
-    }
-
-    public HashSet<LandmineBlock> getLandmineBlocks() {
-        return blocks.getLandmineBlocks();
     }
 
 

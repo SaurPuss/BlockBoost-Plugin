@@ -17,9 +17,9 @@ public class VelocityListener implements Listener {
     private BlockBoost bb;
     private final HashSet<VelocityBlock> BLOCKS;
 
-    public VelocityListener(BlockBoost plugin) {
+    public VelocityListener(BlockBoost plugin, HashSet<VelocityBlock> blocks) {
         bb = plugin;
-        BLOCKS = bb.getBbManager().getVelocityBlocks();
+        BLOCKS = blocks;
 
         bb.getServer().getPluginManager().registerEvents(this, bb);
     }

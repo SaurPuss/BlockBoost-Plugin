@@ -15,6 +15,7 @@ class BlockMapper {
     private BlockBoost bb;
     private FileConfiguration config;
 
+    private final HashSet<Material> validBlocks;
     private final HashSet<VelocityBlock> velocityBlocks;
     private final HashSet<LandmineBlock> landmineBlocks;
 
@@ -22,8 +23,13 @@ class BlockMapper {
     BlockMapper(BlockBoost plugin) {
         bb = plugin;
         config = bb.getConfig();
+        validBlocks = blockMaterials();
 
-        velocityBlocks = setVelocityBlocks();
+        if (config.isConfigurationSection("block-boost.velocity"))
+            velocityBlocks = setVelocityBlocks();
+        else
+            velocityBlocks = null;
+
         landmineBlocks = setLandmineBlocks();
 
     }
@@ -45,6 +51,7 @@ class BlockMapper {
     }
 
     private HashSet<VelocityBlock> setVelocityBlocks() {
+
         if (!config.isConfigurationSection("block-boost.velocity")) {
             bb.getLogger().log(Level.SEVERE, "Can't find default configuration section velocity! " +
                     "Please reset the default BlockBoost config file!");
@@ -65,9 +72,8 @@ class BlockMapper {
         HashSet<VelocityBlock> validMats = new HashSet<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
-                // TODO uppercase all keys
                 Material material = Material.getMaterial(key.toUpperCase());
-                if (material == null) {
+                if (material == null || !validBlocks.contains(material)) {
                     bb.getLogger().log(Level.WARNING, "Material " + key + " in the config velocity " +
                             "section is invalid! Ignoring " + key + "!");
                 } else {
@@ -111,7 +117,7 @@ class BlockMapper {
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
-                if (material == null) {
+                if (material == null || !validBlocks.contains(material)) {
                     bb.getLogger().log(Level.WARNING, "Material " + key + " in the config velocity " +
                             "section is invalid! Ignoring " + key + "!");
                 } else {
@@ -154,5 +160,16 @@ class BlockMapper {
         }
 
         return validMats;
+    }
+
+    private HashSet<Material> blockMaterials() {
+        HashSet<Material> list = new HashSet<>();
+        for (Material mat : Material.values()) {
+            if (mat.isBlock()) {
+                list.add(mat);
+            }
+        }
+
+        return list;
     }
 }
