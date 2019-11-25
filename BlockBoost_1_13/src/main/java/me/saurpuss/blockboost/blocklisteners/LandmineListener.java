@@ -1,14 +1,13 @@
-package me.saurpuss.blockboost.events;
+package me.saurpuss.blockboost.blocklisteners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.LandmineBlock;
+import me.saurpuss.blockboost.blocks.builders.LandmineBlock;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashSet;

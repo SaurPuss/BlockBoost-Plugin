@@ -1,15 +1,16 @@
-package me.saurpuss.blockboost.util;
+package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.events.LandmineListener;
-import me.saurpuss.blockboost.events.BounceListener;
-import me.saurpuss.blockboost.events.SpeedListener;
+import me.saurpuss.blockboost.blocklisteners.LandmineListener;
+import me.saurpuss.blockboost.blocklisteners.BounceListener;
+import me.saurpuss.blockboost.blocklisteners.SpeedListener;
 
 public class BBManager {
 
     private BlockBoost bb;
     private BlockMapper blocks;
 
+    // TODO singleton patterns
     private static BounceListener bounceListener;
     private static SpeedListener speedListener;
     private static LandmineListener landmineListener;
@@ -23,7 +24,7 @@ public class BBManager {
             bounceListener = new BounceListener(bb, blocks.getBounceBlocks());
 
         if (blocks.hasSpeedBlocks())
-            speedListener = new SpeedListener(bb, blocks.getSpeedBlocks());
+            speedListener = new SpeedListener(bb, blocks.getSpeedMultiplierBlocks());
 
         if (blocks.hasLandmineBlocks())
             landmineListener = new LandmineListener(bb, blocks.getLandmineBlocks());

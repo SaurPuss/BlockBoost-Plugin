@@ -1,7 +1,7 @@
-package me.saurpuss.blockboost.events;
+package me.saurpuss.blockboost.blocklisteners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.SpeedBlock;
+import me.saurpuss.blockboost.blocks.builders.SpeedMultiplierBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,10 +17,10 @@ import java.util.UUID;
 public class SpeedListener implements Listener {
 
     private BlockBoost bb;
-    private final HashSet<SpeedBlock> BLOCKS;
+    private final HashSet<SpeedMultiplierBlock> BLOCKS;
     private static HashSet<UUID> playerDelay = new HashSet<>();
 
-    public SpeedListener(BlockBoost plugin, HashSet<SpeedBlock> blocks) {
+    public SpeedListener(BlockBoost plugin, HashSet<SpeedMultiplierBlock> blocks) {
         bb = plugin;
         BLOCKS = blocks;
 

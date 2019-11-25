@@ -1,8 +1,8 @@
-package me.saurpuss.blockboost.util.blocks;
+package me.saurpuss.blockboost.blocks.builders;
 
 import org.bukkit.Material;
 
-public class SpeedBlock {
+public class SpeedMultiplierBlock {
 
     private Material material;
     private float defaultSpeed;

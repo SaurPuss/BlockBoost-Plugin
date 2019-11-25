@@ -1,7 +1,7 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
-import me.saurpuss.blockboost.util.BBManager;
+import me.saurpuss.blockboost.managers.BBManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BlockBoost extends JavaPlugin {

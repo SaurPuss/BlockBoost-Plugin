@@ -46,24 +46,52 @@ plugin-settings: true
 # explosion may mean a player will be outside of the explosive range before the effect takes place.
 # You can use any material that implements the BlockData interface
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-block-boost:
-  bounce:
-    SPONGE:
-      height: 10
-      normalize: true
-    WET_SPONGE:
-      height: 5
-      normalize: true
-  speed:
+bounce-block:
+  SPONGE:
+    world: global
+    include-world: true
+    height: 10
+    normalize: true
+  WET_SPONGE:
+    world: global
+    include-world: true
+    height: 5
+    normalize: true
+
+speed-block:
+  multiplier-block:
     EMERALD_BLOCK:
+      world: global
+      include-world: true
       default: 0.2
       multiplier: 1.5
       cap: 1.0
       duration: 5
       cooldown: 10
+  addition-block:
+    EMERALD_ORE:
+      world: global
+      include-world: true
+      duration: 5
+      addition: 0.2
       # speed is percentage
       # duration is in seconds
       # cooldown is in ticks
+#  landminemine:
+#    TNT:
+#      depth: 4
+#      combust: true
+#      guarantee-death: false
+#      exposion-type:
+#      cover-block: STONE_PRESSURE_PLATE
+#  thunder:
+#    TNT:
+#      lightning: false
+#      depth: 2
+#      trigger: 'STONE_PRESSURE_PLATE'
+#      delay: 1
+#      combust-block: false
+
 
       # <1-10, 2 is default walk speed>
 #  velocity:

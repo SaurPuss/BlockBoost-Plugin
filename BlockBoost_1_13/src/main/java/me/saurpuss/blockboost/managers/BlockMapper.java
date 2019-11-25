@@ -1,9 +1,9 @@
-package me.saurpuss.blockboost.util;
+package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.LandmineBlock;
-import me.saurpuss.blockboost.util.blocks.BounceBlock;
-import me.saurpuss.blockboost.util.blocks.SpeedBlock;
+import me.saurpuss.blockboost.blocks.builders.LandmineBlock;
+import me.saurpuss.blockboost.blocks.builders.BounceBlock;
+import me.saurpuss.blockboost.blocks.builders.SpeedMultiplierBlock;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -19,7 +19,7 @@ class BlockMapper {
     private final HashSet<Material> validBlocks;
 
     private final HashSet<BounceBlock> bounceBlocks;
-    private final HashSet<SpeedBlock> speedBlocks;
+    private final HashSet<SpeedMultiplierBlock> speedMultiplierBlocks;
     private final HashSet<LandmineBlock> landmineBlocks;
 
 
@@ -29,7 +29,7 @@ class BlockMapper {
         validBlocks = blockMaterials();
 
         bounceBlocks = setBounceBlocks();
-        speedBlocks = setSpeedBlocks();
+        speedMultiplierBlocks = setSpeedBlocks();
 
         landmineBlocks = setLandmineBlocks();
 
@@ -40,7 +40,7 @@ class BlockMapper {
     }
 
     boolean hasSpeedBlocks() {
-        return speedBlocks != null;
+        return speedMultiplierBlocks != null;
     }
 
     boolean hasLandmineBlocks() {
@@ -51,8 +51,8 @@ class BlockMapper {
         return bounceBlocks;
     }
 
-    HashSet<SpeedBlock> getSpeedBlocks() {
-        return speedBlocks;
+    HashSet<SpeedMultiplierBlock> getSpeedMultiplierBlocks() {
+        return speedMultiplierBlocks;
     }
 
     HashSet<LandmineBlock> getLandmineBlocks() {
@@ -106,7 +106,7 @@ class BlockMapper {
         return new HashSet<>(validMats.values());
     }
 
-    private HashSet<SpeedBlock> setSpeedBlocks() {
+    private HashSet<SpeedMultiplierBlock> setSpeedBlocks() {
         if (!config.isConfigurationSection("block-boost.speed")) {
             bb.getLogger().log(Level.SEVERE, "Can't find default configuration section speed! " +
                     "Please reset the default BlockBoost config file!");
@@ -124,7 +124,7 @@ class BlockMapper {
             bb.getLogger().log(Level.WARNING, "EXAMPLE_BLOCK found in speed configuration!");
         }
 
-        HashMap<Material, SpeedBlock> validMats = new HashMap<>();
+        HashMap<Material, SpeedMultiplierBlock> validMats = new HashMap<>();
         section.forEach(key -> {
             if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
                 Material material = Material.getMaterial(key.toUpperCase());
@@ -132,7 +132,7 @@ class BlockMapper {
                     bb.getLogger().log(Level.WARNING, "Material " + key + " in the config speed " +
                             "section is invalid! Ignoring " + key + "!");
                 } else {
-                    SpeedBlock sBlock = new SpeedBlock();
+                    SpeedMultiplierBlock sBlock = new SpeedMultiplierBlock();
                     sBlock.setMaterial(material);
                     sBlock.setDefaultSpeed((float)config.getDouble("block-boost.speed." + key +
                             ".default"));
