@@ -1,4 +1,4 @@
-package me.saurpuss.blockboost.blocks.util;
+package me.saurpuss.blockboost.util.util;
 
 public abstract class AbstractBlockFactory {
 }

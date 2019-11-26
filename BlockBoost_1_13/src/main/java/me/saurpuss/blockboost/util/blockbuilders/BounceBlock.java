@@ -1,9 +1,9 @@
-package me.saurpuss.blockboost.blocks.builders;
+package me.saurpuss.blockboost.util.blockbuilders;
 
-import me.saurpuss.blockboost.blocks.util.BB_Block;
+import me.saurpuss.blockboost.util.util.AbstractBlock;
 import org.bukkit.Material;
 
-public class BounceBlock implements BB_Block{
+public class BounceBlock extends AbstractBlock {
 
     public static class BounceBuilder {
         private Material material;
@@ -65,7 +65,8 @@ public class BounceBlock implements BB_Block{
         return material;
     }
 
-    private void setMaterial(Material material) {
+    @Override
+    protected void setMaterial(Material material) {
         this.material = material;
     }
 

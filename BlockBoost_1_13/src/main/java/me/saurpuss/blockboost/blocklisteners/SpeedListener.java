@@ -1,7 +1,7 @@
 package me.saurpuss.blockboost.blocklisteners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.builders.SpeedMultiplierBlock;
+import me.saurpuss.blockboost.util.blockbuilders.SpeedMultiplierBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

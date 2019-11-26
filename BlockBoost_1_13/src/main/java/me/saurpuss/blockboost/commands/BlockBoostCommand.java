@@ -26,10 +26,10 @@ public class BlockBoostCommand implements CommandExecutor {
         bb.getBbManager().unloadListeners();
 
         // reload config
-        bb.reloadConfig();
+        bb.loadConfigManager();
 
         // assign new bbManager
-        bb.setBbManager();
+        bb.loadBBManager();
 
         return true;
     }

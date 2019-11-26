@@ -2,20 +2,21 @@ package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
 import me.saurpuss.blockboost.managers.BBManager;
+import me.saurpuss.blockboost.managers.ConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BlockBoost extends JavaPlugin {
 
-    private static BBManager bbManager;
+    private ConfigManager configManager;
+    private BBManager bbManager;
 
     @Override
     public void onEnable() {
-        // Register config.yml
-        getConfig().options().copyDefaults(true);
-        saveDefaultConfig();
+        // Register configManager
+        loadConfigManager();
 
         // Register Block Listeners through the manager
-        setBbManager();
+        loadBBManager();
 
         // Register reload command
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
@@ -24,11 +25,19 @@ public final class BlockBoost extends JavaPlugin {
     @Override
     public void onDisable() {}
 
-    public BBManager getBbManager() {
-        return bbManager;
+    public void loadConfigManager() {
+        configManager = new ConfigManager(this);
     }
 
-    public void setBbManager() {
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    public void loadBBManager() {
         bbManager = new BBManager(this);
+    }
+
+    public BBManager getBbManager() {
+        return bbManager;
     }
 }

@@ -1,0 +1,23 @@
+# Header here with instructions to replace the default example block to allow bounce blocks to be
+# used
+
+
+
+
+blocks:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    height: 0
+    normalize: true
+
+#  SPONGE:
+#    world: global
+#    include-world: true
+#    height: 10
+#    normalize: true
+#  WET_SPONGE:
+#    world: global
+#    include-world: true
+#    height: 5
+#    normalize: true

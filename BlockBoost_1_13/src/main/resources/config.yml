@@ -37,6 +37,11 @@
 
 # Plugin specific settings:
 plugin-settings: true
+disable-blocktypes:
+  bounce: false
+  speed-multiplier: false
+  speed-addition: false
+
 
 
 
@@ -47,16 +52,7 @@ plugin-settings: true
 # You can use any material that implements the BlockData interface
 # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 bounce-block:
-  SPONGE:
-    world: global
-    include-world: true
-    height: 10
-    normalize: true
-  WET_SPONGE:
-    world: global
-    include-world: true
-    height: 5
-    normalize: true
+
 
 speed-block:
   multiplier-block:
