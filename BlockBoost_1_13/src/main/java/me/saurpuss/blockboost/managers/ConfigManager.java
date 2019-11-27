@@ -40,6 +40,9 @@ public class ConfigManager {
     private void setup() {
         if (bounceBlockConfig != null)
             bounceBlockConfig.setup();
+
+        if (speedBlockConfig != null)
+            speedBlockConfig.setup();
     }
 
 
