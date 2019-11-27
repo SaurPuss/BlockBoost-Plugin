@@ -1,18 +1,5 @@
-# HEADER WITH EXAMPLES
+# TODO REMOVE FILE
 
-#block-boost:
-#  velocity:
-#    EMERALD_BLOCK:
-#      multiplier: 2
-#      height: 0
-#    SPONGE:
-#      multiplier: 2
-#      height: 6
-#    WET_SPONGE:
-#      multiplier: 2
-#      height: 3
-#
-#
 #  #
 #  landmine:
 #    TNT: # this is tnt buried 2 blocks underneath the player
@@ -35,44 +22,6 @@
 #    DIAMOND_ORE:
 
 
-# Plugin specific settings:
-plugin-settings: true
-disable-blocktypes:
-  bounce: false
-  speed-multiplier: false
-  speed-addition: false
-
-
-
-
-# Set up your boosted blocks here. Replace the EXAMPLE_BLOCK keys to get started! You can add
-# multiple blocks underneath each section and a block can be in multiple sections if you want to add
-# multiple effects, this doesn't mean they will work together nicely. Adding velocity to an
-# explosion may mean a player will be outside of the explosive range before the effect takes place.
-# You can use any material that implements the BlockData interface
-# https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-bounce-block:
-
-
-speed-block:
-  multiplier-block:
-    EMERALD_BLOCK:
-      world: global
-      include-world: true
-      default: 0.2
-      multiplier: 1.5
-      cap: 1.0
-      duration: 5
-      cooldown: 10
-  addition-block:
-    EMERALD_ORE:
-      world: global
-      include-world: true
-      duration: 5
-      addition: 0.2
-      # speed is percentage
-      # duration is in seconds
-      # cooldown is in ticks
 #  landminemine:
 #    TNT:
 #      depth: 4
@@ -89,13 +38,6 @@ speed-block:
 #      combust-block: false
 
 
-      # <1-10, 2 is default walk speed>
-#  velocity:
-#    EXAMPLE_BLOCK:
-#      speed: 2
-#        duration: 0
-#      multiplier: 0
-#      height: 0
 #  landmine:
 #    EXAMPLE_BLOCK:
 #      depth: 0

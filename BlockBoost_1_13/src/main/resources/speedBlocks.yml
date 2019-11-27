@@ -9,7 +9,7 @@
 # to go past 1.0 will automatically cap out at 1.0.
 #
 # While a player is on cooldown from any of the Speed Blocks, they can't trigger blocks of a
-# different Material. (In the case of Speed Addition Blocks the cooldown matches the duration!)
+# different Material. (In the case of Speed Addition Blocks the cooldown matches the full duration!)
 #
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
@@ -45,6 +45,8 @@
 # the are automatically player on cooldown preventing them from gaining boosts from other Speed
 # Blocks. After the duration has passed their walk speed will be set back to the speed they had
 # when they received the boost.
+#
+# Duration is counted in seconds.
 #
 #                                   -------- Warning --------
 #
@@ -87,5 +89,5 @@ addition:
   EXAMPLE_BLOCK:
     world: global
     include-world: true
-    duration: 5
     addition: 0.2
+    duration: 5

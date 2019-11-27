@@ -18,6 +18,8 @@ import java.util.logging.Level;
 
 public class BounceBlockConfig extends AbstractConfig {
 
+    // TODO refactor with streams https://bukkit.gamepedia.com/Configuration_API_Reference#Arbitrary_Configurations
+
     private BlockBoost bb;
 
     private File file; // bounceBlocks.yml location
@@ -127,26 +129,24 @@ public class BounceBlockConfig extends AbstractConfig {
 
         HashMap<Material, AbstractBlock> validMats = new HashMap<>();
         keys.forEach(key -> {
-//            if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
-                Material material = Material.getMaterial(key.toUpperCase());
-                if (material == null || !material.isBlock()) {
-                    bb.getLogger().log(Level.WARNING,
-                            "Material " + key + " bounceBlocs.yml is invalid! " +
-                                    "Ignoring " + key + "!");
-                } else {
-                    String world = section.getString(key + ".world");
-                    boolean include = section.getBoolean(key + ".include-world");
-                    int height = section.getInt(key + ".height");
-                    boolean normalize = section.getBoolean(key + ".normalize");
+            Material material = Material.getMaterial(key.toUpperCase());
+            if (material == null || !material.isBlock()) {
+                bb.getLogger().log(Level.WARNING,
+                        "Material " + key + " bounceBlocs.yml is invalid! " +
+                                "Ignoring " + key + "!");
+            } else {
+                String world = section.getString(key + ".world");
+                boolean include = section.getBoolean(key + ".include-world");
+                int height = section.getInt(key + ".height");
+                boolean normalize = section.getBoolean(key + ".normalize");
 
-                    AbstractBlock block = new BounceBlock.Builder(material)
-                            .withWorld(world).withIncludeWorld(include)
-                            .withHeight(height).withNormalize(normalize).build();
+                AbstractBlock block = new BounceBlock.Builder(material)
+                        .withWorld(world).withIncludeWorld(include)
+                        .withHeight(height).withNormalize(normalize).build();
 
-                    bb.getLogger().log(Level.INFO, "BounceBlock added: " + block.toString());
-                    validMats.put(material, block);
-                }
-//            }
+                bb.getLogger().log(Level.INFO, "BounceBlock added: " + block.toString());
+                validMats.put(material, block);
+            }
         });
 
         if (validMats.size() == 0) {

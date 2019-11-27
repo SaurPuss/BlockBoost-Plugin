@@ -10,12 +10,19 @@ website: https://github.com/SaurPuss/BlockBoost-Plugin
 commands:
   blockboost:
     description: BlockBoost command
-    usage: /<command> reload - reload BlockBoost config
+    usage: |
+      /<command> list - List all active Boost Blocks
+      /<command> list [blocktype] - List active Boost Blocks of blocktype
+      /<command> reload - reload BlockBoost config
     aliases: [bb]
-    permission: bb.reload
+    permission: bb.admin
     permission-message: "§cYou do not have permission!"
 
 permissions:
-  bb.reload:
-    description: Permission to reload the BlockBoost config
+  bb.admin:
+    description: Permission to use the /bb command
     default: op
+  # TODO MAKE THIS A THING
+  bb.deny:
+    description: Boost Blocks will not trigger
+    default: false

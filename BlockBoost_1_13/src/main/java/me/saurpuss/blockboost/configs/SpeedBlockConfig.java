@@ -19,6 +19,8 @@ import java.util.logging.Level;
 
 public class SpeedBlockConfig extends AbstractConfig {
 
+    // TODO refactor with streams https://bukkit.gamepedia.com/Configuration_API_Reference#Arbitrary_Configurations
+
     private BlockBoost bb;
 
     private File file; // speedBlocks.yml location
