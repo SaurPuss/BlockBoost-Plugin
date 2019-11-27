@@ -42,12 +42,19 @@ public class ConfigManager {
             bounceBlockConfig.setup();
     }
 
-    HashMap<Material, AbstractBlock> getBounceBlocks() {
-        return bounceBlockConfig.getBlockMap();
-    }
 
-    HashMap<Material, AbstractBlock> getSpeedMultiplierBlocks() {
-        return speedBlockConfig.getMultiplierBlockMap();
+
+    HashMap<Material, AbstractBlock> getBlocks(BB type) {
+        switch (type) {
+            case BOUNCE:
+                return bounceBlockConfig.getBlockMap(type);
+            case SPEED_MULTIPLIER:
+            case SPEED_ADDITION:
+                return speedBlockConfig.getBlockMap(type);
+
+            default:
+                return null;
+        }
     }
 
 
