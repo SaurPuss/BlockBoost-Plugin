@@ -12,4 +12,6 @@ public abstract class AbstractBlock {
 
     public abstract boolean isIncludeWorld();
     public abstract void setIncludeWorld(boolean includeWorld);
+
+    public abstract String toString();
 }

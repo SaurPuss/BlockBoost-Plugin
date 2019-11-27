@@ -23,12 +23,13 @@ public class BounceListener extends AbstractListener implements Listener {
     private final HashMap<Material, AbstractBlock> BLOCKS;
 
     public BounceListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
-        BLOCKS = blocks;
-
-        // Test for valid block type
         Optional<AbstractBlock> test = blocks.values().stream().findFirst();
+
         if (test.isPresent() && test.get() instanceof BounceBlock) {
+            BLOCKS = blocks;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        } else {
+            BLOCKS = null;
         }
     }
 

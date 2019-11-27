@@ -1,8 +1,34 @@
-# Header here with instructions to replace the default example block to allow bounce blocks to be
-# used
-
-
-
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
+#                             -------- Bounce Block Setup --------
+#
+# Bounce Blocks are blocks that will increase a player's velocity when a player is on top of it
+# while moving. The block specific settings are height and normalize. If normalize is set to true
+# the height will determine how many additional blocks the player will be boosted up into the air.
+# While normalize is off the effects are somewhat more volatile.
+#
+# All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
+# said world. If you want this block to be available in all worlds, set the world to global and
+# leave include-world on true. If you want to disable this in all just toggle the include to false.
+# Adding a specific world name will give you the option to either enable the effect only in that
+# world or excluding it there specifically.
+#
+# Add a block to your list by using the Bukkit Material name. A block can only appear in a block
+# list once! However, you can still combine effects by setting up the same block in multiple Block
+# Yaml Configs with their specific effects. Non-Block Materials will be ignored.
+#
+#                               -------- Example Config --------
+#blocks:
+#  SPONGE:
+#    world: global
+#    include-world: true
+#    height: 10
+#    normalize: true
+#  WET_SPONGE:
+#    world: world
+#    include-world: true
+#    height: 5
+#    normalize: true
+#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
 
 blocks:
   EXAMPLE_BLOCK:
@@ -10,14 +36,3 @@ blocks:
     include-world: true
     height: 0
     normalize: true
-
-#  SPONGE:
-#    world: global
-#    include-world: true
-#    height: 10
-#    normalize: true
-#  WET_SPONGE:
-#    world: global
-#    include-world: true
-#    height: 5
-#    normalize: true

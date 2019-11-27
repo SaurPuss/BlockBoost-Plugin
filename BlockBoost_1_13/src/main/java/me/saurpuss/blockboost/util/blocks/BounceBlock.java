@@ -5,36 +5,36 @@ import org.bukkit.Material;
 
 public class BounceBlock extends AbstractBlock {
 
-    public static class BounceBuilder {
+    public static class Builder {
         private Material material;
         private String world;
         private boolean includeWorld;
         private int height;
         private boolean normalize;
 
-        public BounceBuilder(Material material) {
+        public Builder(Material material) {
             this.material = material;
         }
 
-        public BounceBuilder withWorld(String world) {
+        public Builder withWorld(String world) {
             this.world = world;
 
             return this;
         }
 
-        public BounceBuilder withIncludeWorld(boolean includeWorld) {
+        public Builder withIncludeWorld(boolean includeWorld) {
             this.includeWorld = includeWorld;
 
             return this;
         }
 
-        public BounceBuilder withHeight(int height) {
+        public Builder withHeight(int height) {
             this.height = height;
 
             return this;
         }
 
-        public BounceBuilder withNormalize(boolean normalize) {
+        public Builder withNormalize(boolean normalize) {
             this.normalize = normalize;
 
             return this;

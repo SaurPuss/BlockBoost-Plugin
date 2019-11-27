@@ -2,7 +2,7 @@ package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.listeners.BounceListener;
-import me.saurpuss.blockboost.listeners.SpeedListener;
+import me.saurpuss.blockboost.listeners.SpeedMultiplierListener;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
 import me.saurpuss.blockboost.util.util.AbstractListener;
 import me.saurpuss.blockboost.util.util.BB;
@@ -50,7 +50,7 @@ public class BlockManager {
             case SPEED_MULTIPLIER:
                 temp = bb.getConfigManager().getSpeedBlocks();
                 if (temp != null)
-                    return new SpeedListener(bb, temp);
+                    return new SpeedMultiplierListener(bb, temp);
             default:
                 return null;
         }

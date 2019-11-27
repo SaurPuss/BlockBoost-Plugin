@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.util.blocks.SpeedMultiplierBlock;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
 import me.saurpuss.blockboost.util.util.AbstractListener;
 import org.bukkit.Material;
@@ -14,19 +15,22 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.UUID;
 
-public class SpeedListener extends AbstractListener implements Listener {
+public class SpeedMultiplierListener extends AbstractListener implements Listener {
 
     private BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
     private static HashSet<UUID> playerDelay = new HashSet<>();
 
-    public SpeedListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
-        bb = plugin;
+    public SpeedMultiplierListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         BLOCKS = blocks;
 
-        bb.getServer().getPluginManager().registerEvents(this, bb);
+        Optional<AbstractBlock> test = blocks.values().stream().findFirst();
+        if (test.isPresent() && test.get() instanceof SpeedMultiplierBlock) {
+            plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        }
     }
 
     @EventHandler

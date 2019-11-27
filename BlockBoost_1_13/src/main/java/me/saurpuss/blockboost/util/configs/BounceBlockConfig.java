@@ -129,7 +129,7 @@ public class BounceBlockConfig extends CustomConfig {
                     int height = section.getInt(key + ".height");
                     boolean normalize = section.getBoolean(key + ".normalize");
 
-                    AbstractBlock block = new BounceBlock.BounceBuilder(material)
+                    AbstractBlock block = new BounceBlock.Builder(material)
                             .withWorld(world).withIncludeWorld(include)
                             .withHeight(height).withNormalize(normalize).build();
 
