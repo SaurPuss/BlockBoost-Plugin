@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.configs.BounceBlockConfig;
+import me.saurpuss.blockboost.configs.LandmineBlockConfig;
 import me.saurpuss.blockboost.configs.SpeedBlockConfig;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
@@ -14,14 +15,14 @@ public class ConfigManager {
 
     private BlockBoost bb;
 
-    private final AbstractConfig bounceBlockConfig, speedBlockConfig;
+    private final AbstractConfig bounceBlockConfig, speedBlockConfig, landmineConfig;
 
     public ConfigManager(BlockBoost plugin) {
         bb = plugin;
 
         bounceBlockConfig = loadCustomConfig(BB.BOUNCE);
         speedBlockConfig = loadCustomConfig(BB.SPEED);
-
+        landmineConfig = loadCustomConfig(BB.LANDMINE);
 
         setup();
     }
@@ -32,6 +33,8 @@ public class ConfigManager {
                 return new BounceBlockConfig(bb);
             case SPEED:
                 return new SpeedBlockConfig(bb);
+            case LANDMINE:
+                return new LandmineBlockConfig(bb);
             default:
                 return null;
         }
@@ -43,6 +46,9 @@ public class ConfigManager {
 
         if (speedBlockConfig != null)
             speedBlockConfig.setup();
+
+        if (landmineConfig != null)
+            landmineConfig.setup();
     }
 
 
@@ -54,7 +60,9 @@ public class ConfigManager {
             case SPEED_MULTIPLIER:
             case SPEED_ADDITION:
                 return speedBlockConfig.getBlockMap(type);
-
+            case BURIED_MINE:
+            case TRIP_MINE:
+                return landmineConfig.getBlockMap(type);
             default:
                 return null;
         }

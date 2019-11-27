@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_13_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_13_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/AbstractConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/AbstractConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,23 +44,25 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
+      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.saurpuss.blockboost.configs" />
       <recent name="me.saurpuss.blockboost.listeners" />
       <recent name="me.saurpuss.blockboost.util.blocks" />
       <recent name="me.saurpuss.blockboost.util.configs" />
       <recent name="me.saurpuss.blockboost.events" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
-      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
     </key>
   </component>
   <component name="RunDashboard">

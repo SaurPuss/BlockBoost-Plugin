@@ -25,6 +25,8 @@ public class SpeedBlockConfig extends AbstractConfig {
 
     private File file; // speedBlocks.yml location
     private FileConfiguration customFile;
+    private final String FILE_NAME = "speedBlocks.yml", SECTION_MULTIPLIER = "multiplier",
+            SECTION_ADDITION = "addition";
 
     private HashMap<Material, AbstractBlock> multiplierBlockMap;
     private HashMap<Material, AbstractBlock> additionBlockMap;
@@ -38,27 +40,27 @@ public class SpeedBlockConfig extends AbstractConfig {
         if (!bb.getDataFolder().exists())
             bb.getDataFolder().mkdirs();
 
-        file = new File(bb.getDataFolder(), "speedBlocks.yml");
+        file = new File(bb.getDataFolder(), FILE_NAME);
 
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                bb.getLogger().log(Level.SEVERE, "Could not create speedBlocks.yml!");
+                bb.getLogger().log(Level.SEVERE, "Could not create " + FILE_NAME + "!");
                 multiplierBlockMap = null;
                 additionBlockMap = null;
             }
         }
 
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "speedBlocks.yml exists in plugin directory!");
+        bb.getLogger().log(Level.INFO, FILE_NAME + " exists in plugin directory!");
 
-        save();
+        saveCustomConfig();
 
-        if (file.length() == 0 || customFile.getConfigurationSection("multiplier") == null ||
-                customFile.getConfigurationSection("addition") == null) {
-            bb.saveResource("speedBlocks.yml", true);
-            bb.getLogger().log(Level.WARNING, "Invalid speedBlocks.yml, replacing with default " +
+        if (file.length() == 0 || customFile.getConfigurationSection(SECTION_MULTIPLIER) == null ||
+                customFile.getConfigurationSection(SECTION_ADDITION) == null) {
+            bb.saveResource(FILE_NAME, true);
+            bb.getLogger().log(Level.WARNING, "Invalid " + FILE_NAME + ", replacing with default " +
                     "configuration!");
         }
 
@@ -76,7 +78,7 @@ public class SpeedBlockConfig extends AbstractConfig {
     }
 
     @Override
-    public void reload() {
+    public void loadCustomConfig() {
         if (customFile == null) {
             file = new File(bb.getDataFolder(), "speedBlocks.yml");
         }
@@ -85,13 +87,13 @@ public class SpeedBlockConfig extends AbstractConfig {
     }
 
     @Override
-    public FileConfiguration get() {
+    public FileConfiguration getCustomConfig() {
         return customFile;
     }
 
 
     @Override
-    public void save() {
+    public void saveCustomConfig() {
         try {
             customFile.save(file);
         } catch (IOException e) {

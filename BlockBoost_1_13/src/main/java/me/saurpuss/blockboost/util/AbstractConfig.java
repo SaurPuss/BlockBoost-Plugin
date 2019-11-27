@@ -9,11 +9,11 @@ public abstract class AbstractConfig {
 
     public abstract void setup();
 
-    public abstract void reload();
+    public abstract void loadCustomConfig();
 
-    public abstract FileConfiguration get();
+    public abstract FileConfiguration getCustomConfig();
 
-    public abstract void save();
+    public abstract void saveCustomConfig();
 
     protected abstract boolean hasValidKeys(BB type);
 

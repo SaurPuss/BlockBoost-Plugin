@@ -10,20 +10,18 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
 public class BounceBlockConfig extends AbstractConfig {
 
-    // TODO refactor with streams https://bukkit.gamepedia.com/Configuration_API_Reference#Arbitrary_Configurations
-
     private BlockBoost bb;
 
     private File file; // bounceBlocks.yml location
     private FileConfiguration customFile;
+    private final String FILE_NAME = "bounceBlocks.yml", SECTION = "bounce";
 
     private HashMap<Material, AbstractBlock> blockMap;
 
@@ -36,28 +34,29 @@ public class BounceBlockConfig extends AbstractConfig {
         if (!bb.getDataFolder().exists())
             bb.getDataFolder().mkdirs();
 
-        file = new File(bb.getDataFolder(), "bounceBlocks.yml");
+        file = new File(bb.getDataFolder(), FILE_NAME);
 
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                bb.getLogger().log(Level.SEVERE, "Could not create bounceBlocks.yml!");
+                bb.getLogger().log(Level.SEVERE, "Could not create " + FILE_NAME + "!");
                 blockMap = null;
             }
         }
 
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "bounceBlocks.yml exists in plugin directory!");
+        bb.getLogger().log(Level.INFO, FILE_NAME + " exists in plugin directory!");
 
-        save();
+        saveCustomConfig();
 
         if (file.length() == 0 || customFile.getConfigurationSection("blocks") == null) {
-            bb.saveResource("bounceBlocks.yml", true);
-            bb.getLogger().log(Level.WARNING, "Invalid bounceblocks.yml, replacing with default " +
+            bb.saveResource(FILE_NAME, true);
+            bb.getLogger().log(Level.WARNING, "Invalid "+ FILE_NAME + ", replacing with default " +
                     "configuration!");
         }
 
+        // populate blockmap
         if (hasValidKeys(BB.BOUNCE)) {
             bb.getLogger().log(Level.INFO, "Reading valid BounceBlocks!");
             blockMap = populateBlockMap(BB.BOUNCE);
@@ -66,26 +65,41 @@ public class BounceBlockConfig extends AbstractConfig {
     }
 
     @Override
-    public void reload() {
-        if (customFile == null) {
-            file = new File(bb.getDataFolder(), "bounceBlock.yml");
-        }
+    public void loadCustomConfig() {
+        if (file == null)
+            file = new File(bb.getDataFolder(), FILE_NAME);
+
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "bounceBlock.yml has been reloaded!");
+
+        // Check defaults in the jar
+        Reader stream = new InputStreamReader(bb.getResource(FILE_NAME));
+        if (stream != null) {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(stream);
+            customFile.setDefaults(config);
+            bb.getLogger().log(Level.INFO, "Copied defaults to " + FILE_NAME + "!");
+        }
+
+        bb.getLogger().log(Level.INFO, FILE_NAME + " has been loaded!");
     }
 
     @Override
-    public FileConfiguration get() {
+    public FileConfiguration getCustomConfig() {
+        if (customFile == null)
+            loadCustomConfig();
+
         return customFile;
     }
 
 
     @Override
-    public void save() {
+    public void saveCustomConfig() {
+        if (file == null || customFile == null)
+            return;
+
         try {
             customFile.save(file);
         } catch (IOException e) {
-            bb.getLogger().log(Level.SEVERE, "Could not save bounceBlock.yml!");
+            bb.getLogger().log(Level.SEVERE, "Could not save " + FILE_NAME + "!");
         }
     }
 
@@ -93,27 +107,25 @@ public class BounceBlockConfig extends AbstractConfig {
     @Override
     protected boolean hasValidKeys(BB type) {
         if (type != BB.BOUNCE) {
-            bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys in " +
-                    "bounceBlock.yml!");
+            bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys in " + FILE_NAME);
             return false;
         }
 
-        ConfigurationSection section = customFile.getConfigurationSection("blocks");
+        ConfigurationSection section = customFile.getConfigurationSection(SECTION);
         if (section == null) {
-            bb.getLogger().log(Level.WARNING, "No valid path found in bounceBlock.yml! " +
-                    "Ignoring BounceBlocks!");
+            bb.getLogger().log(Level.WARNING, "No valid " + SECTION + " path found in " + FILE_NAME +
+                    "! Ignoring BounceBlocks!");
             return false;
         }
 
         Set<String> keys = section.getKeys(false);
         if (!customFile.isConfigurationSection("blocks") || keys.isEmpty()) {
-            bb.getLogger().log(Level.WARNING, "No blocks found in bounceBlocks.yml! " +
-                    "Ignoring BounceBlocks!");
+            bb.getLogger().log(Level.WARNING, "No blocks found in " + FILE_NAME + "! Ignoring BounceBlocks!");
             return false;
         }
 
         if (keys.contains("EXAMPLE_BLOCK")) {
-            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in bounceBlocks.yml!");
+            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in " + FILE_NAME + "!");
         }
 
         return true;
@@ -124,7 +136,7 @@ public class BounceBlockConfig extends AbstractConfig {
         if (type != BB.BOUNCE)
             return null;
 
-        ConfigurationSection section = customFile.getConfigurationSection("blocks");
+        ConfigurationSection section = customFile.getConfigurationSection(SECTION);
         Set<String> keys = section.getKeys(false);
 
         HashMap<Material, AbstractBlock> validMats = new HashMap<>();
@@ -132,7 +144,7 @@ public class BounceBlockConfig extends AbstractConfig {
             Material material = Material.getMaterial(key.toUpperCase());
             if (material == null || !material.isBlock()) {
                 bb.getLogger().log(Level.WARNING,
-                        "Material " + key + " bounceBlocs.yml is invalid! " +
+                        "Material " + key + " in " + FILE_NAME + " is invalid! " +
                                 "Ignoring " + key + "!");
             } else {
                 String world = section.getString(key + ".world");
@@ -150,7 +162,7 @@ public class BounceBlockConfig extends AbstractConfig {
         });
 
         if (validMats.size() == 0) {
-            bb.getLogger().log(Level.WARNING, "No valid entries in bounce configuration " +
+            bb.getLogger().log(Level.WARNING, "No valid entries in " + SECTION + " configuration " +
                     "section found!");
             return null;
         }
@@ -165,5 +177,4 @@ public class BounceBlockConfig extends AbstractConfig {
 
         return blockMap;
     }
-
 }
