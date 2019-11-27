@@ -3,7 +3,8 @@ package me.saurpuss.blockboost.util.configs;
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.blocks.BounceBlock;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.CustomConfig;
+import me.saurpuss.blockboost.util.util.AbstractConfig;
+import me.saurpuss.blockboost.util.util.BB;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class BounceBlockConfig extends CustomConfig {
+public class BounceBlockConfig extends AbstractConfig {
 
     private BlockBoost bb;
 
@@ -51,13 +52,13 @@ public class BounceBlockConfig extends CustomConfig {
 
         if (file.length() == 0 || customFile.getConfigurationSection("blocks") == null) {
             bb.saveResource("bounceBlocks.yml", true);
-            bb.getLogger().log(Level.WARNING, "Invalid bounceblocks.yml, copying default " +
+            bb.getLogger().log(Level.WARNING, "Invalid bounceblocks.yml, replacing with default " +
                     "configuration!");
         }
 
-        if (hasValidKeys()) {
+        if (hasValidKeys(BB.BOUNCE)) {
             bb.getLogger().log(Level.INFO, "Reading valid BounceBlocks!");
-            blockMap = populateBlockMap();
+            blockMap = populateBlockMap(BB.BOUNCE);
         } else
             blockMap = null;
     }
@@ -88,7 +89,13 @@ public class BounceBlockConfig extends CustomConfig {
 
 
     @Override
-    protected boolean hasValidKeys() {
+    protected boolean hasValidKeys(BB type) {
+        if (type != BB.BOUNCE) {
+            bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys in " +
+                    "bounceBlock.yml!");
+            return false;
+        }
+
         ConfigurationSection section = customFile.getConfigurationSection("blocks");
         if (section == null) {
             bb.getLogger().log(Level.WARNING, "No valid path found in bounceBlock.yml! " +
@@ -111,7 +118,10 @@ public class BounceBlockConfig extends CustomConfig {
     }
 
     @Override
-    protected HashMap<Material, AbstractBlock> populateBlockMap() {
+    protected HashMap<Material, AbstractBlock> populateBlockMap(BB type) {
+        if (type != BB.BOUNCE)
+            return null;
+
         ConfigurationSection section = customFile.getConfigurationSection("blocks");
         Set<String> keys = section.getKeys(false);
 
@@ -149,7 +159,11 @@ public class BounceBlockConfig extends CustomConfig {
     }
 
     @Override
-    public HashMap<Material, AbstractBlock> getBlockMap() {
+    public HashMap<Material, AbstractBlock> getBlockMap(BB type) {
+        if (type != BB.BOUNCE)
+            return null;
+
         return blockMap;
     }
+
 }

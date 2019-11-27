@@ -6,7 +6,6 @@ import org.bukkit.Material;
 public class SpeedMultiplierBlock extends AbstractBlock {
 
     public static class Builder {
-
         private Material material;
         private String world;
         private boolean includeWorld;
@@ -33,30 +32,43 @@ public class SpeedMultiplierBlock extends AbstractBlock {
         }
 
         public Builder withDefaultSpeed(double defaultSpeed) {
+            if (defaultSpeed < 0 || defaultSpeed > 1)
+                defaultSpeed = 0.2;
+
             this.defaultSpeed = defaultSpeed;
 
             return this;
         }
 
         public Builder withSpeedMultiplier(double speedMultiplier) {
+            speedMultiplier = Math.abs(speedMultiplier);
+
             this.speedMultiplier = speedMultiplier;
 
             return this;
         }
 
         public Builder withCap(double speedCap) {
+            speedCap = Math.abs(speedCap);
+            if (speedCap > 1.0)
+                speedCap = 1.0;
+
             this.speedCap = speedCap;
 
             return this;
         }
 
         public Builder withDuration(int duration) {
+            duration = Math.abs(duration);
+
             this.duration = duration;
 
             return this;
         }
 
         public Builder withCooldown(int cooldown) {
+            cooldown = Math.abs(cooldown);
+
             this.cooldown = cooldown;
 
             return this;
@@ -132,6 +144,8 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     public void setDefaultSpeed(double defaultSpeed) {
+        if (defaultSpeed < 0 || defaultSpeed > 1)
+            defaultSpeed = 0.2;
         this.defaultSpeed = defaultSpeed;
     }
 
@@ -140,6 +154,8 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     public void setSpeedMultiplier(double speedMultiplier) {
+        speedMultiplier = Math.abs(speedMultiplier);
+
         this.speedMultiplier = speedMultiplier;
     }
 
@@ -148,6 +164,10 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     public void setSpeedCap(double speedCap) {
+        speedCap = Math.abs(speedCap);
+        if (speedCap > 1.0)
+            speedCap = 1.0;
+
         this.speedCap = speedCap;
     }
 
@@ -156,6 +176,8 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     public void setDuration(int duration) {
+        duration = Math.abs(duration);
+
         this.duration = duration;
     }
 
@@ -164,6 +186,8 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     public void setCooldown(int cooldown) {
+        cooldown = Math.abs(cooldown);
+
         this.cooldown = cooldown;
     }
 }

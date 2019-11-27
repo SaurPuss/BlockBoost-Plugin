@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.HashMap;
 
-public abstract class CustomConfig {
+public abstract class AbstractConfig {
 
     public abstract void setup();
 
@@ -15,10 +15,9 @@ public abstract class CustomConfig {
 
     public abstract void save();
 
-    protected abstract boolean hasValidKeys();
+    protected abstract boolean hasValidKeys(BB type);
 
-    protected abstract HashMap<Material, AbstractBlock> populateBlockMap();
+    protected abstract HashMap<Material, AbstractBlock> populateBlockMap(BB type);
 
-    public abstract HashMap<Material, AbstractBlock> getBlockMap();
-
+    public abstract HashMap<Material, AbstractBlock> getBlockMap(BB type);
 }

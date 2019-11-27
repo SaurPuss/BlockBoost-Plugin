@@ -1,9 +1,11 @@
 package me.saurpuss.blockboost.util.configs;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.BounceBlock;
+import me.saurpuss.blockboost.util.blocks.SpeedAdditionBlock;
+import me.saurpuss.blockboost.util.blocks.SpeedMultiplierBlock;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.CustomConfig;
+import me.saurpuss.blockboost.util.util.AbstractConfig;
+import me.saurpuss.blockboost.util.util.BB;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,14 +17,15 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class SpeedBlockConfig extends CustomConfig {
+public class SpeedBlockConfig extends AbstractConfig {
 
     private BlockBoost bb;
 
     private File file; // speedBlocks.yml location
     private FileConfiguration customFile;
 
-    private HashMap<Material, AbstractBlock> blockMap;
+    private HashMap<Material, AbstractBlock> multiplierBlockMap;
+    private HashMap<Material, AbstractBlock> additionBlockMap;
 
     public SpeedBlockConfig(BlockBoost plugin) {
         bb = plugin;
@@ -40,7 +43,8 @@ public class SpeedBlockConfig extends CustomConfig {
                 file.createNewFile();
             } catch (IOException e) {
                 bb.getLogger().log(Level.SEVERE, "Could not create speedBlocks.yml!");
-                blockMap = null;
+                multiplierBlockMap = null;
+                additionBlockMap = null;
             }
         }
 
@@ -49,17 +53,24 @@ public class SpeedBlockConfig extends CustomConfig {
 
         save();
 
-        if (file.length() == 0 || customFile.getConfigurationSection("blocks") == null) {
+        if (file.length() == 0 || customFile.getConfigurationSection("multiplier") == null ||
+                customFile.getConfigurationSection("addition") == null) {
             bb.saveResource("speedBlocks.yml", true);
-            bb.getLogger().log(Level.WARNING, "Invalid speedBlocks.yml, copying default " +
+            bb.getLogger().log(Level.WARNING, "Invalid speedBlocks.yml, replacing with default " +
                     "configuration!");
         }
 
-        if (hasValidKeys()) {
-            bb.getLogger().log(Level.INFO, "Reading valid SpeedBlocks!");
-            blockMap = populateBlockMap();
+        if (hasValidKeys(BB.SPEED_MULTIPLIER)) {
+            bb.getLogger().log(Level.INFO, "Reading valid MultiplierSpeedBlocks!");
+            multiplierBlockMap = populateBlockMap(BB.SPEED_MULTIPLIER);
         } else
-            blockMap = null;
+            multiplierBlockMap = null;
+
+        if (hasValidKeys(BB.SPEED_ADDITION)) {
+            bb.getLogger().log(Level.INFO, "Reading valid AdditionSpeedBlocks!");
+            additionBlockMap = populateBlockMap(BB.SPEED_ADDITION);
+        } else
+            additionBlockMap = null;
     }
 
     @Override
@@ -88,18 +99,32 @@ public class SpeedBlockConfig extends CustomConfig {
 
 
     @Override
-    protected boolean hasValidKeys() {
+    protected boolean hasValidKeys(BB type) {
+        ConfigurationSection section;
 
-        // TODO refactor for both types of speed blocks
-        ConfigurationSection section = customFile.getConfigurationSection("blocks");
+        switch (type) {
+            case SPEED_MULTIPLIER:
+                section = customFile.getConfigurationSection("multiplier");
+                break;
+            case SPEED_ADDITION:
+                section = customFile.getConfigurationSection("addition");
+                break;
+            default:
+                bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys " +
+                        "in speedBlock.yml!");
+                return false;
+        }
+
         if (section == null) {
-            bb.getLogger().log(Level.WARNING, "No valid path found in speedBlocks.yml! " +
-                    "Ignoring SpeedBlocks!");
+            bb.getLogger().log(Level.WARNING,
+                    "No valid " + (type == BB.SPEED_MULTIPLIER ? "multiplier" : "addition") +
+                            " path found in speedBlocks.yml! Ignoring SpeedBlocks!");
             return false;
         }
 
         Set<String> keys = section.getKeys(false);
-        if (!customFile.isConfigurationSection("blocks") || keys.isEmpty()) {
+        if (keys.isEmpty() || (!customFile.isConfigurationSection("multiplier") &&
+                !customFile.isConfigurationSection("addition"))) {
             bb.getLogger().log(Level.WARNING, "No blocks found in speedBlocks.yml! " +
                     "Ignoring SpeedBlocks!");
             return false;
@@ -113,33 +138,85 @@ public class SpeedBlockConfig extends CustomConfig {
     }
 
     @Override
-    protected HashMap<Material, AbstractBlock> populateBlockMap() {
-        ConfigurationSection section = customFile.getConfigurationSection("blocks");
+    protected HashMap<Material, AbstractBlock> populateBlockMap(BB type) {
+        final ConfigurationSection section;
+        switch (type) {
+            case SPEED_MULTIPLIER:
+                section = customFile.getConfigurationSection("multiplier");
+                break;
+            case SPEED_ADDITION:
+                section = customFile.getConfigurationSection("addition");
+                break;
+            default:
+                bb.getLogger().log(Level.SEVERE, "Illegal attempt to populate block map with" +
+                        " invalid keys in speedBlock.yml!");
+                return null;
+        }
+
+
+        assert section != null;
         Set<String> keys = section.getKeys(false);
-
         HashMap<Material, AbstractBlock> validMats = new HashMap<>();
-        keys.forEach(key -> {
-//            if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
-                Material material = Material.getMaterial(key.toUpperCase());
-                if (material == null || !material.isBlock()) {
-                    bb.getLogger().log(Level.WARNING,
-                            "Material " + key + " speedBlocks.yml is invalid! " +
-                                    "Ignoring " + key + "!");
-                } else {
-                    String world = section.getString(key + ".world");
-                    boolean include = section.getBoolean(key + ".include-world");
-                    int height = section.getInt(key + ".height");
-                    boolean normalize = section.getBoolean(key + ".normalize");
+        switch (type) {
+            case SPEED_MULTIPLIER:
+                keys.forEach(key -> {
+                    if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
+                        Material material = Material.getMaterial(key.toUpperCase());
+                        if (material == null || !material.isBlock()) {
+                            bb.getLogger().log(Level.WARNING,
+                                    "Material " + key + " in multiplier speedBlocks.yml is " +
+                                            "invalid! Ignoring " + key + "!");
+                        } else {
+                            String world = section.getString(key + ".world");
+                            boolean include = section.getBoolean(key + ".include-world");
+                            double defaultSpeed = section.getDouble(key + ".default");
+                            double speedMultiplier = section.getDouble(key + ".multiplier");
+                            double speedCap = section.getDouble(key + ".cap");
+                            int duration = section.getInt(key + ".duration");
+                            int cooldown = section.getInt(key + ".cooldown");
 
-                    AbstractBlock block = new BounceBlock.Builder(material)
-                            .withWorld(world).withIncludeWorld(include)
-                            .withHeight(height).withNormalize(normalize).build();
+                            AbstractBlock block = new SpeedMultiplierBlock.Builder(material)
+                                    .withWorld(world).withIncludeWorld(include)
+                                    .withDefaultSpeed(defaultSpeed)
+                                    .withSpeedMultiplier(speedMultiplier).withCap(speedCap)
+                                    .withDuration(duration).withCooldown(cooldown).build();
 
-                    bb.getLogger().log(Level.INFO, "SpeedBlock added: " + block.toString());
-                    validMats.put(material, block);
-                }
-//            }
-        });
+                            bb.getLogger().log(Level.INFO, "SpeedBlock added: " + block.toString());
+                            validMats.put(material, block);
+                        }
+                    }
+                });
+                break;
+            case SPEED_ADDITION:
+                keys.forEach(key -> {
+                    if (!key.equalsIgnoreCase("EXAMPLE_BLOCK")) {
+                        Material material = Material.getMaterial(key.toUpperCase());
+                        if (material == null || !material.isBlock()) {
+                            bb.getLogger().log(Level.WARNING,
+                                    "Material " + key + " in addition speedBlocks.yml is " +
+                                            "invalid! Ignoring " + key + "!");
+                        } else {
+                            String world = section.getString(key + ".world");
+                            boolean include = section.getBoolean(key + ".include-world");
+                            double addition = section.getDouble(key + ".addition");
+                            int duration = section.getInt(key + ".duration");
+
+                            AbstractBlock block = new SpeedAdditionBlock.Builder(material)
+                                    .withWorld(world).withIncludeWorld(include)
+                                    .withAddition(addition).withDuration(duration)
+                                    .build();
+
+                            bb.getLogger().log(Level.INFO, "SpeedBlock added: " + block.toString());
+                            validMats.put(material, block);
+                        }
+                    }
+                });
+                break;
+            default:
+                bb.getLogger().log(Level.SEVERE, "Illegal attempt to populate block map with" +
+                        " invalid keys in speedBlock.yml!");
+                return null;
+        }
 
         if (validMats.size() == 0) {
             bb.getLogger().log(Level.WARNING, "No valid entries in speed configuration " +
@@ -151,7 +228,14 @@ public class SpeedBlockConfig extends CustomConfig {
     }
 
     @Override
-    public HashMap<Material, AbstractBlock> getBlockMap() {
-        return blockMap;
+    public HashMap<Material, AbstractBlock> getBlockMap(BB type) {
+        switch (type) {
+            case SPEED_MULTIPLIER:
+                return multiplierBlockMap;
+            case SPEED_ADDITION:
+                return additionBlockMap;
+            default:
+                return null;
+        }
     }
 }

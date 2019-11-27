@@ -5,7 +5,7 @@ import me.saurpuss.blockboost.util.configs.BounceBlockConfig;
 import me.saurpuss.blockboost.util.configs.SpeedBlockConfig;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
 import me.saurpuss.blockboost.util.util.BB;
-import me.saurpuss.blockboost.util.util.CustomConfig;
+import me.saurpuss.blockboost.util.util.AbstractConfig;
 import org.bukkit.Material;
 
 import java.util.HashMap;
@@ -14,23 +14,23 @@ public class ConfigManager {
 
     private BlockBoost bb;
 
-    private final CustomConfig bounceBlockConfig, speedblockConfig;
+    private final AbstractConfig bounceBlockConfig, speedBlockConfig;
 
     public ConfigManager(BlockBoost plugin) {
         bb = plugin;
 
         bounceBlockConfig = loadCustomConfig(BB.BOUNCE);
-        speedblockConfig = loadCustomConfig(BB.SPEED_MULTIPLIER);
+        speedBlockConfig = loadCustomConfig(BB.SPEED);
 
 
         setup();
     }
 
-    private CustomConfig loadCustomConfig(BB type) {
+    private AbstractConfig loadCustomConfig(BB type) {
         switch (type) {
             case BOUNCE:
                 return new BounceBlockConfig(bb);
-            case SPEED_MULTIPLIER:
+            case SPEED:
                 return new SpeedBlockConfig(bb);
             default:
                 return null;
@@ -46,8 +46,8 @@ public class ConfigManager {
         return bounceBlockConfig.getBlockMap();
     }
 
-    HashMap<Material, AbstractBlock> getSpeedBlocks() {
-        return speedblockConfig.getBlockMap();
+    HashMap<Material, AbstractBlock> getSpeedMultiplierBlocks() {
+        return speedBlockConfig.getMultiplierBlockMap();
     }
 
 

@@ -73,12 +73,15 @@ multiplier:
   EXAMPLE_BLOCK:
     world: global
     include-world: true
-    height: 0
-    normalize: true
+    default: 0.2
+    multiplier: 1.5
+    cap: 1.0
+    duration: 5
+    cooldown: 10
 
 addition:
   EXAMPLE_BLOCK:
     world: global
     include-world: true
-    height: 0
-    normalize: true
+    duration: 5
+    addition: 0.2

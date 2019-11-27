@@ -14,13 +14,13 @@ public class BlockManager {
 
     private BlockBoost bb;
 
-    private final AbstractListener bounceListener, speedListener, landmineListener;
+    private final AbstractListener bounceListener, speedMultiplierListener, landmineListener;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
 
         bounceListener = getListener(BB.BOUNCE);
-        speedListener = getListener(BB.SPEED_MULTIPLIER);
+        speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
         landmineListener = getListener(BB.LANDMINE);
 
 
@@ -31,8 +31,8 @@ public class BlockManager {
         if (bounceListener != null)
             bounceListener.unregister();
 
-        if (speedListener != null)
-            speedListener.unregister();
+        if (speedMultiplierListener != null)
+            speedMultiplierListener.unregister();
 
         if (landmineListener != null)
             landmineListener.unregister();
@@ -48,7 +48,7 @@ public class BlockManager {
                 if (temp != null)
                     return new BounceListener(bb, temp);
             case SPEED_MULTIPLIER:
-                temp = bb.getConfigManager().getSpeedBlocks();
+                temp = bb.getConfigManager().getSpeedMultiplierBlocks();
                 if (temp != null)
                     return new SpeedMultiplierListener(bb, temp);
             default:
