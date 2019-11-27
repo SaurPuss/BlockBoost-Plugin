@@ -4,17 +4,14 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocklisteners.LandmineListener;
 import me.saurpuss.blockboost.blocklisteners.BounceListener;
 import me.saurpuss.blockboost.blocklisteners.SpeedListener;
+import me.saurpuss.blockboost.util.util.AbstractBlock;
 import org.bukkit.Material;
 
-import java.util.HashSet;
+import java.util.*;
 
 public class BBManager {
 
     private BlockBoost bb;
-    private final HashSet<Material> validBlocks;
-
-
-    private BlockMapper blocks;
 
     // TODO singleton patterns
     private static BounceListener bounceListener;
@@ -24,7 +21,11 @@ public class BBManager {
     public BBManager(BlockBoost plugin) {
         bb = plugin;
 
-        validBlocks = blockMaterials();
+//        validBlocks = blockMaterials();
+
+        HashMap<Material, AbstractBlock> temp = bb.getConfigManager().getBounceBlocks();
+        if (temp != null)
+            bounceListener = new BounceListener(bb, temp);
 
 //        blocks = new BlockMapper(bb);
         // register event listeners
@@ -52,21 +53,4 @@ public class BBManager {
             landmineListener.unregister();
 
     }
-
-    private HashSet<Material> blockMaterials() {
-        HashSet<Material> list = new HashSet<>();
-        for (Material mat : Material.values()) {
-            if (mat.isBlock()) {
-                list.add(mat);
-            }
-        }
-
-        return list;
-    }
-
-    public HashSet<Material> getValidBlocks() {
-        return validBlocks;
-    }
-
-
 }

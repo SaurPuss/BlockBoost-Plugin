@@ -90,6 +90,13 @@ public class BounceBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
+    @Override
+    public String toString() {
+        return "BounceBlock: " + material.toString() +
+                " (world: " + world + ", include: " + includeWorld +
+                ", height: " + height + ", normalize: " + normalize + ")";
+    }
+
     public int getHeight() {
         return height;
     }

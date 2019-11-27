@@ -15,6 +15,10 @@ public abstract class CustomConfig {
 
     public abstract void save();
 
+    protected abstract boolean hasValidKeys();
+
     protected abstract HashMap<Material, AbstractBlock> populateBlockMap();
+
+    public abstract HashMap<Material, AbstractBlock> getBlockMap();
 
 }
