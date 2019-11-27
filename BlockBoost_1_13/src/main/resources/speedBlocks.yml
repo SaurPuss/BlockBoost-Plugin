@@ -8,6 +8,9 @@
 # Minecraft default walk speed is 0.2, a player's speed can range from 0.0 to 1.0, any attempts
 # to go past 1.0 will automatically cap out at 1.0.
 #
+# While a player is on cooldown from any of the Speed Blocks, they can't trigger blocks of a
+# different Material. (In the case of Speed Addition Blocks the cooldown matches the duration!)
+#
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
 # leave include-world on true. If you want to disable this in all just toggle the include to false.
@@ -17,6 +20,8 @@
 # Add a block to your list by using the Bukkit Material name. A block can only appear in a block
 # list once! However, you can still combine effects by setting up the same block in multiple Block
 # Yaml Configs with their specific effects. Non-Block Materials will be ignored.
+#
+# Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 #
 #                             -------- Speed Multiplier Blocks --------
 #
@@ -36,11 +41,10 @@
 #
 #                             -------- Speed Addition Blocks --------
 #
-#
-#
-#
-
-
+# Speed additions are added on top of the player's current walk speed. While this effect is active
+# the are automatically player on cooldown preventing them from gaining boosts from other Speed
+# Blocks. After the duration has passed their walk speed will be set back to the speed they had
+# when they received the boost.
 #
 #                                   -------- Warning --------
 #

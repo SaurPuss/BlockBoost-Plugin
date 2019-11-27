@@ -1,9 +1,9 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.BounceBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
+import me.saurpuss.blockboost.blocks.BounceBlock;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -37,7 +37,7 @@ public class BounceListener extends AbstractListener implements Listener {
     public void activateBlock(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        World world = player.getWorld();
+        String world = player.getWorld().getName();
 
         BLOCKS.forEach((key, mat) -> {
             if (key == block.getType()) {
@@ -45,13 +45,13 @@ public class BounceListener extends AbstractListener implements Listener {
                 // material has an inclusion and it's global or this world
                 if (material.isIncludeWorld() &&
                         (material.getWorld().equalsIgnoreCase("global") ||
-                         material.getWorld().equalsIgnoreCase(world.toString()))) {
+                         material.getWorld().equalsIgnoreCase(world))) {
                     triggerVelocity(player, material);
                 }
                 // material has an exclusion that is not global and is not this world
                 else if (!material.isIncludeWorld() &&
                         !material.getWorld().equalsIgnoreCase("global") &&
-                        !material.getWorld().equalsIgnoreCase(world.toString())) {
+                        !material.getWorld().equalsIgnoreCase(world)) {
                     triggerVelocity(player, material);
                 }
             }

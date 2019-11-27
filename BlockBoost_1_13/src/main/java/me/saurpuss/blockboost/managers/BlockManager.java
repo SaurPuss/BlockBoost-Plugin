@@ -17,6 +17,7 @@ public class BlockManager {
     private BlockBoost bb;
 
     private final HashSet<AbstractListener> activeListeners;
+    public HashSet<UUID> playerCooldown = new HashSet<>();
 
     // TODO is this more efficient than reflection?
     private transient HashSet<BB> temp = new HashSet<>();

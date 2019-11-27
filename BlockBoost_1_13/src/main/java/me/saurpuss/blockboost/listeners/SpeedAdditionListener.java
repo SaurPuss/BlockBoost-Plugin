@@ -5,6 +5,7 @@ import me.saurpuss.blockboost.blocks.SpeedAdditionBlock;
 import me.saurpuss.blockboost.blocks.SpeedMultiplierBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -23,9 +24,9 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
     private BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
-    private static HashSet<UUID> playerDelay = new HashSet<>();
 
     public SpeedAdditionListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
+        bb = plugin;
         BLOCKS = blocks;
 
         Optional<AbstractBlock> test = blocks.values().stream().findFirst();
@@ -38,28 +39,49 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
     public void activateBounceBlock(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
+        String world = player.getWorld().getName();
 
         // Event can only fire once a second
-        if (!playerDelay.contains(player.getUniqueId())) {
-//            BLOCKS.forEach(material -> {
-//                if (material.getMaterial() == block.getType()) {
-//                    float result = player.getWalkSpeed() * material.g();
-//                    if (result > 1.0)
-//                        result = 1.0f;
-//                    else if (result > material.getSpeedCap())
-//                        result = material.getSpeedCap();
-//
-//                    player.setWalkSpeed(result);
-//                    playerDelay.add(player.getUniqueId());
-//
-//                    // TODO custom task
-//                    Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-//                            playerDelay.remove(player.getUniqueId()), material.getCooldown());
-//                    Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-//                        player.setWalkSpeed(material.getDefaultSpeed()), material.getDuration() * 20);
-//                }
-//            });
+        if (!bb.getBlockManager().playerCooldown.contains(player.getUniqueId())) {
+            BLOCKS.forEach((key, mat) -> {
+                if (key == block.getType()) {
+                    SpeedAdditionBlock material = (SpeedAdditionBlock) mat;
+                    if (material.isIncludeWorld() &&
+                            (material.getWorld().equalsIgnoreCase("global") ||
+                                    material.getWorld().equalsIgnoreCase(world))) {
+                        triggerSpeed(player, material);
+                    }
+                    // material has an exclusion that is not global and is not this world
+                    else if (!material.isIncludeWorld() &&
+                            !material.getWorld().equalsIgnoreCase("global") &&
+                            !material.getWorld().equalsIgnoreCase(world)) {
+                        triggerSpeed(player, material);
+                    }
+
+
+
+
+
+                }
+            });
         }
+    }
+
+    private void triggerSpeed(Player player, SpeedAdditionBlock material) {
+        float playerSpeed = player.getFlySpeed();
+
+        float result = player.getWalkSpeed() + material.getAddition();
+        if (result > 1.0)
+            result = 1.0f;
+
+        player.setWalkSpeed(result);
+        bb.getBlockManager().playerCooldown.add(player.getUniqueId());
+
+        // TODO custom task
+        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
+                    bb.getBlockManager().playerCooldown.remove(player.getUniqueId());
+                    player.setWalkSpeed(playerSpeed);
+                }, material.getDuration() * 20);
     }
 
     public void unregister() {

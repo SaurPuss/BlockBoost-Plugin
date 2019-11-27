@@ -9,7 +9,7 @@ public class SpeedAdditionBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private double addition;
+        private float addition;
         private int duration;
 
         public Builder(Material material) {
@@ -28,7 +28,7 @@ public class SpeedAdditionBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withAddition(double addition) {
+        public Builder withAddition(float addition) {
             this.addition = addition;
 
             return this;
@@ -57,7 +57,7 @@ public class SpeedAdditionBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
-    private double addition;
+    private float addition;
     private int duration;
 
     private SpeedAdditionBlock() {}
@@ -94,16 +94,16 @@ public class SpeedAdditionBlock extends AbstractBlock {
 
     @Override
     public String toString() {
-        return "SpeedMultiplierBlock: " + material.toString() +
+        return "SpeedAdditionBlock: " + material.toString() +
                 " (world: " + world + ", include: " + includeWorld +
                 ", addition: " + addition + ", duration: " + duration + " (seconds))";
     }
 
-    public double getAddition() {
+    public float getAddition() {
         return addition;
     }
 
-    public void setAddition(double addition) {
+    public void setAddition(float addition) {
         this.addition = addition;
     }
 

@@ -169,9 +169,9 @@ public class SpeedBlockConfig extends AbstractConfig {
                         } else {
                             String world = section.getString(key + ".world");
                             boolean include = section.getBoolean(key + ".include-world");
-                            double defaultSpeed = section.getDouble(key + ".default");
-                            double speedMultiplier = section.getDouble(key + ".multiplier");
-                            double speedCap = section.getDouble(key + ".cap");
+                            float defaultSpeed = (float) section.getDouble(key + ".default");
+                            float speedMultiplier = (float) section.getDouble(key + ".multiplier");
+                            float speedCap = (float) section.getDouble(key + ".cap");
                             int duration = section.getInt(key + ".duration");
                             int cooldown = section.getInt(key + ".cooldown");
 
@@ -198,7 +198,7 @@ public class SpeedBlockConfig extends AbstractConfig {
                         } else {
                             String world = section.getString(key + ".world");
                             boolean include = section.getBoolean(key + ".include-world");
-                            double addition = section.getDouble(key + ".addition");
+                            float addition = (float) section.getDouble(key + ".addition");
                             int duration = section.getInt(key + ".duration");
 
                             AbstractBlock block = new SpeedAdditionBlock.Builder(material)

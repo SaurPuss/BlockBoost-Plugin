@@ -9,9 +9,9 @@ public class SpeedMultiplierBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private double defaultSpeed;
-        private double speedMultiplier;
-        private double speedCap;
+        private float defaultSpeed;
+        private float speedMultiplier;
+        private float speedCap;
         private int duration;
         private int cooldown;
 
@@ -31,16 +31,16 @@ public class SpeedMultiplierBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withDefaultSpeed(double defaultSpeed) {
+        public Builder withDefaultSpeed(float defaultSpeed) {
             if (defaultSpeed < 0 || defaultSpeed > 1)
-                defaultSpeed = 0.2;
+                defaultSpeed = 0.2f;
 
             this.defaultSpeed = defaultSpeed;
 
             return this;
         }
 
-        public Builder withSpeedMultiplier(double speedMultiplier) {
+        public Builder withSpeedMultiplier(float speedMultiplier) {
             speedMultiplier = Math.abs(speedMultiplier);
 
             this.speedMultiplier = speedMultiplier;
@@ -48,10 +48,10 @@ public class SpeedMultiplierBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withCap(double speedCap) {
+        public Builder withCap(float speedCap) {
             speedCap = Math.abs(speedCap);
             if (speedCap > 1.0)
-                speedCap = 1.0;
+                speedCap = 1.0f;
 
             this.speedCap = speedCap;
 
@@ -92,9 +92,9 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
-    private double defaultSpeed;
-    private double speedMultiplier;
-    private double speedCap;
+    private float defaultSpeed;
+    private float speedMultiplier;
+    private float speedCap;
     private int duration;
     private int cooldown;
 
@@ -139,34 +139,34 @@ public class SpeedMultiplierBlock extends AbstractBlock {
                 ", cooldown: " + cooldown + " (ticks))";
     }
 
-    public double getDefaultSpeed() {
+    public float getDefaultSpeed() {
         return defaultSpeed;
     }
 
-    public void setDefaultSpeed(double defaultSpeed) {
+    public void setDefaultSpeed(float defaultSpeed) {
         if (defaultSpeed < 0 || defaultSpeed > 1)
-            defaultSpeed = 0.2;
+            defaultSpeed = 0.2f;
         this.defaultSpeed = defaultSpeed;
     }
 
-    public double getSpeedMultiplier() {
+    public float getSpeedMultiplier() {
         return speedMultiplier;
     }
 
-    public void setSpeedMultiplier(double speedMultiplier) {
+    public void setSpeedMultiplier(float speedMultiplier) {
         speedMultiplier = Math.abs(speedMultiplier);
 
         this.speedMultiplier = speedMultiplier;
     }
 
-    public double getSpeedCap() {
+    public float getSpeedCap() {
         return speedCap;
     }
 
-    public void setSpeedCap(double speedCap) {
+    public void setSpeedCap(float speedCap) {
         speedCap = Math.abs(speedCap);
         if (speedCap > 1.0)
-            speedCap = 1.0;
+            speedCap = 1.0f;
 
         this.speedCap = speedCap;
     }
