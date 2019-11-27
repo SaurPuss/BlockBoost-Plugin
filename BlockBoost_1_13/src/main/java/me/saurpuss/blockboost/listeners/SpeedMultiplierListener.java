@@ -1,9 +1,9 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.SpeedMultiplierBlock;
-import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.AbstractListener;
+import me.saurpuss.blockboost.blocks.SpeedMultiplierBlock;
+import me.saurpuss.blockboost.util.AbstractBlock;
+import me.saurpuss.blockboost.util.AbstractListener;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

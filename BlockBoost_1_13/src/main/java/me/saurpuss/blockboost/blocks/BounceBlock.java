@@ -1,6 +1,6 @@
-package me.saurpuss.blockboost.util.blocks;
+package me.saurpuss.blockboost.blocks;
 
-import me.saurpuss.blockboost.util.util.AbstractBlock;
+import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
 
 public class BounceBlock extends AbstractBlock {

@@ -4,9 +4,9 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.listeners.BounceListener;
 import me.saurpuss.blockboost.listeners.SpeedAdditionListener;
 import me.saurpuss.blockboost.listeners.SpeedMultiplierListener;
-import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.AbstractListener;
-import me.saurpuss.blockboost.util.util.BB;
+import me.saurpuss.blockboost.util.AbstractBlock;
+import me.saurpuss.blockboost.util.AbstractListener;
+import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Material;
 
 import java.util.*;

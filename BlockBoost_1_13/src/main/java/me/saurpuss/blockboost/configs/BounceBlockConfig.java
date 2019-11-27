@@ -1,10 +1,10 @@
-package me.saurpuss.blockboost.util.configs;
+package me.saurpuss.blockboost.configs;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blocks.BounceBlock;
-import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.AbstractConfig;
-import me.saurpuss.blockboost.util.util.BB;
+import me.saurpuss.blockboost.blocks.BounceBlock;
+import me.saurpuss.blockboost.util.AbstractBlock;
+import me.saurpuss.blockboost.util.AbstractConfig;
+import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,11 +1,11 @@
 package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.configs.BounceBlockConfig;
-import me.saurpuss.blockboost.util.configs.SpeedBlockConfig;
-import me.saurpuss.blockboost.util.util.AbstractBlock;
-import me.saurpuss.blockboost.util.util.BB;
-import me.saurpuss.blockboost.util.util.AbstractConfig;
+import me.saurpuss.blockboost.configs.BounceBlockConfig;
+import me.saurpuss.blockboost.configs.SpeedBlockConfig;
+import me.saurpuss.blockboost.util.AbstractBlock;
+import me.saurpuss.blockboost.util.BB;
+import me.saurpuss.blockboost.util.AbstractConfig;
 import org.bukkit.Material;
 
 import java.util.HashMap;
