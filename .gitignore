@@ -23,7 +23,6 @@
 hs_err_pid*
 
 # intellij project files
-.idea/
 target/
 out/
 sout/

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1TpXk6p2yUeWLVEAt2YALqOzT1f" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.saurpuss.blockboost.listeners" />
+      <recent name="me.saurpuss.blockboost.util.blocks" />
+      <recent name="me.saurpuss.blockboost.util.configs" />
+      <recent name="me.saurpuss.blockboost.events" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
+      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="BlockBoost_1_13 build" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="package" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$/BlockBoost_1_13" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="" />
+      <created>1574158150847</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574158150847</updated>
+    </task>
+    <task id="LOCAL-00001" summary="set up main class and plugin.yml">
+      <created>1574186040206</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574186040206</updated>
+    </task>
+    <task id="LOCAL-00002" summary="design configuration options">
+      <created>1574186062955</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574186062955</updated>
+    </task>
+    <task id="LOCAL-00003" summary="init block manager and listener for reading config">
+      <created>1574186124453</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1574186124453</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add basic command and basic event listener manager">
+      <created>1574186159087</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1574186159087</updated>
+    </task>
+    <task id="LOCAL-00005" summary="set up basic manager structure">
+      <created>1574239955339</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1574239955340</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added velocity and landmine block mapping and functionality">
+      <created>1574249991765</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1574249991765</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added more potential blockboost types">
+      <created>1574251656864</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1574251656864</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fixed passing around of block maps">
+      <created>1574329850492</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1574329850492</updated>
+    </task>
+    <task id="LOCAL-00009" summary="split velocity into speed and bounce">
+      <created>1574342736559</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1574342736559</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fixed speed listener">
+      <created>1574343809588</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1574343809588</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added speed cooldown for event fire">
+      <created>1574345064947</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1574345064947</updated>
+    </task>
+    <task id="LOCAL-00012" summary="confirmed block in multiple listeners">
+      <created>1574346042271</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1574346042271</updated>
+    </task>
+    <task id="LOCAL-00013" summary="allow bounce velocity normalization (cap height)">
+      <created>1574346639810</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1574346639810</updated>
+    </task>
+    <task id="LOCAL-00014" summary="starting implementation of builder pattern instead">
+      <created>1574677458098</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1574677458098</updated>
+    </task>
+    <task id="LOCAL-00015" summary="implemented adjusted listener for testing">
+      <created>1574774572673</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1574774572673</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fixed bounceblocks.yml creation and reading">
+      <created>1574843113209</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1574843113209</updated>
+    </task>
+    <task id="LOCAL-00017" summary="more inheritance for polymorphism with the listeners and configs">
+      <created>1574845274576</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1574845274577</updated>
+    </task>
+    <task id="LOCAL-00018" summary="create speed multiplier block &amp; builder">
+      <created>1574849269394</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1574849269394</updated>
+    </task>
+    <task id="LOCAL-00019" summary="added speed addition blocks and fixed speed config">
+      <created>1574852354914</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1574852354914</updated>
+    </task>
+    <task id="LOCAL-00020" summary="updated active listener tracking and ability to unregister for plugin reloads">
+      <created>1574859527243</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1574859527244</updated>
+    </task>
+    <task id="LOCAL-00021" summary="project restructure">
+      <created>1574859654631</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1574859654631</updated>
+    </task>
+    <task id="LOCAL-00022" summary="create speed addition blcoks and update listeners">
+      <created>1574863786028</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1574863786028</updated>
+    </task>
+    <task id="LOCAL-00023" summary="update plugin baseline settings">
+      <created>1574865001945</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1574865001945</updated>
+    </task>
+    <task id="LOCAL-00024" summary="got anal about spacing in the header">
+      <created>1574865921807</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1574865921807</updated>
+    </task>
+    <task id="LOCAL-00025" summary="forgot to trigger setup on the speedblock config">
+      <created>1574865953148</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1574865953148</updated>
+    </task>
+    <task id="LOCAL-00026" summary="start landmines">
+      <created>1574888083239</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1574888083239</updated>
+    </task>
+    <task id="LOCAL-00027" summary="adding project structure for synching">
+      <created>1574888917141</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1574888917141</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init block manager and listener for reading config" />
+    <MESSAGE value="add basic command and basic event listener manager" />
+    <MESSAGE value="set up basic manager structure" />
+    <MESSAGE value="added velocity and landmine block mapping and functionality" />
+    <MESSAGE value="added more potential blockboost types" />
+    <MESSAGE value="fixed passing around of block maps" />
+    <MESSAGE value="split velocity into speed and bounce" />
+    <MESSAGE value="fixed speed listener" />
+    <MESSAGE value="added speed cooldown for event fire" />
+    <MESSAGE value="confirmed block in multiple listeners" />
+    <MESSAGE value="allow bounce velocity normalization (cap height)" />
+    <MESSAGE value="starting implementation of builder pattern instead" />
+    <MESSAGE value="implemented adjusted listener for testing" />
+    <MESSAGE value="fixed bounceblocks.yml creation and reading" />
+    <MESSAGE value="more inheritance for polymorphism with the listeners and configs" />
+    <MESSAGE value="create speed multiplier block &amp; builder" />
+    <MESSAGE value="added speed addition blocks and fixed speed config" />
+    <MESSAGE value="updated active listener tracking and ability to unregister for plugin reloads" />
+    <MESSAGE value="project restructure" />
+    <MESSAGE value="create speed addition blcoks and update listeners" />
+    <MESSAGE value="update plugin baseline settings" />
+    <MESSAGE value="got anal about spacing in the header" />
+    <MESSAGE value="forgot to trigger setup on the speedblock config" />
+    <MESSAGE value="start landmines" />
+    <MESSAGE value="adding project structure for synching" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding project structure for synching" />
+  </component>
+</project>
