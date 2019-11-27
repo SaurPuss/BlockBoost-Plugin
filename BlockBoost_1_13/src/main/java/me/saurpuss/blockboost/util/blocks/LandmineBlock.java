@@ -1,4 +1,4 @@
-package me.saurpuss.blockboost.util.blockbuilders;
+package me.saurpuss.blockboost.util.blocks;
 
 import org.bukkit.Material;
 

@@ -1,7 +1,7 @@
-package me.saurpuss.blockboost.blocklisteners;
+package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blockbuilders.LandmineBlock;
+import me.saurpuss.blockboost.util.blocks.LandmineBlock;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;

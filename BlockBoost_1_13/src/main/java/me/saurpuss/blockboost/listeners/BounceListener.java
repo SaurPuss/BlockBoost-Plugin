@@ -1,8 +1,9 @@
-package me.saurpuss.blockboost.blocklisteners;
+package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.blockbuilders.BounceBlock;
+import me.saurpuss.blockboost.util.blocks.BounceBlock;
 import me.saurpuss.blockboost.util.util.AbstractBlock;
+import me.saurpuss.blockboost.util.util.AbstractListener;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -17,7 +18,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class BounceListener implements Listener {
+public class BounceListener extends AbstractListener implements Listener {
 
     private final HashMap<Material, AbstractBlock> BLOCKS;
 
@@ -32,7 +33,7 @@ public class BounceListener implements Listener {
     }
 
     @EventHandler
-    public void activateBounceBlock(PlayerMoveEvent event) {
+    public void activateBlock(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         World world = player.getWorld();
@@ -67,6 +68,7 @@ public class BounceListener implements Listener {
         player.setVelocity(direction);
     }
 
+    @Override
     public void unregister() {
         HandlerList.unregisterAll(this);
     }

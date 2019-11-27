@@ -15,16 +15,16 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class BounceBlockConfig extends CustomConfig {
+public class SpeedBlockConfig extends CustomConfig {
 
     private BlockBoost bb;
 
-    private File file; // bounceBlocks.yml location
+    private File file; // speedBlocks.yml location
     private FileConfiguration customFile;
 
     private HashMap<Material, AbstractBlock> blockMap;
 
-    public BounceBlockConfig(BlockBoost plugin) {
+    public SpeedBlockConfig(BlockBoost plugin) {
         bb = plugin;
     }
 
@@ -33,30 +33,30 @@ public class BounceBlockConfig extends CustomConfig {
         if (!bb.getDataFolder().exists())
             bb.getDataFolder().mkdirs();
 
-        file = new File(bb.getDataFolder(), "bounceBlocks.yml");
+        file = new File(bb.getDataFolder(), "speedBlocks.yml");
 
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                bb.getLogger().log(Level.SEVERE, "Could not create bounceBlocks.yml!");
+                bb.getLogger().log(Level.SEVERE, "Could not create speedBlocks.yml!");
                 blockMap = null;
             }
         }
 
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "bounceBlocks.yml exists in plugin directory!");
+        bb.getLogger().log(Level.INFO, "speedBlocks.yml exists in plugin directory!");
 
         save();
 
         if (file.length() == 0 || customFile.getConfigurationSection("blocks") == null) {
-            bb.saveResource("bounceBlocks.yml", true);
-            bb.getLogger().log(Level.WARNING, "Invalid bounceblocks.yml, copying default " +
+            bb.saveResource("speedBlocks.yml", true);
+            bb.getLogger().log(Level.WARNING, "Invalid speedBlocks.yml, copying default " +
                     "configuration!");
         }
 
         if (hasValidKeys()) {
-            bb.getLogger().log(Level.INFO, "Reading valid BounceBlocks!");
+            bb.getLogger().log(Level.INFO, "Reading valid SpeedBlocks!");
             blockMap = populateBlockMap();
         } else
             blockMap = null;
@@ -65,10 +65,10 @@ public class BounceBlockConfig extends CustomConfig {
     @Override
     public void reload() {
         if (customFile == null) {
-            file = new File(bb.getDataFolder(), "bounceBlock.yml");
+            file = new File(bb.getDataFolder(), "speedBlocks.yml");
         }
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "bounceBlock.yml has been reloaded!");
+        bb.getLogger().log(Level.INFO, "speedBlocks.yml has been reloaded!");
     }
 
     @Override
@@ -82,29 +82,31 @@ public class BounceBlockConfig extends CustomConfig {
         try {
             customFile.save(file);
         } catch (IOException e) {
-            bb.getLogger().log(Level.SEVERE, "Could not save bounceBlock.yml!");
+            bb.getLogger().log(Level.SEVERE, "Could not save speedBlocks.yml!");
         }
     }
 
 
     @Override
     protected boolean hasValidKeys() {
+
+        // TODO refactor for both types of speed blocks
         ConfigurationSection section = customFile.getConfigurationSection("blocks");
         if (section == null) {
-            bb.getLogger().log(Level.WARNING, "No valid path found in bounceBlock.yml! " +
-                    "Ignoring BounceBlocks!");
+            bb.getLogger().log(Level.WARNING, "No valid path found in speedBlocks.yml! " +
+                    "Ignoring SpeedBlocks!");
             return false;
         }
 
         Set<String> keys = section.getKeys(false);
         if (!customFile.isConfigurationSection("blocks") || keys.isEmpty()) {
-            bb.getLogger().log(Level.WARNING, "No blocks found in bounceBlocks.yml! " +
-                    "Ignoring BounceBlocks!");
+            bb.getLogger().log(Level.WARNING, "No blocks found in speedBlocks.yml! " +
+                    "Ignoring SpeedBlocks!");
             return false;
         }
 
         if (keys.contains("EXAMPLE_BLOCK")) {
-            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in bounceBlocks.yml!");
+            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in speedBlocks.yml!");
         }
 
         return true;
@@ -121,7 +123,7 @@ public class BounceBlockConfig extends CustomConfig {
                 Material material = Material.getMaterial(key.toUpperCase());
                 if (material == null || !material.isBlock()) {
                     bb.getLogger().log(Level.WARNING,
-                            "Material " + key + " bounceBlocs.yml is invalid! " +
+                            "Material " + key + " speedBlocks.yml is invalid! " +
                                     "Ignoring " + key + "!");
                 } else {
                     String world = section.getString(key + ".world");
@@ -133,14 +135,14 @@ public class BounceBlockConfig extends CustomConfig {
                             .withWorld(world).withIncludeWorld(include)
                             .withHeight(height).withNormalize(normalize).build();
 
-                    bb.getLogger().log(Level.INFO, "BounceBlock added: " + block.toString());
+                    bb.getLogger().log(Level.INFO, "SpeedBlock added: " + block.toString());
                     validMats.put(material, block);
                 }
 //            }
         });
 
         if (validMats.size() == 0) {
-            bb.getLogger().log(Level.WARNING, "No valid entries in bounce configuration " +
+            bb.getLogger().log(Level.WARNING, "No valid entries in speed configuration " +
                     "section found!");
             return null;
         }

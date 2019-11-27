@@ -16,20 +16,21 @@ public class BlockBoostCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+
+
+        // bb list bounce
+
+
+
+        // bb reload
         if (args.length != 1 && !args[0].equalsIgnoreCase("reload"))
             return false;
 
-        // TODO logging
 
+        // reload managers
+        bb.reloadManagers();
 
-        // remove active event listener
-        bb.getBbManager().unloadListeners();
-
-        // reload config
-        bb.loadConfigManager();
-
-        // assign new bbManager
-        bb.loadBBManager();
 
         return true;
     }
