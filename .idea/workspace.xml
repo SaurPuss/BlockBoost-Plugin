@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/BlockBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/BlockBoost.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/BlockManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/scrap/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/scrap/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/ConfigManager.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,9 +46,8 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
-      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="me.saurpuss.blockboost.configs" />
@@ -63,8 +56,10 @@
       <recent name="me.saurpuss.blockboost.util.configs" />
       <recent name="me.saurpuss.blockboost.events" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Documents\GIT\spigot\BlockBoost\BlockBoost_1_13\scrap" />
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
+      <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -314,7 +309,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574893946061</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="reworking the configs into a single class">
+      <created>1574947949452</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1574947949452</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -331,7 +333,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add basic command and basic event listener manager" />
     <MESSAGE value="set up basic manager structure" />
     <MESSAGE value="added velocity and landmine block mapping and functionality" />
     <MESSAGE value="added more potential blockboost types" />
@@ -356,6 +357,7 @@
     <MESSAGE value="start landmines" />
     <MESSAGE value="adding project structure for synching" />
     <MESSAGE value="adding constants" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding constants" />
+    <MESSAGE value="reworking the configs into a single class" />
+    <option name="LAST_COMMIT_MESSAGE" value="reworking the configs into a single class" />
   </component>
 </project>
