@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/scrap/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/scrap/ConfigManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/ConfigManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BounceBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BounceBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/SpeedAdditionBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/SpeedAdditionBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/SpeedMultiplierBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/SpeedMultiplierBlock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/AbstractConfig.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -316,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574947949452</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="reworking the configs into a single class">
+      <created>1574948126633</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1574948126633</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

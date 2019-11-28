@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class SpeedMultiplierBlock extends AbstractBlock {
 
@@ -130,15 +131,6 @@ public class SpeedMultiplierBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    @Override
-    public String toString() {
-        return "SpeedMultiplierBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
-                ", default: " + defaultSpeed + ", multiplier: " + speedMultiplier +
-                ", cap: " + speedCap + ", duration: " + duration + " (seconds)" +
-                ", cooldown: " + cooldown + " (ticks))";
-    }
-
     public float getDefaultSpeed() {
         return defaultSpeed;
     }
@@ -189,5 +181,14 @@ public class SpeedMultiplierBlock extends AbstractBlock {
         cooldown = Math.abs(cooldown);
 
         this.cooldown = cooldown;
+    }
+
+    @Override
+    public String toString() {
+        return "SpeedMultiplierBlock: " + material.toString() +
+                " (world: " + world + ", include: " + includeWorld +
+                ", default: " + defaultSpeed + ", multiplier: " + speedMultiplier +
+                ", cap: " + speedCap + ", duration: " + duration + " (seconds)" +
+                ", cooldown: " + cooldown + " (ticks))";
     }
 }

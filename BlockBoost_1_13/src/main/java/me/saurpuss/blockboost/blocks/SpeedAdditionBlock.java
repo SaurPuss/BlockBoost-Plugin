@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class SpeedAdditionBlock extends AbstractBlock {
 
@@ -92,13 +93,6 @@ public class SpeedAdditionBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    @Override
-    public String toString() {
-        return "SpeedAdditionBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
-                ", addition: " + addition + ", duration: " + duration + " (seconds))";
-    }
-
     public float getAddition() {
         return addition;
     }
@@ -115,5 +109,12 @@ public class SpeedAdditionBlock extends AbstractBlock {
         duration = Math.abs(duration);
 
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return "SpeedAdditionBlock: " + material.toString() +
+                " (world: " + world + ", include: " + includeWorld +
+                ", addition: " + addition + ", duration: " + duration + " (seconds))";
     }
 }

@@ -1,20 +1,15 @@
 package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.BounceBlock;
+import me.saurpuss.blockboost.blocks.*;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 import java.util.logging.Level;
 
 class CustomBlockSetup {
@@ -23,8 +18,8 @@ class CustomBlockSetup {
 
     private YamlConfiguration bounceConfig, speedConfig, landmineConfig;
 
-    private static HashMap<Material, AbstractBlock> bounceBlockMap, buriedMineBlockMap, speedAdditionBlockMap,
-            speedMultiplierBlockMap;
+    private static HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
+            speedMultiplierBlockMap, buriedMineBlockMap;
 
     CustomBlockSetup(BlockBoost plugin) {
         bb = plugin;
@@ -141,6 +136,20 @@ class CustomBlockSetup {
         }
     }
 
+    HashMap<Material, AbstractBlock> getBlockMap(BB type) {
+        switch (type) {
+            case BOUNCE:
+                return bounceBlockMap;
+            case SPEED_ADDITION:
+                return speedAdditionBlockMap;
+            case SPEED_MULTIPLIER:
+                return speedMultiplierBlockMap;
+            case BURIED_MINE:
+                return buriedMineBlockMap;
+            default:
+                return null;
+        }
+    }
 
     private boolean hasValidKeys(BB type) {
         if (type.section() == null) {
@@ -162,30 +171,14 @@ class CustomBlockSetup {
             return false;
         }
 
-        if (keys.contains("EXAMPLE_BLOCK")) {
-            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in " + type.file() + "!");
-        }
-
         return true;
     }
 
-    HashMap<Material, AbstractBlock> getBlockMap(BB type) {
-        switch (type) {
-            case BOUNCE:
-                return bounceBlockMap;
-            case SPEED_ADDITION:
-                return speedAdditionBlockMap;
-            case SPEED_MULTIPLIER:
-                return speedMultiplierBlockMap;
-            case BURIED_MINE:
-                return buriedMineBlockMap;
-            default:
-                return null;
-        }
-    }
-
     private void populateBlockMap(BB type) {
+        assert getConfig(type) != null;
         ConfigurationSection section = getConfig(type).getConfigurationSection(type.section());
+        if (section == null) return;
+
         Set<String> keys = section.getKeys(false);
         HashMap<Material, AbstractBlock> validMats = new HashMap<>();
 
@@ -195,47 +188,57 @@ class CustomBlockSetup {
                 bb.getLogger().log(Level.WARNING, "Material " + key + " in " + type.file() +
                         " is invalid! Ignoring " + key + "!");
             } else {
+                AbstractBlock block = null;
+                String world = section.getString(key + ".world");
+                boolean include = section.getBoolean(key + ".include-world");
+                int duration = section.getInt(key + ".duration");;
                 switch (type) {
                     case BOUNCE:
-                        String world = section.getString(key + ".world");
-                        boolean include = section.getBoolean(key + ".include-world");
                         int height = section.getInt(key + ".height");
                         boolean normalize = section.getBoolean(key + ".normalize");
 
-                        AbstractBlock block = new BounceBlock.Builder(material)
-                                .withWorld(world).withIncludeWorld(include)
-                                .withHeight(height).withNormalize(normalize).build();
-
-                        bb.getLogger().log(Level.INFO, "BounceBlock added: " + block.toString());
-                        validMats.put(material, block);
-                        break;
+                        block = new BounceBlock.Builder(material).withWorld(world).withIncludeWorld(include)
+                                .withHeight(height).withNormalize(normalize).build(); break;
                     case SPEED_ADDITION:
+                        float addition = (float) section.getDouble(key + ".addition");
+                        block = new SpeedAdditionBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withAddition(addition).withDuration(duration)
+                                .build(); break;
+                    case SPEED_MULTIPLIER:
+                        float defaultSpeed = (float) section.getDouble(key + ".default");
+                        float speedMultiplier = (float) section.getDouble(key + ".multiplier");
+                        float speedCap = (float) section.getDouble(key + ".cap");
+                        int cooldown = section.getInt(key + ".cooldown");
 
+                        block = new SpeedMultiplierBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withDefaultSpeed(defaultSpeed)
+                                .withSpeedMultiplier(speedMultiplier).withCap(speedCap)
+                                .withDuration(duration).withCooldown(cooldown).build(); break;
+                    case BURIED_MINE:
+                        int depth = section.getInt(key + ".depth");
+                        boolean explosion = section.getBoolean(key + ".explosion");
 
+                        block = new BuriedMineBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withDepth(depth).withCombustion(explosion)
+                                .build(); break;
+                }
 
-
-
-                    default:
-                        return;
+                if (block != null) {
+                    validMats.put(material, block);
+                    bb.getLogger().log(Level.INFO, "Block added: " + block.toString());
                 }
             }
         });
 
-        if (validMats.size() == 0) {
+        if (validMats.isEmpty()) {
             bb.getLogger().log(Level.WARNING, "No valid entries in " + type.section() + " found!");
-            return;
-        }
-
-        switch (type) {
-            case BOUNCE:
-                bounceBlockMap = validMats;
-                break;
-            case SPEED_ADDITION:
-                speedAdditionBlockMap = validMats;
-                break;
-            case SPEED_MULTIPLIER:
-                speedMultiplierBlockMap = validMats;
-                break;
+        } else {
+            switch (type) {
+                case BOUNCE: bounceBlockMap = validMats; break;
+                case SPEED_ADDITION: speedAdditionBlockMap = validMats; break;
+                case SPEED_MULTIPLIER: speedMultiplierBlockMap = validMats; break;
+                case BURIED_MINE: buriedMineBlockMap = validMats; break;
+            }
         }
     }
 }

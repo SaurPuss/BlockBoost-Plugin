@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 
 public class BounceBlock extends AbstractBlock {
 
@@ -90,13 +91,6 @@ public class BounceBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    @Override
-    public String toString() {
-        return "BounceBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
-                ", height: " + height + ", normalize: " + normalize + ")";
-    }
-
     public int getHeight() {
         return height;
     }
@@ -111,5 +105,12 @@ public class BounceBlock extends AbstractBlock {
 
     public void setNormalize(boolean normalize) {
         this.normalize = normalize;
+    }
+
+    @Override
+    public String toString() {
+        return "BounceBlock: " + material.toString() +
+                " (world: " + world + ", include: " + includeWorld +
+                ", height: " + height + ", normalize: " + normalize + ")";
     }
 }
