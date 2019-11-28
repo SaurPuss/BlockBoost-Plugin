@@ -18,8 +18,8 @@ class CustomBlockSetup {
 
     private YamlConfiguration bounceConfig, speedConfig, landmineConfig;
 
-    private static HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
-            speedMultiplierBlockMap, buriedMineBlockMap;
+    private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap, speedMultiplierBlockMap,
+            buriedMineBlockMap;
 
     CustomBlockSetup(BlockBoost plugin) {
         bb = plugin;
@@ -43,7 +43,7 @@ class CustomBlockSetup {
             }
         }
 
-        loadCustomConfig(type);
+//        loadCustomConfig(type);
         saveCustomConfig(type);
 
         if (type.section() == null)
