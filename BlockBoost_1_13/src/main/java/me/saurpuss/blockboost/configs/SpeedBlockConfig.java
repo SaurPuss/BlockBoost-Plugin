@@ -64,6 +64,7 @@ public class SpeedBlockConfig extends AbstractConfig {
                     "configuration!");
         }
 
+        // populate block maps
         if (hasValidKeys(BB.SPEED_MULTIPLIER)) {
             bb.getLogger().log(Level.INFO, "Reading valid MultiplierSpeedBlocks!");
             multiplierBlockMap = populateBlockMap(BB.SPEED_MULTIPLIER);
@@ -80,10 +81,10 @@ public class SpeedBlockConfig extends AbstractConfig {
     @Override
     public void loadCustomConfig() {
         if (customFile == null) {
-            file = new File(bb.getDataFolder(), "speedBlocks.yml");
+            file = new File(bb.getDataFolder(), FILE_NAME);
         }
         customFile = YamlConfiguration.loadConfiguration(file);
-        bb.getLogger().log(Level.INFO, "speedBlocks.yml has been reloaded!");
+        bb.getLogger().log(Level.INFO, FILE_NAME + " has been reloaded!");
     }
 
     @Override
@@ -97,7 +98,7 @@ public class SpeedBlockConfig extends AbstractConfig {
         try {
             customFile.save(file);
         } catch (IOException e) {
-            bb.getLogger().log(Level.SEVERE, "Could not save speedBlocks.yml!");
+            bb.getLogger().log(Level.SEVERE, "Could not save " + FILE_NAME + "!");
         }
     }
 
@@ -108,34 +109,33 @@ public class SpeedBlockConfig extends AbstractConfig {
 
         switch (type) {
             case SPEED_MULTIPLIER:
-                section = customFile.getConfigurationSection("multiplier");
+                section = customFile.getConfigurationSection(SECTION_MULTIPLIER);
                 break;
             case SPEED_ADDITION:
-                section = customFile.getConfigurationSection("addition");
+                section = customFile.getConfigurationSection(SECTION_ADDITION);
                 break;
             default:
                 bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys " +
-                        "in speedBlock.yml!");
+                        "in " + FILE_NAME + "!");
                 return false;
         }
 
         if (section == null) {
             bb.getLogger().log(Level.WARNING,
-                    "No valid " + (type == BB.SPEED_MULTIPLIER ? "multiplier" : "addition") +
-                            " path found in speedBlocks.yml! Ignoring SpeedBlocks!");
+                    "No valid " + (type == BB.SPEED_MULTIPLIER ? SECTION_MULTIPLIER : SECTION_ADDITION) +
+                            " path found in " + FILE_NAME + "! Ignoring SpeedBlocks!");
             return false;
         }
 
         Set<String> keys = section.getKeys(false);
-        if (keys.isEmpty() || (!customFile.isConfigurationSection("multiplier") &&
-                !customFile.isConfigurationSection("addition"))) {
-            bb.getLogger().log(Level.WARNING, "No blocks found in speedBlocks.yml! " +
-                    "Ignoring SpeedBlocks!");
+        if (keys.isEmpty() || (!customFile.isConfigurationSection(SECTION_MULTIPLIER) &&
+                !customFile.isConfigurationSection(SECTION_ADDITION))) {
+            bb.getLogger().log(Level.WARNING, "No blocks found in " + FILE_NAME + "! Ignoring SpeedBlocks!");
             return false;
         }
 
         if (keys.contains("EXAMPLE_BLOCK")) {
-            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in speedBlocks.yml!");
+            bb.getLogger().log(Level.INFO, "EXAMPLE_BLOCK found in " + FILE_NAME + "!");
         }
 
         return true;
@@ -146,14 +146,14 @@ public class SpeedBlockConfig extends AbstractConfig {
         final ConfigurationSection section;
         switch (type) {
             case SPEED_MULTIPLIER:
-                section = customFile.getConfigurationSection("multiplier");
+                section = customFile.getConfigurationSection(SECTION_MULTIPLIER);
                 break;
             case SPEED_ADDITION:
-                section = customFile.getConfigurationSection("addition");
+                section = customFile.getConfigurationSection(SECTION_ADDITION);
                 break;
             default:
                 bb.getLogger().log(Level.SEVERE, "Illegal attempt to populate block map with" +
-                        " invalid keys in speedBlock.yml!");
+                        " invalid keys in " + FILE_NAME + "!");
                 return null;
         }
 
@@ -168,7 +168,8 @@ public class SpeedBlockConfig extends AbstractConfig {
                         Material material = Material.getMaterial(key.toUpperCase());
                         if (material == null || !material.isBlock()) {
                             bb.getLogger().log(Level.WARNING,
-                                    "Material " + key + " in multiplier speedBlocks.yml is " +
+                                    "Material " + key + " in " + SECTION_MULTIPLIER + " " + FILE_NAME + " " +
+                                            "is " +
                                             "invalid! Ignoring " + key + "!");
                         } else {
                             String world = section.getString(key + ".world");

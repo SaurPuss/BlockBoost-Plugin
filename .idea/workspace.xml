@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_13_2_R0_1_SNAPSHOT.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_spigotmc_spigot_api_1_13_2_R0_1_SNAPSHOT.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/BlockBoost.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/BlockBoost.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/blocks/BuriedMineBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/BounceBlockConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/LandmineBlockConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/configs/SpeedBlockConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/BlockManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/ConfigManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/AbstractConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/AbstractConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/util/BB.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -305,7 +307,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574888917141</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="adding constants">
+      <created>1574893946061</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1574893946061</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,7 +331,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init block manager and listener for reading config" />
     <MESSAGE value="add basic command and basic event listener manager" />
     <MESSAGE value="set up basic manager structure" />
     <MESSAGE value="added velocity and landmine block mapping and functionality" />
@@ -347,6 +355,7 @@
     <MESSAGE value="forgot to trigger setup on the speedblock config" />
     <MESSAGE value="start landmines" />
     <MESSAGE value="adding project structure for synching" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding project structure for synching" />
+    <MESSAGE value="adding constants" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding constants" />
   </component>
 </project>

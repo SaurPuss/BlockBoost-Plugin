@@ -20,7 +20,7 @@ public class LandmineBlockConfig extends AbstractConfig {
     private BlockBoost bb;
 
     private File file; // speedBlocks.yml location
-    private FileConfiguration customFile;
+    private FileConfiguration config;
     private final String FILE_NAME = "landmineBlocks.yml", SECTION_BURIED = "buried", SECTION_TRIP = "trip";
 
     private HashMap<Material, AbstractBlock> buriedMineBlockMap;
@@ -36,22 +36,21 @@ public class LandmineBlockConfig extends AbstractConfig {
             bb.getDataFolder().mkdirs();
 
         file = new File(bb.getDataFolder(), FILE_NAME);
-
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                bb.getLogger().log(Level.SEVERE, "Could not create " + FILE_NAME);
+                bb.getLogger().log(Level.SEVERE, "Could not create " + FILE_NAME + "!");
                 buriedMineBlockMap = null;
                 tripMineBlockMap = null;
             }
         }
 
-        customFile = YamlConfiguration.loadConfiguration(file);
+        config = YamlConfiguration.loadConfiguration(file);
         saveCustomConfig();
 
-        if (file.length() == 0 || customFile.getConfigurationSection("buried") == null ||
-                customFile.getConfigurationSection("trip") == null) {
+        if (file.length() == 0 || config.getConfigurationSection(SECTION_BURIED) == null ||
+                config.getConfigurationSection(SECTION_TRIP) == null) {
             bb.getLogger().log(Level.WARNING, "Invalid " + FILE_NAME + ", replacing with default " +
                     "configuration!");
             bb.saveResource(FILE_NAME, true);
@@ -76,13 +75,13 @@ public class LandmineBlockConfig extends AbstractConfig {
         if (file == null)
             file = new File(bb.getDataFolder(), FILE_NAME);
 
-        customFile = YamlConfiguration.loadConfiguration(file);
+        config = YamlConfiguration.loadConfiguration(file);
 
         // Check defaults in the jar
         Reader stream = new InputStreamReader(bb.getResource(FILE_NAME));
         if (stream != null) {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(stream);
-            customFile.setDefaults(config);
+            this.config.setDefaults(config);
             bb.getLogger().log(Level.INFO, "Copied defaults to " + FILE_NAME + "!");
         }
 
@@ -91,20 +90,20 @@ public class LandmineBlockConfig extends AbstractConfig {
 
     @Override
     public FileConfiguration getCustomConfig() {
-        if (customFile == null)
+        if (config == null)
             loadCustomConfig();
 
-        return customFile;
+        return config;
     }
 
 
     @Override
     public void saveCustomConfig() {
-        if (file == null || customFile == null)
+        if (file == null || config == null)
             return;
 
         try {
-            customFile.save(file);
+            config.save(file);
         } catch (IOException e) {
             bb.getLogger().log(Level.SEVERE, "Could not save " + FILE_NAME + "!");
         }
@@ -117,10 +116,10 @@ public class LandmineBlockConfig extends AbstractConfig {
 
         switch (type) {
             case BURIED_MINE:
-                section = customFile.getConfigurationSection(SECTION_BURIED);
+                section = config.getConfigurationSection(SECTION_BURIED);
                 break;
             case TRIP_MINE:
-                section = customFile.getConfigurationSection(SECTION_TRIP);
+                section = config.getConfigurationSection(SECTION_TRIP);
                 break;
             default:
                 bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid keys in " + FILE_NAME);
@@ -135,8 +134,8 @@ public class LandmineBlockConfig extends AbstractConfig {
         }
 
         Set<String> keys = section.getKeys(false);
-        if (keys.isEmpty() || (!customFile.isConfigurationSection(SECTION_BURIED) &&
-                !customFile.isConfigurationSection(SECTION_TRIP))) {
+        if (keys.isEmpty() || (!config.isConfigurationSection(SECTION_BURIED) &&
+                !config.isConfigurationSection(SECTION_TRIP))) {
             bb.getLogger().log(Level.WARNING, "No blocks found in " + FILE_NAME + "! Ignoring " +
                     "LandmineBlocks!");
             return false;
@@ -154,10 +153,10 @@ public class LandmineBlockConfig extends AbstractConfig {
         final ConfigurationSection section;
         switch (type) {
             case BURIED_MINE:
-                section = customFile.getConfigurationSection(SECTION_BURIED);
+                section = config.getConfigurationSection(SECTION_BURIED);
                 break;
             case TRIP_MINE:
-                section = customFile.getConfigurationSection(SECTION_TRIP);
+                section = config.getConfigurationSection(SECTION_TRIP);
                 break;
             default:
                 bb.getLogger().log(Level.SEVERE, "Illegal attempt to populate block map with invalid " +
@@ -186,7 +185,7 @@ public class LandmineBlockConfig extends AbstractConfig {
 
                             AbstractBlock block = new BuriedMineBlock.Builder(material)
                                     .withWorld(world).withIncludeWorld(include).withDepth(depth)
-                                    .withExplosion(explosion).build();
+                                    .withCombustion(explosion).build();
 
                             bb.getLogger().log(Level.INFO, "BuriedMineBlock added: " + block.toString());
                             validMats.put(material, block);

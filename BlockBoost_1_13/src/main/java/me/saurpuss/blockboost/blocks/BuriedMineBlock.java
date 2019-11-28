@@ -10,7 +10,7 @@ public class BuriedMineBlock extends AbstractBlock {
         private String world;
         private boolean includeWorld;
         private int depth;
-        private boolean explosion;
+        private boolean combust;
 
         public Builder(Material material) {
             this.material = material;
@@ -35,8 +35,8 @@ public class BuriedMineBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withExplosion(boolean explosion) {
-            this.explosion = explosion;
+        public Builder withCombustion(boolean combust) {
+            this.combust = combust;
 
             return this;
         }
@@ -47,7 +47,7 @@ public class BuriedMineBlock extends AbstractBlock {
             block.world = this.world;
             block.includeWorld = this.includeWorld;
             block.depth = this.depth;
-            block.explosion = this.explosion;
+            block.combust = this.combust;
 
             return block;
         }
@@ -57,7 +57,7 @@ public class BuriedMineBlock extends AbstractBlock {
     private String world;
     private boolean includeWorld;
     private int depth;
-    private boolean explosion;
+    private boolean combust;
 
     private BuriedMineBlock() {}
 
@@ -95,7 +95,7 @@ public class BuriedMineBlock extends AbstractBlock {
     public String toString() {
         return "BuriedMineBlock: " + material.toString() +
                 " (world: " + world + ", include: " + includeWorld +
-                ", depth: " + depth + ", explosion: " + explosion + ")";
+                ", depth: " + depth + ", explosion: " + combust + ")";
     }
 
     public int getDepth() {
@@ -108,11 +108,11 @@ public class BuriedMineBlock extends AbstractBlock {
         this.depth = depth;
     }
 
-    public boolean isExplosion() {
-        return explosion;
+    public boolean isCombust() {
+        return combust;
     }
 
-    public void setExplosion(boolean explosion) {
-        this.explosion = explosion;
+    public void setCombust(boolean combust) {
+        this.combust = combust;
     }
 }

@@ -51,8 +51,6 @@ public class ConfigManager {
             landmineConfig.setup();
     }
 
-
-
     HashMap<Material, AbstractBlock> getBlocks(BB type) {
         switch (type) {
             case BOUNCE:
@@ -67,8 +65,4 @@ public class ConfigManager {
                 return null;
         }
     }
-
-
-
-
 }

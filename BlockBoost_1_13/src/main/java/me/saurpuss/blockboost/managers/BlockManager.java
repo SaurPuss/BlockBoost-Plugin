@@ -15,18 +15,19 @@ import java.util.logging.Level;
 public class BlockManager {
 
     private BlockBoost bb;
+    private final CustomBlockSetup blockSetup;
 
+    private HashSet<BB> temp = new HashSet<>();
     private final HashSet<AbstractListener> activeListeners;
-    public HashSet<UUID> playerCooldown = new HashSet<>();
 
-    // TODO is this more efficient than reflection?
-    private transient HashSet<BB> temp = new HashSet<>();
+    public volatile HashSet<UUID> playerCooldown = new HashSet<>();
 
     private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener,
             landmineListener;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
+        blockSetup = new CustomBlockSetup(plugin);
 
         // Register all listeners that have valid blocks
         bounceListener = getListener(BB.BOUNCE);
@@ -72,7 +73,7 @@ public class BlockManager {
     }
 
     private AbstractListener getListener(BB type) {
-        HashMap<Material, AbstractBlock> blocks = bb.getConfigManager().getBlocks(type);
+        HashMap<Material, AbstractBlock> blocks = blockSetup.getBlockMap(type);
         if (blocks == null)
             return null;
 
