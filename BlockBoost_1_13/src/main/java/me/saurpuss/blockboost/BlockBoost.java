@@ -1,7 +1,6 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
-import me.saurpuss.blockboost.commands.GetSpeed;
 import me.saurpuss.blockboost.managers.BlockManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,7 +15,6 @@ public final class BlockBoost extends JavaPlugin {
 
         // Register reload command
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
-        getCommand("speed").setExecutor(new GetSpeed());
     }
 
     @Override
