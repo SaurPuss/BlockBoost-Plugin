@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="6b557d71-2313-40ed-a75c-40f5755f5f47" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/listeners/BounceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/listeners/BounceListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/BlockBoost_1_13/src/main/java/me/saurpuss/blockboost/managers/CustomBlockSetup.java" afterDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -38,24 +41,25 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="me.saurpuss.blockboost.configs" />
       <recent name="me.saurpuss.blockboost.listeners" />
       <recent name="me.saurpuss.blockboost.util.blocks" />
       <recent name="me.saurpuss.blockboost.util.configs" />
       <recent name="me.saurpuss.blockboost.events" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+<<<<<<< Updated upstream
       <recent name="D:\Documents\GIT\spigot\BlockBoost\BlockBoost_1_13\scrap" />
+=======
+>>>>>>> Stashed changes
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources" />
       <recent name="$PROJECT_DIR$/BlockBoost_1_13/src/main/resources/BlockBoost" />
     </key>
@@ -300,6 +304,7 @@
       <option name="project" value="LOCAL" />
       <updated>1574888917141</updated>
     </task>
+<<<<<<< Updated upstream
     <task id="LOCAL-00028" summary="adding constants">
       <created>1574893946061</created>
       <option name="number" value="00028" />
@@ -329,6 +334,16 @@
       <updated>1574951920257</updated>
     </task>
     <option name="localTasksCounter" value="32" />
+=======
+    <task id="LOCAL-00028" summary="adding project structure for synching">
+      <created>1574889265278</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1574889265278</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

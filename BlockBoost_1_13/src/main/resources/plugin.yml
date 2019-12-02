@@ -17,6 +17,8 @@ commands:
     aliases: [bb]
     permission: bb.admin
     permission-message: "§cYou do not have permission!"
+  speed:
+    description: current speed
 
 permissions:
   bb.admin:

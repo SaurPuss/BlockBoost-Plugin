@@ -57,20 +57,15 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
                             !material.getWorld().equalsIgnoreCase(world)) {
                         triggerSpeed(player, material);
                     }
-
-
-
-
-
                 }
             });
         }
     }
 
     private void triggerSpeed(Player player, SpeedAdditionBlock material) {
-        float playerSpeed = player.getFlySpeed();
+        float playerSpeed = player.getWalkSpeed();
 
-        float result = player.getWalkSpeed() + material.getAddition();
+        float result = playerSpeed + material.getAddition();
         if (result > 1.0)
             result = 1.0f;
 

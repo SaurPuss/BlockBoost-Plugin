@@ -1,79 +1,79 @@
-#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                             -------- Speed Block Setup --------
-#
+# -
 # Speed Blocks are blocks that will either multiply a player's current speed with a set duration
 # before resetting it back to the default. Or they can add speed on top of the player's current
 # speed after which it will be set back to the speed a player had before getting boosted.
-#
+# -
 # Minecraft default walk speed is 0.2, a player's speed can range from 0.0 to 1.0, any attempts
 # to go past 1.0 will automatically cap out at 1.0.
-#
+# -
 # While a player is on cooldown from any of the Speed Blocks, they can't trigger blocks of a
 # different Material. (In the case of Speed Addition Blocks the cooldown matches the full duration!)
-#
+# -
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
 # leave include-world on true. If you want to disable this in all just toggle the include to false.
 # Adding a specific world name will give you the option to either enable the effect only in that
 # world or excluding it there specifically.
-#
+# -
 # Add a block to your list by using the Bukkit Material name. A block can only appear in a block
 # list once! However, you can still combine effects by setting up the same block in multiple Block
 # Yaml Configs with their specific effects. Non-Block Materials will be ignored.
-#
+# -
 # Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-#
+# -
 #                             -------- Speed Multiplier Blocks --------
-#
+# -
 # The multiplier blocks have a preset default walk speed, which is manipulated by the multiplier
 # for the speed boost. Multipliers set lower than 1 will decrease the speed, and higher will
 # increase speed. So if default is 0.2 * 1.5 that will result in a 0.3 walk speed for the duration
 # listed.
-#
+# -
 # The cap will make sure the maximum speed never exceeds your set number, even if the boost is
 # triggered multiple times before being reset. The duration is set in seconds, after which the
 # default walk speed will be reapplied to the player.
-#
+# -
 # To prevent triggering the multiplier too fast, a cooldown is set up. The cooldown is in ticks
 # (20 ticks per second). If set to zero the block will activate 3 times while a player is passing
 # over a single block! If you don't want to have consecutive multipliers triggered by one or more
 # blocks simply set the cooldown as the duration * 20.
-#
+# -
 #                             -------- Speed Addition Blocks --------
-#
+# -
 # Speed additions are added on top of the player's current walk speed. While this effect is active
 # the are automatically player on cooldown preventing them from gaining boosts from other Speed
 # Blocks. After the duration has passed their walk speed will be set back to the speed they had
 # when they received the boost.
-#
+# -
 # Duration is counted in seconds.
-#
+# -
 #                                   -------- Warning --------
-#
+# -
 # The blocks defined in this configuration affect the player's walk speed! This means it can
 # interfere with walk speed manipulated by other plugins! If this is happening on your server you
 # can also choose to utilize the Potion Blocks instead. Add a speed potion effect instead!
-#
+# -
 #                               -------- Example Config --------
-#
-#multiplier:
-#  EMERALD_BLOCK:
-#    world: global
-#    include-world: true
-#    default: 0.2
-#    multiplier: 1.5
-#    cap: 1.0
-#    duration: 5
-#    cooldown: 10
-#
-#addition:
-#  EMERALD_ORE:
-#    world: global
-#    include-world: true
-#    duration: 5
-#    addition: 0.2
-#
-#=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-#
+# -
+# multiplier:
+#   EMERALD_BLOCK:
+#     world: global
+#     include-world: true
+#     default: 0.2
+#     multiplier: 1.5
+#     cap: 1.0
+#     duration: 5
+#     cooldown: 10
+# -
+# addition:
+#   EMERALD_ORE:
+#     world: global
+#     include-world: true
+#     duration: 5
+#     addition: 0.2
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 
 multiplier:
   EXAMPLE_BLOCK:

@@ -4,6 +4,7 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.*;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,8 +19,8 @@ class CustomBlockSetup {
 
     private YamlConfiguration bounceConfig, speedConfig, landmineConfig;
 
-    private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap, speedMultiplierBlockMap,
-            buriedMineBlockMap;
+    private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
+            speedMultiplierBlockMap, buriedMineBlockMap;
 
     CustomBlockSetup(BlockBoost plugin) {
         bb = plugin;
@@ -27,8 +28,9 @@ class CustomBlockSetup {
         if (!bb.getDataFolder().exists())
             bb.getDataFolder().mkdirs();
 
-        // Set up available BB's
-        Arrays.asList(BB.values()).forEach(this::setup);
+        for (BB type : BB.values()) {
+            setup(type);
+        }
     }
 
 
@@ -38,19 +40,21 @@ class CustomBlockSetup {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+                bb.saveResource(type.file(), true);
             } catch (IOException e) {
                 bb.getLogger().log(Level.SEVERE, "Could not create " + type.file() + "!");
             }
         }
 
-//        loadCustomConfig(type);
-        saveCustomConfig(type);
+        loadCustomConfig(type);
 
-        if (type.section() == null)
+        if (type.section() == null) {
             return;
+        }
 
-        if (hasValidKeys(type))
+        if (hasValidKeys(type)) {
             populateBlockMap(type);
+        }
     }
 
 
@@ -61,20 +65,36 @@ class CustomBlockSetup {
         // Check defaults in the jar
         Reader stream = new InputStreamReader(bb.getResource(type.file()));
         if (stream != null) {
+            // TODO this doesn't actually copy defaults except for maybe the header
             YamlConfiguration customConfig = YamlConfiguration.loadConfiguration(stream);
             config.setDefaults(customConfig);
-            bb.getLogger().log(Level.INFO, "Copied defaults to " + type.file() + "!");
+            bb.getLogger().log(Level.INFO, "Read defaults to " + type.file() + "!");
         }
 
         switch (type) {
             case BOUNCE:
                 bounceConfig = config;
+                try {
+                    bounceConfig.save(file);
+                } catch (IOException e) {
+                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+                }
                 break;
             case SPEED:
                 speedConfig = config;
+                try {
+                    speedConfig.save(file);
+                } catch (IOException e) {
+                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+                }
                 break;
-            case LANDMINE:
-                landmineConfig = config;
+//            case LANDMINE:
+//                landmineConfig = config;
+//                try {
+//                    landmineConfig.save(file);
+//                } catch (IOException e) {
+//                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+//                }
             default:
                 return;
         }
@@ -105,17 +125,17 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
-            case LANDMINE:
-            case BURIED_MINE:
-            case TRIP_MINE:
-                if (landmineConfig == null) return;
-                try {
-                    landmineConfig.save(file);
-                } catch (IOException e) {
-                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
-                }
-                break;
-            case POTION:
+//            case LANDMINE:
+//            case BURIED_MINE:
+//            case TRIP_MINE:
+//                if (landmineConfig == null) return;
+//                try {
+//                    landmineConfig.save(file);
+//                } catch (IOException e) {
+//                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+//                }
+//                break;
+//            case POTION:
         }
     }
 
@@ -123,10 +143,10 @@ class CustomBlockSetup {
         switch (type) {
             case BOUNCE:
                 return bounceConfig;
-            case LANDMINE:
-            case BURIED_MINE:
-            case TRIP_MINE:
-                return landmineConfig;
+//            case LANDMINE:
+//            case BURIED_MINE:
+//            case TRIP_MINE:
+//                return landmineConfig;
             case SPEED:
             case SPEED_ADDITION:
             case SPEED_MULTIPLIER:
@@ -144,8 +164,8 @@ class CustomBlockSetup {
                 return speedAdditionBlockMap;
             case SPEED_MULTIPLIER:
                 return speedMultiplierBlockMap;
-            case BURIED_MINE:
-                return buriedMineBlockMap;
+//            case BURIED_MINE:
+//                return buriedMineBlockMap;
             default:
                 return null;
         }
@@ -158,16 +178,24 @@ class CustomBlockSetup {
             return false;
         }
 
-        ConfigurationSection section = getConfig(type).getConfigurationSection(type.section());
-        if (section == null) {
+
+        YamlConfiguration config = getConfig(type);
+
+        if (!config.isSet(type.section())) {
             bb.getLogger().log(Level.WARNING, "No valid " + type.section() + " path found in " +
-                    type.file() + "!");
+                    type.file() + "! Replacing file with default file!");
+            bb.saveResource(type.file(), true);
+        }
+
+        if (!config.isConfigurationSection(type.section())) {
+            bb.getLogger().log(Level.WARNING, type.section() + " not found in " + type.file() +
+                    "!");
             return false;
         }
 
-        Set<String> keys = section.getKeys(false);
-        if (!getConfig(type).isConfigurationSection(type.section()) || keys.isEmpty()) {
-            bb.getLogger().log(Level.WARNING, "No blocks found in " + type.file() + "!");
+        Set<String> keys = config.getKeys(false);
+        if (keys.size() == 0) {
+            bb.getLogger().log(Level.INFO, "No blocks found in " + type.section() + "!");
             return false;
         }
 
@@ -186,10 +214,10 @@ class CustomBlockSetup {
             Material material = Material.getMaterial(key.toUpperCase());
             if (material == null || !material.isBlock()) {
                 bb.getLogger().log(Level.WARNING, "Material " + key + " in " + type.file() +
-                        " is invalid! Ignoring " + key + "!");
+                        ":" + type.section() + " is invalid! Ignoring " + key + "!");
             } else {
                 AbstractBlock block = null;
-                String world = section.getString(key + ".world");
+                String world = section.getString( key + ".world");
                 boolean include = section.getBoolean(key + ".include-world");
                 int duration = section.getInt(key + ".duration");;
                 switch (type) {
@@ -214,18 +242,18 @@ class CustomBlockSetup {
                                 .withIncludeWorld(include).withDefaultSpeed(defaultSpeed)
                                 .withSpeedMultiplier(speedMultiplier).withCap(speedCap)
                                 .withDuration(duration).withCooldown(cooldown).build(); break;
-                    case BURIED_MINE:
-                        int depth = section.getInt(key + ".depth");
-                        boolean explosion = section.getBoolean(key + ".explosion");
-
-                        block = new BuriedMineBlock.Builder(material).withWorld(world)
-                                .withIncludeWorld(include).withDepth(depth).withCombustion(explosion)
-                                .build(); break;
+//                    case BURIED_MINE:
+//                        int depth = section.getInt(key + ".depth");
+//                        boolean explosion = section.getBoolean(key + ".explosion");
+//
+//                        block = new BuriedMineBlock.Builder(material).withWorld(world)
+//                                .withIncludeWorld(include).withDepth(depth).withCombustion(explosion)
+//                                .build(); break;
                 }
 
                 if (block != null) {
                     validMats.put(material, block);
-                    bb.getLogger().log(Level.INFO, "Block added: " + block.toString());
+                    bb.getLogger().log(Level.INFO, "Block added - " + block.toString());
                 }
             }
         });
@@ -237,7 +265,7 @@ class CustomBlockSetup {
                 case BOUNCE: bounceBlockMap = validMats; break;
                 case SPEED_ADDITION: speedAdditionBlockMap = validMats; break;
                 case SPEED_MULTIPLIER: speedMultiplierBlockMap = validMats; break;
-                case BURIED_MINE: buriedMineBlockMap = validMats; break;
+//                case BURIED_MINE: buriedMineBlockMap = validMats; break;
             }
         }
     }

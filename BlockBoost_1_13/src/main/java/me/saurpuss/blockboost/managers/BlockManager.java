@@ -22,8 +22,7 @@ public class BlockManager {
 
     public volatile HashSet<UUID> playerCooldown = new HashSet<>();
 
-    private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener,
-            landmineListener;
+    private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
@@ -33,7 +32,7 @@ public class BlockManager {
         bounceListener = getListener(BB.BOUNCE);
         speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
         speedAdditionListener = getListener(BB.SPEED_ADDITION);
-        landmineListener = getListener(BB.LANDMINE);
+//        landmineListener = getListener(BB.LANDMINE);
 
         // Make sure this happens last!
         activeListeners = listActiveListeners();
@@ -52,9 +51,9 @@ public class BlockManager {
                 case SPEED_ADDITION:
                     listeners.add(speedAdditionListener);
                     break;
-                case LANDMINE:
-                    listeners.add(landmineListener);
-                    break;
+//                case LANDMINE:
+//                    listeners.add(landmineListener);
+//                    break;
 
                 default: // skip
                     this.bb.getLogger().log(Level.WARNING, "Illegal BB found in temp active " +
