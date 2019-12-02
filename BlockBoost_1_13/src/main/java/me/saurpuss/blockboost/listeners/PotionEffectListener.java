@@ -59,9 +59,10 @@ public class PotionEffectListener extends AbstractListener implements Listener {
         });
     }
 
-    private void triggerPotionEffect(Player player, PotionEffectBlock bounceBlock) {
+    private void triggerPotionEffect(Player player, PotionEffectBlock potionEffectBlock) {
 
         // TODO make this a thing
+//        player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 1));
 
 
     }
