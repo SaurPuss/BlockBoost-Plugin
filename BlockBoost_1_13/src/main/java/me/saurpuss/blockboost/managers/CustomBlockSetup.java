@@ -8,6 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.potion.PotionEffectType;
 
 import java.io.*;
 import java.util.*;
@@ -17,10 +18,10 @@ class CustomBlockSetup {
 
     private BlockBoost bb;
 
-    private YamlConfiguration bounceConfig, speedConfig, landmineConfig;
+    private YamlConfiguration bounceConfig, speedConfig, potionConfig;
 
     private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
-            speedMultiplierBlockMap, buriedMineBlockMap;
+            speedMultiplierBlockMap, potionEffectBlockMap;
 
     CustomBlockSetup(BlockBoost plugin) {
         bb = plugin;
@@ -88,6 +89,14 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
+            case POTION:
+                potionConfig = config;
+                try {
+                    potionConfig.save(file);
+                } catch (IOException e) {
+                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+                }
+                break;
 //            case LANDMINE:
 //                landmineConfig = config;
 //                try {
@@ -125,17 +134,14 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
-//            case LANDMINE:
-//            case BURIED_MINE:
-//            case TRIP_MINE:
-//                if (landmineConfig == null) return;
-//                try {
-//                    landmineConfig.save(file);
-//                } catch (IOException e) {
-//                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
-//                }
-//                break;
-//            case POTION:
+            case POTION:
+                if (potionConfig == null) return;
+                try {
+                    potionConfig.save(file);
+                } catch (IOException e) {
+                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
+                }
+                break;
         }
     }
 
@@ -143,14 +149,12 @@ class CustomBlockSetup {
         switch (type) {
             case BOUNCE:
                 return bounceConfig;
-//            case LANDMINE:
-//            case BURIED_MINE:
-//            case TRIP_MINE:
-//                return landmineConfig;
             case SPEED:
             case SPEED_ADDITION:
             case SPEED_MULTIPLIER:
                 return speedConfig;
+            case POTION:
+                return potionConfig;
             default:
                 return null;
         }
@@ -164,8 +168,8 @@ class CustomBlockSetup {
                 return speedAdditionBlockMap;
             case SPEED_MULTIPLIER:
                 return speedMultiplierBlockMap;
-//            case BURIED_MINE:
-//                return buriedMineBlockMap;
+            case POTION:
+                return potionEffectBlockMap;
             default:
                 return null;
         }
@@ -173,8 +177,8 @@ class CustomBlockSetup {
 
     private boolean hasValidKeys(BB type) {
         if (type.section() == null) {
-            bb.getLogger().log(Level.SEVERE, "Illegal attempt to check for valid boost blocks in " +
-                    "custom configs!");
+            bb.getLogger().log(Level.SEVERE,
+                    "Illegal attempt to check for valid " + type + " blocks in custom configs!");
             return false;
         }
 
@@ -188,8 +192,8 @@ class CustomBlockSetup {
         }
 
         if (!config.isConfigurationSection(type.section())) {
-            bb.getLogger().log(Level.WARNING, type.section() + " not found in " + type.file() +
-                    "!");
+            bb.getLogger().log(Level.WARNING, type.section() + " not found in " +
+                    type.file() + "!");
             return false;
         }
 
@@ -225,13 +229,16 @@ class CustomBlockSetup {
                         int height = section.getInt(key + ".height");
                         boolean normalize = section.getBoolean(key + ".normalize");
 
-                        block = new BounceBlock.Builder(material).withWorld(world).withIncludeWorld(include)
-                                .withHeight(height).withNormalize(normalize).build(); break;
+                        block = new BounceBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withHeight(height)
+                                .withNormalize(normalize).build();
+                        break;
                     case SPEED_ADDITION:
                         float addition = (float) section.getDouble(key + ".addition");
                         block = new SpeedAdditionBlock.Builder(material).withWorld(world)
-                                .withIncludeWorld(include).withAddition(addition).withDuration(duration)
-                                .build(); break;
+                                .withIncludeWorld(include).withAddition(addition)
+                                .withDuration(duration).build();
+                        break;
                     case SPEED_MULTIPLIER:
                         float defaultSpeed = (float) section.getDouble(key + ".default");
                         float speedMultiplier = (float) section.getDouble(key + ".multiplier");
@@ -241,14 +248,20 @@ class CustomBlockSetup {
                         block = new SpeedMultiplierBlock.Builder(material).withWorld(world)
                                 .withIncludeWorld(include).withDefaultSpeed(defaultSpeed)
                                 .withSpeedMultiplier(speedMultiplier).withCap(speedCap)
-                                .withDuration(duration).withCooldown(cooldown).build(); break;
-//                    case BURIED_MINE:
-//                        int depth = section.getInt(key + ".depth");
-//                        boolean explosion = section.getBoolean(key + ".explosion");
-//
-//                        block = new BuriedMineBlock.Builder(material).withWorld(world)
-//                                .withIncludeWorld(include).withDepth(depth).withCombustion(explosion)
-//                                .build(); break;
+                                .withDuration(duration).withCooldown(cooldown).build();
+                        break;
+                    case POTION:
+                        String effect = section.getString(key + ".effect");
+                        int amplifier = section.getInt(key + ".amplifier");
+                        if (effect != null) {
+                            PotionEffectType effectType = PotionEffectType.getByName(effect);
+                            if (effectType != null) {
+                                block = new PotionEffectBlock.Builder(material).withWorld(world)
+                                        .withIncludeWorld(include).withEffectType(effectType)
+                                        .withDuration(duration).withAmplifier(amplifier).build();
+                            }
+                        }
+                        break;
                 }
 
                 if (block != null) {
@@ -265,7 +278,7 @@ class CustomBlockSetup {
                 case BOUNCE: bounceBlockMap = validMats; break;
                 case SPEED_ADDITION: speedAdditionBlockMap = validMats; break;
                 case SPEED_MULTIPLIER: speedMultiplierBlockMap = validMats; break;
-//                case BURIED_MINE: buriedMineBlockMap = validMats; break;
+                case POTION: potionEffectBlockMap = validMats; break;
             }
         }
     }

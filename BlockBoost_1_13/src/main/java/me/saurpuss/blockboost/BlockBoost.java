@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BlockBoost extends JavaPlugin {
 
+    // TODO make it check the block the player is inside of for pressure plates etc!
     private BlockManager blockManager;
 
     @Override

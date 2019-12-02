@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.managers;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.listeners.BounceListener;
+import me.saurpuss.blockboost.listeners.PotionEffectListener;
 import me.saurpuss.blockboost.listeners.SpeedAdditionListener;
 import me.saurpuss.blockboost.listeners.SpeedMultiplierListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
@@ -22,7 +23,8 @@ public class BlockManager {
 
     public volatile HashSet<UUID> playerCooldown = new HashSet<>();
 
-    private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener;
+    private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener,
+            potionEffectListener;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
@@ -32,7 +34,7 @@ public class BlockManager {
         bounceListener = getListener(BB.BOUNCE);
         speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
         speedAdditionListener = getListener(BB.SPEED_ADDITION);
-//        landmineListener = getListener(BB.LANDMINE);
+        potionEffectListener = getListener(BB.POTION);
 
         // Make sure this happens last!
         activeListeners = listActiveListeners();
@@ -51,10 +53,9 @@ public class BlockManager {
                 case SPEED_ADDITION:
                     listeners.add(speedAdditionListener);
                     break;
-//                case LANDMINE:
-//                    listeners.add(landmineListener);
-//                    break;
-
+                case POTION:
+                    listeners.add(potionEffectListener);
+                    break;
                 default: // skip
                     this.bb.getLogger().log(Level.WARNING, "Illegal BB found in temp active " +
                             "listener tracker! Skipping " + bb.name());
@@ -85,6 +86,8 @@ public class BlockManager {
                 return new SpeedMultiplierListener(bb, blocks);
             case SPEED_ADDITION:
                 return new SpeedAdditionListener(bb, blocks);
+            case POTION:
+                return new PotionEffectListener(bb, blocks);
             default:
                 return null;
         }

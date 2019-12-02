@@ -1,0 +1,137 @@
+package me.saurpuss.blockboost.blocks;
+
+import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.Material;
+import org.bukkit.potion.PotionEffectType;
+
+public class PotionEffectBlock extends AbstractBlock {
+
+    public static class Builder {
+        private Material material;
+        private String world;
+        private boolean includeWorld;
+        private PotionEffectType effectType;
+        private int duration;
+        private int amplifier;
+
+        public Builder(Material material) {
+            this.material = material;
+        }
+
+        public Builder withWorld(String world) {
+            this.world = world;
+
+            return this;
+        }
+
+        public Builder withIncludeWorld(boolean includeWorld) {
+            this.includeWorld = includeWorld;
+
+            return this;
+        }
+
+        public Builder withEffectType(PotionEffectType effectType) {
+            this.effectType = effectType;
+
+            return this;
+        }
+
+        public Builder withDuration(int duration) {
+            this.duration = duration;
+
+            return this;
+        }
+
+        public Builder withAmplifier(int amplifier) {
+            this.amplifier = amplifier;
+
+            return this;
+        }
+
+        public PotionEffectBlock build() {
+            PotionEffectBlock block = new PotionEffectBlock();
+            block.material = this.material;
+            block.world = this.world;
+            block.includeWorld = this.includeWorld;
+            block.effectType = this.effectType;
+            block.duration = this.duration;
+            block.amplifier = this.amplifier;
+
+            return block;
+        }
+    }
+
+    private Material material;
+    private String world;
+    private boolean includeWorld;
+    private PotionEffectType effectType;
+    private int duration;
+    private int amplifier;
+
+    private PotionEffectBlock() {}
+
+    @Override
+    public Material getMaterial() {
+        return material;
+    }
+
+    @Override
+    protected void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    @Override
+    public String getWorld() {
+        return world;
+    }
+
+    @Override
+    public void setWorld(String world) {
+        this.world = world;
+    }
+
+    @Override
+    public boolean isIncludeWorld() {
+        return includeWorld;
+    }
+
+    @Override
+    public void setIncludeWorld(boolean includeWorld) {
+        this.includeWorld = includeWorld;
+    }
+
+    public PotionEffectType getEffectType() {
+        return effectType;
+    }
+
+    public void setEffectType(PotionEffectType effectType) {
+        this.effectType = effectType;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        duration = Math.abs(duration);
+
+        this.duration = duration;
+    }
+
+    public int getAmplifier() {
+        return amplifier;
+    }
+
+    public void setAmplifier(int amplifier) {
+        amplifier = Math.abs(amplifier);
+
+        this.amplifier = amplifier;
+    }
+
+    @Override
+    public String toString() {
+        return "PotionEffectBlock: " + material.toString() + " (world: " + world +
+                ", include: " + includeWorld + ", effect: " + effectType +
+                ", duration: " + duration + ", amplifier: " + amplifier + ")";
+    }
+}

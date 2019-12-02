@@ -24,13 +24,10 @@ public class BlockBoostCommand implements CommandExecutor {
 
 
         // bb reload
-        if (args.length != 1 && !args[0].equalsIgnoreCase("reload"))
-            return false;
-
-
-        // reload managers
-        bb.reloadManagers();
-
+        if (sender.hasPermission("bb.reload") && args[0].equalsIgnoreCase("reload")) {
+                bb.reloadManagers();
+                return true;
+        }
 
         return true;
     }

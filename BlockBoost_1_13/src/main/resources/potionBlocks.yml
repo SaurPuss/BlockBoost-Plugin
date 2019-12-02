@@ -1,0 +1,15 @@
+
+
+
+
+
+
+
+
+effect:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    effect: POTION_EFFECT_TYPE
+    duration: 1
+    amplifier: 1

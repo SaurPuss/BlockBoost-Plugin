@@ -22,6 +22,12 @@ permissions:
   bb.admin:
     description: Permission to use the /bb command
     default: op
+  bb.reload:
+    description: Permission to reload the BlockBoost plugin
+    default: op
+
+
+
   # TODO MAKE THIS A THING
   bb.deny:
     description: Boost Blocks will not trigger
