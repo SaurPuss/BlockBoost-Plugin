@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -50,15 +51,8 @@ public class PotionEffectListener extends AbstractListener implements Listener {
                 (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
             return;
 
-        triggerPotionEffect(player, material);
-    }
-
-    private void triggerPotionEffect(Player player, PotionEffectBlock potionEffectBlock) {
-
-        // TODO make this a thing
-//        player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 1));
-
-
+        player.addPotionEffect(new PotionEffect(material.getEffectType(), material.getDuration(),
+                material.getAmplifier()));
     }
 
     @Override
