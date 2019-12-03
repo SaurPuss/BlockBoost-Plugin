@@ -34,24 +34,22 @@ public class BounceListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
-        Block block = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN);
+        Block block = event.getPlayer().getLocation().getBlock();
+        if (block.getType() == Material.AIR)
+            block = block.getRelative(BlockFace.DOWN);
+
         if (!BLOCKS.containsKey(block.getType())) return;
 
         Player player = event.getPlayer();
         BounceBlock material = (BounceBlock) BLOCKS.get(block.getType());
 
-        // material has an inclusion and it's global or this world
-        if (material.isIncludeWorld() &&
-                (material.getWorld().equalsIgnoreCase("global") ||
-                        material.getWorld().equalsIgnoreCase(player.getWorld().getName()))) {
-            triggerVelocity(player, material);
-        }
-        // material has an exclusion that is not global and is not this world
-        else if (!material.isIncludeWorld() &&
-                !material.getWorld().equalsIgnoreCase("global") &&
-                !material.getWorld().equalsIgnoreCase(player.getWorld().getName())) {
-            triggerVelocity(player, material);
-        }
+        // return if world is global, and the include is false OR
+        // if the include is true and the world name doesn't match with the player location
+        if ((material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) ||
+                (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
+            return;
+
+        triggerVelocity(player, material);
     }
 
 

@@ -33,23 +33,24 @@ public class PotionEffectListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
-        Block block = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN);
+        // Get the block the player is standing on
+        Block block = event.getPlayer().getLocation().getBlock();
+        if (block.getType() == Material.AIR)
+            block = block.getRelative(BlockFace.DOWN); // Check in case of a block with < 1.0 height
+
+        // Check for block match
         if (!BLOCKS.containsKey(block.getType())) return;
 
         Player player = event.getPlayer();
         PotionEffectBlock material = (PotionEffectBlock) BLOCKS.get(block.getType());
 
-        if (material.isIncludeWorld() &&
-                (material.getWorld().equalsIgnoreCase("global") ||
-                        material.getWorld().equalsIgnoreCase(player.getWorld().getName()))) {
-            triggerPotionEffect(player, material);
-        }
-        // material has an exclusion that is not global and is not this world
-        else if (!material.isIncludeWorld() &&
-                !material.getWorld().equalsIgnoreCase("global") &&
-                !material.getWorld().equalsIgnoreCase(player.getWorld().getName())) {
-            triggerPotionEffect(player, material);
-        }
+        // return if world is global, and the include is false OR
+        // if the include is true and the world name doesn't match with the player location
+        if ((material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) ||
+                (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
+            return;
+
+        triggerPotionEffect(player, material);
     }
 
     private void triggerPotionEffect(Player player, PotionEffectBlock potionEffectBlock) {
