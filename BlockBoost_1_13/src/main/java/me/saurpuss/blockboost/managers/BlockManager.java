@@ -92,4 +92,13 @@ public class BlockManager {
                 return null;
         }
     }
+
+    public List<String> getBlockMap(BB type) {
+        ArrayList<String> list = new ArrayList();
+        for (AbstractBlock block : blockSetup.getBlockMap(type).values()) {
+            list.add("- " + block.toString());
+        }
+
+        return list;
+    }
 }

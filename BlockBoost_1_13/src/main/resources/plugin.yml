@@ -15,16 +15,18 @@ commands:
       /<command> list [blocktype] - List active Boost Blocks of blocktype
       /<command> reload - reload BlockBoost config
     aliases: [bb]
-    permission: bb.admin
-    permission-message: "§cYou do not have permission!"
+    permission: bb.use
+    permission-message: '§eUnknown Command!'
 
 permissions:
   bb.admin:
     description: Permission to use the /bb command
     default: op
-  bb.reload:
-    description: Permission to reload the BlockBoost plugin
-    default: op
+    children:
+      bb.reload: false
+  bb.use:
+    description: Permission to know the /bb command exists
+    default: false
 
 
 
