@@ -1,7 +1,6 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.BounceBlock;
 import me.saurpuss.blockboost.blocks.PotionEffectBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
@@ -13,8 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Optional;

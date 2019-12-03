@@ -16,6 +16,11 @@
 # list once! However, you can still combine effects by setting up the same block in multiple Block
 # Yaml Configs with their specific effects. Non-Block Materials will be ignored.
 # -
+# If you don't want to display each valid block creation in the console at plugin start-up and
+# reload set the console-message to false.
+# -
+# Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# -
 #                               -------- Example Config --------
 # -
 # bounce:
@@ -31,6 +36,7 @@
 #     normalize: true
 # -
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+console-message: true
 
 bounce:
   EXAMPLE_BLOCK:

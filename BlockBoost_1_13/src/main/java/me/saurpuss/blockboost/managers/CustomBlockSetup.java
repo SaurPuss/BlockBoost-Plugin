@@ -220,12 +220,14 @@ class CustomBlockSetup {
                 bb.getLogger().log(Level.WARNING, "Material " + key + " in " + type.file() +
                         ":" + type.section() + " is invalid! Ignoring " + key + "!");
             } else {
+                boolean consoleMessage = false;
                 AbstractBlock block = null;
                 String world = section.getString( key + ".world");
                 boolean include = section.getBoolean(key + ".include-world");
-                int duration = section.getInt(key + ".duration");;
+                int duration = section.getInt(key + ".duration");
                 switch (type) {
                     case BOUNCE:
+                        consoleMessage = bounceConfig.getBoolean("console-message");
                         int height = section.getInt(key + ".height");
                         boolean normalize = section.getBoolean(key + ".normalize");
 
@@ -234,12 +236,14 @@ class CustomBlockSetup {
                                 .withNormalize(normalize).build();
                         break;
                     case SPEED_ADDITION:
+                        consoleMessage = speedConfig.getBoolean("console-message");
                         float addition = (float) section.getDouble(key + ".addition");
                         block = new SpeedAdditionBlock.Builder(material).withWorld(world)
                                 .withIncludeWorld(include).withAddition(addition)
                                 .withDuration(duration).build();
                         break;
                     case SPEED_MULTIPLIER:
+                        consoleMessage = speedConfig.getBoolean("console-message");
                         float defaultSpeed = (float) section.getDouble(key + ".default");
                         float speedMultiplier = (float) section.getDouble(key + ".multiplier");
                         float speedCap = (float) section.getDouble(key + ".cap");
@@ -251,6 +255,7 @@ class CustomBlockSetup {
                                 .withDuration(duration).withCooldown(cooldown).build();
                         break;
                     case POTION:
+                        consoleMessage = potionConfig.getBoolean("console-message");
                         String effect = section.getString(key + ".effect");
                         int amplifier = section.getInt(key + ".amplifier");
                         if (effect != null) {
@@ -266,7 +271,8 @@ class CustomBlockSetup {
 
                 if (block != null) {
                     validMats.put(material, block);
-                    bb.getLogger().log(Level.INFO, "Block added - " + block.toString());
+                    if (consoleMessage)
+                        bb.getLogger().log(Level.INFO, "Block added - " + block.toString());
                 }
             }
         });
