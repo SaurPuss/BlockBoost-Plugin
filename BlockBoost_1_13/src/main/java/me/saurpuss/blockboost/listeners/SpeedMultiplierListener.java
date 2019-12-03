@@ -35,27 +35,22 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
 
     @EventHandler
     public void activateBounceBlock(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        String world = player.getWorld().getName();
+        Block block = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN);
+        if (!BLOCKS.containsKey(block.getType())) return;
 
-        if (!bb.getBlockManager().playerCooldown.contains(player.getUniqueId())) {
-            BLOCKS.forEach((key, mat) -> {
-                if (key == block.getType()) {
-                    SpeedMultiplierBlock material = (SpeedMultiplierBlock) mat;
-                    if (material.isIncludeWorld() &&
-                            (material.getWorld().equalsIgnoreCase("global") ||
-                                    material.getWorld().equalsIgnoreCase(world))) {
-                        triggerSpeed(player, material);
-                    }
-                    // material has an exclusion that is not global and is not this world
-                    else if (!material.isIncludeWorld() &&
-                            !material.getWorld().equalsIgnoreCase("global") &&
-                            !material.getWorld().equalsIgnoreCase(world)) {
-                        triggerSpeed(player, material);
-                    }
-                }
-            });
+        Player player = event.getPlayer();
+        SpeedMultiplierBlock material = (SpeedMultiplierBlock) BLOCKS.get(block.getType());
+
+        if (material.isIncludeWorld() &&
+                (material.getWorld().equalsIgnoreCase("global") ||
+                        material.getWorld().equalsIgnoreCase(player.getWorld().getName()))) {
+            triggerSpeed(player, material);
+        }
+        // material has an exclusion that is not global and is not this world
+        else if (!material.isIncludeWorld() &&
+                !material.getWorld().equalsIgnoreCase("global") &&
+                !material.getWorld().equalsIgnoreCase(player.getWorld().getName())) {
+            triggerSpeed(player, material);
         }
     }
 

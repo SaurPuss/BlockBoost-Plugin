@@ -33,27 +33,23 @@ public class PotionEffectListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        String world = player.getWorld().getName();
+        Block block = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN);
+        if (!BLOCKS.containsKey(block.getType())) return;
 
-        BLOCKS.forEach((key, mat) -> {
-            if (key == block.getType()) {
-                PotionEffectBlock material = (PotionEffectBlock) mat;
-                // material has an inclusion and it's global or this world
-                if (material.isIncludeWorld() &&
-                        (material.getWorld().equalsIgnoreCase("global") ||
-                                material.getWorld().equalsIgnoreCase(world))) {
-                    triggerPotionEffect(player, material);
-                }
-                // material has an exclusion that is not global and is not this world
-                else if (!material.isIncludeWorld() &&
-                        !material.getWorld().equalsIgnoreCase("global") &&
-                        !material.getWorld().equalsIgnoreCase(world)) {
-                    triggerPotionEffect(player, material);
-                }
-            }
-        });
+        Player player = event.getPlayer();
+        PotionEffectBlock material = (PotionEffectBlock) BLOCKS.get(block.getType());
+
+        if (material.isIncludeWorld() &&
+                (material.getWorld().equalsIgnoreCase("global") ||
+                        material.getWorld().equalsIgnoreCase(player.getWorld().getName()))) {
+            triggerPotionEffect(player, material);
+        }
+        // material has an exclusion that is not global and is not this world
+        else if (!material.isIncludeWorld() &&
+                !material.getWorld().equalsIgnoreCase("global") &&
+                !material.getWorld().equalsIgnoreCase(player.getWorld().getName())) {
+            triggerPotionEffect(player, material);
+        }
     }
 
     private void triggerPotionEffect(Player player, PotionEffectBlock potionEffectBlock) {

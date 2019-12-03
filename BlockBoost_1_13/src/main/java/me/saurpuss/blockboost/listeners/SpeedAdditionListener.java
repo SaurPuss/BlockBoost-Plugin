@@ -2,7 +2,6 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedAdditionBlock;
-import me.saurpuss.blockboost.blocks.SpeedMultiplierBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
 import org.bukkit.Bukkit;
@@ -16,9 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.UUID;
 
 public class SpeedAdditionListener extends AbstractListener implements Listener {
 
@@ -37,28 +34,22 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
     @EventHandler
     public void activateBounceBlock(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        String world = player.getWorld().getName();
+        Block block = event.getPlayer().getLocation().getBlock().getRelative(BlockFace.DOWN);
+        if (!BLOCKS.containsKey(block.getType())) return;
 
-        // Event can only fire once a second
-        if (!bb.getBlockManager().playerCooldown.contains(player.getUniqueId())) {
-            BLOCKS.forEach((key, mat) -> {
-                if (key == block.getType()) {
-                    SpeedAdditionBlock material = (SpeedAdditionBlock) mat;
-                    if (material.isIncludeWorld() &&
-                            (material.getWorld().equalsIgnoreCase("global") ||
-                                    material.getWorld().equalsIgnoreCase(world))) {
-                        triggerSpeed(player, material);
-                    }
-                    // material has an exclusion that is not global and is not this world
-                    else if (!material.isIncludeWorld() &&
-                            !material.getWorld().equalsIgnoreCase("global") &&
-                            !material.getWorld().equalsIgnoreCase(world)) {
-                        triggerSpeed(player, material);
-                    }
-                }
-            });
+        Player player = event.getPlayer();
+        SpeedAdditionBlock material = (SpeedAdditionBlock) BLOCKS.get(block.getType());
+
+        if (material.isIncludeWorld() &&
+                (material.getWorld().equalsIgnoreCase("global") ||
+                        material.getWorld().equalsIgnoreCase(player.getWorld().getName()))) {
+            triggerSpeed(player, material);
+        }
+        // material has an exclusion that is not global and is not this world
+        else if (!material.isIncludeWorld() &&
+                !material.getWorld().equalsIgnoreCase("global") &&
+                !material.getWorld().equalsIgnoreCase(player.getWorld().getName())) {
+            triggerSpeed(player, material);
         }
     }
 
