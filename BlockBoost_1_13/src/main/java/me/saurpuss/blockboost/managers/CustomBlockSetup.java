@@ -4,7 +4,6 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.*;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -49,13 +48,8 @@ class CustomBlockSetup {
 
         loadCustomConfig(type);
 
-        if (type.section() == null) {
-            return;
-        }
-
-        if (hasValidKeys(type)) {
+        if (type.section() != null && hasValidKeys(type))
             populateBlockMap(type);
-        }
     }
 
 
@@ -97,14 +91,9 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
-//            case LANDMINE:
-//                landmineConfig = config;
-//                try {
-//                    landmineConfig.save(file);
-//                } catch (IOException e) {
-//                    bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
-//                }
             default:
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                        "CustomBlockSetup#loadCustomConfig()! Please contact the developer!");
                 return;
         }
 
@@ -142,6 +131,9 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
+            default:
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                        "CustomBlockSetup#saveCustomConfig()! Please contact the developer!");
         }
     }
 
@@ -156,6 +148,8 @@ class CustomBlockSetup {
             case POTION:
                 return potionConfig;
             default:
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                        "CustomBlockSetup#getCustomConfig()! Please contact the developer!");
                 return null;
         }
     }
@@ -171,6 +165,8 @@ class CustomBlockSetup {
             case POTION:
                 return potionEffectBlockMap;
             default:
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                        "CustomBlockSetup#getBlockMap()! Please contact the developer!");
                 return null;
         }
     }
@@ -182,16 +178,16 @@ class CustomBlockSetup {
             return false;
         }
 
-
         YamlConfiguration config = getConfig(type);
 
-        if (!config.isSet(type.section())) {
+        if (config == null || !config.isSet(type.section())) {
             bb.getLogger().log(Level.WARNING, "No valid " + type.section() + " path found in " +
                     type.file() + "! Replacing file with default file!");
             bb.saveResource(type.file(), true);
+            config = getConfig(type);
         }
 
-        if (!config.isConfigurationSection(type.section())) {
+        if (config == null || !config.isConfigurationSection(type.section())) {
             bb.getLogger().log(Level.WARNING, type.section() + " not found in " +
                     type.file() + "!");
             return false;
@@ -207,9 +203,13 @@ class CustomBlockSetup {
     }
 
     private void populateBlockMap(BB type) {
-        assert getConfig(type) != null;
-        ConfigurationSection section = getConfig(type).getConfigurationSection(type.section());
-        if (section == null) return;
+        YamlConfiguration config = getConfig(type);
+        if (config == null)
+            return;
+
+        ConfigurationSection section = config.getConfigurationSection(type.section());
+        if (section == null)
+            return;
 
         Set<String> keys = section.getKeys(false);
         HashMap<Material, AbstractBlock> validMats = new HashMap<>();
@@ -264,6 +264,10 @@ class CustomBlockSetup {
                                 block = new PotionEffectBlock.Builder(material).withWorld(world)
                                         .withIncludeWorld(include).withEffectType(effectType)
                                         .withDuration(duration).withAmplifier(amplifier).build();
+                            } else {
+                                bb.getLogger().log(Level.WARNING, "PotionEffectType " + effect +
+                                        " in " + type.file() + ":" + type.section() + " is invalid! " +
+                                        "Ignoring " + key + "!");
                             }
                         }
                         break;

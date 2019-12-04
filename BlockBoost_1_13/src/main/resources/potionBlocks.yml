@@ -1,7 +1,9 @@
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                             -------- Potion Block Setup --------
 # -
-# TODO explanation of potion effects here
+# Potion Blocks that will apply a Potion Effect Type to a player as they pass over it. The duration
+# of the effect is in seconds, and the amplifier will determine the strength. Any valid effect from
+# the Spigot Potion Effect Types listed below can be applied.
 # -
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
@@ -38,7 +40,7 @@
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 console-message: true
 
-effect:
+potion:
   EXAMPLE_BLOCK:
     world: global
     include-world: true

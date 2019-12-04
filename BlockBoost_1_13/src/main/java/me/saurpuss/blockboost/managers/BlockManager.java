@@ -9,6 +9,7 @@ import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
 import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Material;
+import org.bukkit.event.HandlerList;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ public class BlockManager {
     private final CustomBlockSetup blockSetup;
 
     private HashSet<BB> temp = new HashSet<>();
-    private final HashSet<AbstractListener> activeListeners;
+//    private final HashSet<AbstractListener> activeListeners;
 
     public volatile HashSet<UUID> playerCooldown = new HashSet<>();
 
@@ -37,7 +38,7 @@ public class BlockManager {
         potionEffectListener = getListener(BB.POTION);
 
         // Make sure this happens last!
-        activeListeners = listActiveListeners();
+//        activeListeners = listActiveListeners();
     }
 
     private HashSet<AbstractListener> listActiveListeners() {
@@ -66,10 +67,12 @@ public class BlockManager {
     }
 
     public void unloadListeners() {
-        activeListeners.forEach(listener -> {
-            listener.unregister();
-            bb.getLogger().log(Level.INFO, "Unregistered " + listener.toString());
-        });
+        HandlerList.unregisterAll(bb);
+
+//        activeListeners.forEach(listener -> {
+//            listener.unregister();
+//            bb.getLogger().log(Level.INFO, "Unregistered " + listener.toString());
+//        });
     }
 
     private AbstractListener getListener(BB type) {

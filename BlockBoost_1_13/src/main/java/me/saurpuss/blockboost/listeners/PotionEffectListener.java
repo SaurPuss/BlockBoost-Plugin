@@ -36,8 +36,10 @@ public class PotionEffectListener extends AbstractListener implements Listener {
     public void activateBlock(PlayerMoveEvent event) {
         // Get the block the player is standing on
         Block block = event.getPlayer().getLocation().getBlock();
-        if (block.getType() == Material.AIR)
+        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN); // Check in case of a block with < 1.0 height
+
+        event.getPlayer().sendMessage(block.getType().toString());
 
         // Check for block match
         if (!BLOCKS.containsKey(block.getType())) return;
@@ -45,12 +47,17 @@ public class PotionEffectListener extends AbstractListener implements Listener {
         Player player = event.getPlayer();
         PotionEffectBlock material = (PotionEffectBlock) BLOCKS.get(block.getType());
 
-        // return if world is global, and the include is false OR
-        // if the include is true and the world name doesn't match with the player location
-        if ((material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) ||
-                (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
-            return;
+        // Check if allowed in this world
+        if (!material.getWorld().equalsIgnoreCase("global")) {
+            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
+                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+                return; // current world is disabled
+            }
+        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+            return; // all worlds are disabled
+        }
 
+        // Apply potion effect
         player.addPotionEffect(new PotionEffect(material.getEffectType(), material.getDuration(),
                 material.getAmplifier()));
     }

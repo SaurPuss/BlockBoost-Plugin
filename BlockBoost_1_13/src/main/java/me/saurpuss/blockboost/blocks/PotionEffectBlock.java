@@ -37,7 +37,7 @@ public class PotionEffectBlock extends AbstractBlock {
         }
 
         public Builder withDuration(int duration) {
-            this.duration = duration;
+            this.duration = duration * 20;
 
             return this;
         }

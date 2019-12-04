@@ -34,29 +34,41 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
     @EventHandler
     public void activateBounceBlock(PlayerMoveEvent event) {
+        // players on cooldown can't trigger this event
+        if (bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
+            return;
+
+        // Get block info & look for match
         Block block = event.getPlayer().getLocation().getBlock();
         if (block.getType() == Material.AIR)
             block = block.getRelative(BlockFace.DOWN);
 
-        if (!BLOCKS.containsKey(block.getType())) return;
+        if (!BLOCKS.containsKey(block.getType()))
+            return;
+
 
         Player player = event.getPlayer();
         SpeedAdditionBlock material = (SpeedAdditionBlock) BLOCKS.get(block.getType());
 
-        // return if world is global, and the include is false OR
-        // if the include is true and the world name doesn't match with the player location
-        if ((material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) ||
-                (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
-            return;
+        // Check if allowed in this world
+        if (!material.getWorld().equalsIgnoreCase("global")) {
+            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
+                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+                return; // this specific world is disabled
+            }
+        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+            return; // all worlds are disabled
+        }
 
+        // activate
         triggerSpeed(player, material);
     }
 
     private void triggerSpeed(Player player, SpeedAdditionBlock material) {
-        float playerSpeed = player.getWalkSpeed();
+        final float playerSpeed = player.getWalkSpeed();
 
         float result = playerSpeed + material.getAddition();
-        if (result > 1.0)
+        if (result >= 1.0f)
             result = 1.0f;
 
         player.setWalkSpeed(result);
@@ -64,9 +76,9 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
         // TODO custom task
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-                    bb.getBlockManager().playerCooldown.remove(player.getUniqueId());
-                    player.setWalkSpeed(playerSpeed);
-                }, material.getDuration() * 20);
+            bb.getBlockManager().playerCooldown.remove(player.getUniqueId());
+            player.setWalkSpeed(playerSpeed);
+            }, material.getDuration() * 20);
     }
 
     public void unregister() {

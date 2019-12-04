@@ -44,11 +44,15 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         Player player = event.getPlayer();
         SpeedMultiplierBlock material = (SpeedMultiplierBlock) BLOCKS.get(block.getType());
 
-        // return if world is global, and the include is false OR
-        // if the include is true and the world name doesn't match with the player location
-        if ((material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) ||
-                (material.isIncludeWorld() && !material.getWorld().equalsIgnoreCase(player.getWorld().getName())))
-            return;
+        // Check if allowed in this world
+        if (!material.getWorld().equalsIgnoreCase("global")) {
+            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
+                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+                return; // this specific world is disabled
+            }
+        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+            return; // all worlds are disabled
+        }
 
         triggerSpeed(player, material);
     }

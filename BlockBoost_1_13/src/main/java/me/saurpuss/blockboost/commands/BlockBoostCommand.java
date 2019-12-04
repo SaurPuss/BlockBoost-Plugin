@@ -62,7 +62,7 @@ public class BlockBoostCommand implements CommandExecutor {
                         list.addAll(bb.getBlockManager().getBlockMap(type));
                     } catch (IllegalArgumentException e) {
                         sender.sendMessage(ChatColor.RED + args[1] + " is not a valid Boost Block " +
-                                "type! Use " + ChatColor.BLUE + "/bb list all" + ChatColor.RED +
+                                "type! Use " + ChatColor.DARK_PURPLE + "/bb list all" + ChatColor.RED +
                                 " to list all available types");
                         return true;
                     }
