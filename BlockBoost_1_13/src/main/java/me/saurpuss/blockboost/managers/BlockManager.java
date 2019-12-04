@@ -8,6 +8,7 @@ import me.saurpuss.blockboost.listeners.SpeedMultiplierListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
 import me.saurpuss.blockboost.util.BB;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.HandlerList;
 
@@ -96,10 +97,14 @@ public class BlockManager {
         }
     }
 
-    public List<String> getBlockMap(BB type) {
-        ArrayList<String> list = new ArrayList();
+    public List<String> getBlockList(BB type) {
+        if (type == null || blockSetup.getBlockMap(type) == null)
+            return new ArrayList<>();
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add(ChatColor.GOLD + "" + type + " Blocks:");
         for (AbstractBlock block : blockSetup.getBlockMap(type).values()) {
-            list.add("- " + block.toString());
+            list.add("§r- " + block.toColorString());
         }
 
         return list;

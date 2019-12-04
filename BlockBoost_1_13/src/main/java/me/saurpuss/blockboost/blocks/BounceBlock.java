@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -108,9 +109,15 @@ public class BounceBlock extends AbstractBlock {
     }
 
     @Override
+    public String toColorString() {
+        return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
+                ", include: " + includeWorld + ", height: " + height + ", normalize: " +
+                normalize + ")";
+    }
+
+    @Override
     public String toString() {
-        return "BounceBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
+        return material.toString() + " (world: " + world + ", include: " + includeWorld +
                 ", height: " + height + ", normalize: " + normalize + ")";
     }
 }

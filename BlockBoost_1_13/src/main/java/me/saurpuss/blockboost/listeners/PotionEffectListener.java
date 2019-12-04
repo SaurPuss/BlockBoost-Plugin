@@ -34,9 +34,10 @@ public class PotionEffectListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
+        // Check if player is allowed to activate
         if (event.getPlayer().hasPermission("bb.deny"))
             return;
-        
+
         // Get the block the player is standing on
         Block block = event.getPlayer().getLocation().getBlock();
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)

@@ -34,6 +34,7 @@ public class BounceListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
+        // Check if player is allowed to activate
         if (event.getPlayer().hasPermission("bb.deny"))
             return;
 

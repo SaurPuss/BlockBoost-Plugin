@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -184,11 +185,18 @@ public class SpeedMultiplierBlock extends AbstractBlock {
     }
 
     @Override
+    public String toColorString() {
+        return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
+                ", include: " + includeWorld + ", default: " + defaultSpeed + ", multiplier: " +
+                speedMultiplier + ", cap: " + speedCap + ", duration: " + duration +
+                " seconds, cooldown: " + cooldown + " ticks)";
+    }
+
+    @Override
     public String toString() {
-        return "SpeedMultiplierBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
-                ", default: " + defaultSpeed + ", multiplier: " + speedMultiplier +
-                ", cap: " + speedCap + ", duration: " + duration + " (seconds)" +
-                ", cooldown: " + cooldown + " (ticks))";
+        return material.toString() + " (world: " + world + ", include: " + includeWorld +
+                ", default: " + defaultSpeed + ", multiplier: " + speedMultiplier + ", cap: " +
+                speedCap + ", duration: " + duration + " seconds" + ", cooldown: " + cooldown +
+                " ticks)";
     }
 }

@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.potion.PotionEffectType;
 
@@ -129,9 +130,16 @@ public class PotionEffectBlock extends AbstractBlock {
     }
 
     @Override
+    public String toColorString() {
+        return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
+                ", include: " + includeWorld + ", effect: " + effectType + ", duration: " +
+                duration + " seconds, amplifier: " + amplifier + ")";
+    }
+
+    @Override
     public String toString() {
-        return "PotionEffectBlock: " + material.toString() + " (world: " + world +
-                ", include: " + includeWorld + ", effect: " + effectType +
-                ", duration: " + duration + ", amplifier: " + amplifier + ")";
+        return material.toString() + " (world: " + world + ", include: " + includeWorld +
+                ", effect: " + effectType + ", duration: " + duration + " seconds, amplifier: " +
+                amplifier + ")";
     }
 }

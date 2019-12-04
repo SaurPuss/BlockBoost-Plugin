@@ -11,9 +11,11 @@ commands:
   blockboost:
     description: BlockBoost command
     usage: |
-      /<command> list - List all active Boost Blocks
-      /<command> list [blocktype] - List active Boost Blocks of blocktype
-      /<command> reload - reload BlockBoost config
+      §6BoostBlock plugin usage:
+        §3/<command> §btype§r - Display valid Boost Block types
+        §3/<command> §blist§r - List all active Boost Blocks
+        §3/<command> §blist §e[§bblocktype§e]§r - List active §eblocktype§r Boost Blocks
+        §3/<command> §creload§r - Reload BlockBoost plugin, requires permission
     aliases: [bb]
     permission: bb.use
     permission-message: 'Unknown command. Type "/help" for help.'

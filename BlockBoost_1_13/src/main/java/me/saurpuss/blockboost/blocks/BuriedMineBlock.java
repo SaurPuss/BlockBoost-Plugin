@@ -2,7 +2,6 @@ package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class BuriedMineBlock extends AbstractBlock {
 
@@ -112,6 +111,13 @@ public class BuriedMineBlock extends AbstractBlock {
 
     @Override
     public String toString() {
+        return "BuriedMineBlock: " + material.toString() +
+                " (world: " + world + ", include: " + includeWorld +
+                ", depth: " + depth + ", explosion: " + combust + ")";
+    }
+
+    @Override
+    public String toColorString() {
         return "BuriedMineBlock: " + material.toString() +
                 " (world: " + world + ", include: " + includeWorld +
                 ", depth: " + depth + ", explosion: " + combust + ")";

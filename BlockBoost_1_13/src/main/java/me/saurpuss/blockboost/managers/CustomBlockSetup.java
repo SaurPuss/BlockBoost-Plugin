@@ -276,7 +276,7 @@ class CustomBlockSetup {
                 if (block != null) {
                     validMats.put(material, block);
                     if (consoleMessage)
-                        bb.getLogger().log(Level.INFO, "Block added - " + block.toString());
+                        bb.getLogger().log(Level.INFO, type + " Block added - " + block.toString());
                 }
             }
         });
