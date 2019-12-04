@@ -34,11 +34,17 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
     }
 
     @EventHandler
-    public void activateBounceBlock(PlayerMoveEvent event) {
+    public void activateSpeedMultiplierBlock(PlayerMoveEvent event) {
+        // Check if player is on cooldown
+        if (bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
+            return;
+
+        // Get the block the player is standing on
         Block block = event.getPlayer().getLocation().getBlock();
-        if (block.getType() == Material.AIR)
+        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN);
 
+        // Check speed block match
         if (!BLOCKS.containsKey(block.getType())) return;
 
         Player player = event.getPlayer();

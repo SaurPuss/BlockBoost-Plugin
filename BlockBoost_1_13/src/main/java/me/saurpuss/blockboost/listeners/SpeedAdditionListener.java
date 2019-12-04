@@ -40,12 +40,12 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
         // Get block info & look for match
         Block block = event.getPlayer().getLocation().getBlock();
-        if (block.getType() == Material.AIR)
+        if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN);
 
+        // Check speed block match
         if (!BLOCKS.containsKey(block.getType()))
             return;
-
 
         Player player = event.getPlayer();
         SpeedAdditionBlock material = (SpeedAdditionBlock) BLOCKS.get(block.getType());
