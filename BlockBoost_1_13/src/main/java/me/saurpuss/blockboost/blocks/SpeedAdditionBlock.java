@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -112,9 +113,16 @@ public class SpeedAdditionBlock extends AbstractBlock {
     }
 
     @Override
+    public String toColorString() {
+        return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
+                ", include: " + includeWorld + ", addition: " + addition + ", duration: " +
+                duration + " seconds)";
+    }
+
+    @Override
     public String toString() {
-        return "SpeedAdditionBlock: " + material.toString() +
-                " (world: " + world + ", include: " + includeWorld +
-                ", addition: " + addition + ", duration: " + duration + " (seconds))";
+        return material.toString() + ChatColor.GRAY + " (world: " + world + ", include: " +
+                includeWorld + ", addition: " + addition + ", duration: " + duration +
+                " seconds)";
     }
 }
