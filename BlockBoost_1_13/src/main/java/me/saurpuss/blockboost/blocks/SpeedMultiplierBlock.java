@@ -3,7 +3,6 @@ package me.saurpuss.blockboost.blocks;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class SpeedMultiplierBlock extends AbstractBlock {
 

@@ -13,7 +13,6 @@ import org.bukkit.Material;
 import org.bukkit.event.HandlerList;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public class BlockManager {
 
@@ -21,7 +20,6 @@ public class BlockManager {
     private final CustomBlockSetup blockSetup;
 
     private HashSet<BB> temp = new HashSet<>();
-//    private final HashSet<AbstractListener> activeListeners;
 
     public volatile HashSet<UUID> playerCooldown = new HashSet<>();
 
@@ -37,43 +35,10 @@ public class BlockManager {
         speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
         speedAdditionListener = getListener(BB.SPEED_ADDITION);
         potionEffectListener = getListener(BB.POTION);
-
-        // Make sure this happens last!
-//        activeListeners = listActiveListeners();
-    }
-
-    private HashSet<AbstractListener> listActiveListeners() {
-        HashSet<AbstractListener> listeners = new HashSet<>();
-        temp.forEach(bb -> {
-            switch (bb) {
-                case BOUNCE:
-                    listeners.add(bounceListener);
-                    break;
-                case SPEED_MULTIPLIER:
-                    listeners.add(speedMultiplierListener);
-                    break;
-                case SPEED_ADDITION:
-                    listeners.add(speedAdditionListener);
-                    break;
-                case POTION:
-                    listeners.add(potionEffectListener);
-                    break;
-                default: // skip
-                    this.bb.getLogger().log(Level.WARNING, "Illegal BB found in temp active " +
-                            "listener tracker! Skipping " + bb.name());
-            }
-        });
-
-        return listeners;
     }
 
     public void unloadListeners() {
         HandlerList.unregisterAll(bb);
-
-//        activeListeners.forEach(listener -> {
-//            listener.unregister();
-//            bb.getLogger().log(Level.INFO, "Unregistered " + listener.toString());
-//        });
     }
 
     private AbstractListener getListener(BB type) {

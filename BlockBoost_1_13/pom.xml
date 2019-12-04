@@ -6,12 +6,12 @@
 
     <groupId>me.saurpuss</groupId>
     <artifactId>BlockBoost</artifactId>
-    <version>1.13-1.0-SNAPSHOT</version>
+    <version>1.13-1.0</version>
     <packaging>jar</packaging>
 
     <name>BlockBoost</name>
 
-    <description>Add special effects to in-game blocks</description>
+    <description>Add special effects to in-game blocks!</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

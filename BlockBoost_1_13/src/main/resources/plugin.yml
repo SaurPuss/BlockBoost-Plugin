@@ -5,7 +5,7 @@ api-version: 1.13
 prefix: BB
 author: SaurPuss
 description: Add special effects to in-game blocks
-website: https://github.com/SaurPuss/BlockBoost-Plugin
+website: https://github.com/SaurPuss
 
 commands:
   blockboost:
