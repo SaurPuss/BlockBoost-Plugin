@@ -92,7 +92,7 @@ class CustomBlockSetup {
                 }
                 break;
             default:
-                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + " found in " +
                         "CustomBlockSetup#loadCustomConfig()! Please contact the developer!");
                 return;
         }
@@ -132,7 +132,7 @@ class CustomBlockSetup {
                 }
                 break;
             default:
-                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
+                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + " found in " +
                         "CustomBlockSetup#saveCustomConfig()! Please contact the developer!");
         }
     }

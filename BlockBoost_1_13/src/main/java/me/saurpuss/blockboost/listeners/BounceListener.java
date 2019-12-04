@@ -34,6 +34,9 @@ public class BounceListener extends AbstractListener implements Listener {
 
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
+        if (event.getPlayer().hasPermission("bb.deny"))
+            return;
+
         Block block = event.getPlayer().getLocation().getBlock();
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN);

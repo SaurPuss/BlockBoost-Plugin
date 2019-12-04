@@ -36,7 +36,8 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
     @EventHandler
     public void activateSpeedMultiplierBlock(PlayerMoveEvent event) {
         // Check if player is on cooldown
-        if (bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
+        if (event.getPlayer().hasPermission("bb.deny") ||
+                bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
             return;
 
         // Get the block the player is standing on

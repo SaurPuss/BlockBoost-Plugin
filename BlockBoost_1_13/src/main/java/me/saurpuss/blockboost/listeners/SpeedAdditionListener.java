@@ -35,7 +35,8 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
     @EventHandler
     public void activateBounceBlock(PlayerMoveEvent event) {
         // players on cooldown can't trigger this event
-        if (bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
+        if (event.getPlayer().hasPermission("bb.deny") ||
+                bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
             return;
 
         // Get block info & look for match

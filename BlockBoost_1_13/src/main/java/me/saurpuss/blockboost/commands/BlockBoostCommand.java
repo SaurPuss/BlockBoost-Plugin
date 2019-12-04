@@ -24,60 +24,33 @@ public class BlockBoostCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // TODO command manager?
-
-        if ((sender instanceof Player) && !sender.hasPermission("bb.admin"))
-                return true;
-
-        // Attempt to reload the plugin
-        if (args[0].equalsIgnoreCase("reload")) {
-            if (sender.hasPermission("bb.reload") || (sender instanceof ConsoleCommandSender))
-                bb.reloadManagers();
-            else
-                sender.sendMessage(ChatColor.DARK_RED + "You do not have the bb.reload permission!");
+        if (!sender.hasPermission("bb.admin")) {
+            // TODO improve
+            sender.sendMessage("BlockBoost v1.0 - Author SaurPuss");
             return true;
         }
 
-        // TODO world check?
-        else if (args[0].equalsIgnoreCase("list")) {
-            List<String> list = new ArrayList<>();
-            if (args.length == 1) {
-                // list all blocks of all types
-                for (BB type : BB.values())
-                    list.addAll(bb.getBlockManager().getBlockMap(type));
 
-            } else {
-                if (args[1].equalsIgnoreCase("all")) {
-                    StringJoiner joiner = new StringJoiner("§6, ", "§6Valid Boost Block types: ",
-                            "§6.");
-                    for (BB type : BB.values()) {
-                        joiner.add(ChatColor.YELLOW + type.toString());
-                    }
-
-                    sender.sendMessage(joiner.toString());
-                    return true;
-                } else {
-                    try {
-                        BB type = BB.valueOf(args[1].toUpperCase());
-                        list.addAll(bb.getBlockManager().getBlockMap(type));
-                    } catch (IllegalArgumentException e) {
-                        sender.sendMessage(ChatColor.RED + args[1] + " is not a valid Boost Block " +
-                                "type! Use " + ChatColor.DARK_PURPLE + "/bb list all" + ChatColor.RED +
-                                " to list all available types");
-                        return true;
-                    }
+        if (args.length >= 1) {
+            // Attempt to reload the plugin
+            if (args[0].equalsIgnoreCase("reload")) {
+                if (sender instanceof Player && !sender.hasPermission("bb.reload"))
+                    sender.sendMessage(ChatColor.RED + "You do not have the bb.reload permission!");
+                else {
+                    sender.sendMessage("Reloading BB");
+                    bb.reloadManagers();
                 }
-            }
 
-            if (list.isEmpty()) {
-                sender.sendMessage(ChatColor.RED + "No valid Boost Blocks found!");
                 return true;
             }
 
-            sender.sendMessage("Active Boost Blocks: ");
-            list.forEach(sender::sendMessage);
+            // TODO world check?
+            else if (args[0].equalsIgnoreCase("list")) {
+                sender.sendMessage("List");
+                return true;
+            }
         }
 
-        return true;
+        return false;
     }
 }
