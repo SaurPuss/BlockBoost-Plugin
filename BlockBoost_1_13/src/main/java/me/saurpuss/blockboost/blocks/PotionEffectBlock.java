@@ -114,7 +114,7 @@ public class PotionEffectBlock extends AbstractBlock {
     }
 
     public void setDuration(int duration) {
-        duration = Math.abs(duration);
+        duration = 20 * Math.abs(duration);
 
         this.duration = duration;
     }
@@ -133,13 +133,14 @@ public class PotionEffectBlock extends AbstractBlock {
     public String toColorString() {
         return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
                 ", include: " + includeWorld + ", effect: " + effectType + ", duration: " +
-                duration + " seconds, amplifier: " + amplifier + ")";
+                (duration / 20) + " seconds, amplifier: " + amplifier + ")";
     }
 
     @Override
     public String toString() {
         return material.toString() + " (world: " + world + ", include: " + includeWorld +
-                ", effect: " + effectType + ", duration: " + duration + " seconds, amplifier: " +
+                ", effect: " + effectType + ", duration: " + (duration / 20) + " seconds, " +
+                "amplifier: " +
                 amplifier + ")";
     }
 }

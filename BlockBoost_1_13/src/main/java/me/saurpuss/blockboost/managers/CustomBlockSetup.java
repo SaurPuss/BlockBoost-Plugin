@@ -91,6 +91,9 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
+            case SPEED_ADDITION:
+            case SPEED_MULTIPLIER:
+                break;
             default:
                 bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + " found in " +
                         "CustomBlockSetup#loadCustomConfig()! Please contact the developer!");
