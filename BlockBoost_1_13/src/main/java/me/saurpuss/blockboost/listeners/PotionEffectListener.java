@@ -39,8 +39,6 @@ public class PotionEffectListener extends AbstractListener implements Listener {
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN); // Check in case of a block with < 1.0 height
 
-        event.getPlayer().sendMessage(block.getType().toString());
-
         // Check for block match
         if (!BLOCKS.containsKey(block.getType())) return;
 
