@@ -23,7 +23,8 @@
 hs_err_pid*
 
 # intellij project files
-scrap/
+.idea/
+*.iml
 target/
 out/
 sout/
