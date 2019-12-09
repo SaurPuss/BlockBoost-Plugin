@@ -53,6 +53,12 @@ class CustomBlockSetup {
     }
 
     private void loadCustomConfig(BB type) {
+        switch(type) {
+            case SPEED_ADDITION:
+            case SPEED_MULTIPLIER:
+                return; // covered by BB.SPEED below
+        }
+
         File file = new File(bb.getDataFolder(), type.file());
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -81,8 +87,6 @@ class CustomBlockSetup {
                 } catch (IOException e) {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
-            case SPEED_ADDITION: // Covered by SPEED
-            case SPEED_MULTIPLIER: // Covered by SPEED
                 break;
             case POTION:
                 potionConfig = config;
@@ -166,7 +170,8 @@ class CustomBlockSetup {
                 return potionEffectBlockMap;
             default:
                 bb.getLogger().log(Level.WARNING, "Unregistered or unknown BB of type " + type +
-                        "found in CustomBlockSetup#getBlockMap()!");
+                        " found in CustomBlockSetup#getBlockMap()!");
+            case SPEED:
                 return null;
         }
     }
@@ -275,6 +280,10 @@ class CustomBlockSetup {
                                         " in " + type.file() + ":" + type.section() + " is invalid! " +
                                         "Ignoring " + key + "!");
                             }
+                        } else {
+                            bb.getLogger().log(Level.WARNING,
+                                    "Missing PotionEffectType in " + type.file() + ":" + type.section() +
+                                            "! Ignoring " + key + "!");
                         }
                         break;
                 }
