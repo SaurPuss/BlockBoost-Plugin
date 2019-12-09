@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedMultiplierBlock;
+import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
 import org.bukkit.Bukkit;
@@ -21,19 +22,19 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
     private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
 
-    static HashSet<UUID> multiplierCooldown = new HashSet<>();
-    private HashSet<UUID> blockCooldown = new HashSet<>();
+
 
     public SpeedMultiplierListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
-        Optional<AbstractBlock> test = blocks.values().stream().findFirst();
 
         // Test validity of the blocks before registering listener
+        Optional<AbstractBlock> test = blocks.values().stream().findFirst();
         if (test.isPresent() && test.get() instanceof SpeedMultiplierBlock) {
             BLOCKS = blocks;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        } else
+        } else {
             BLOCKS = null;
+        }
     }
 
     @EventHandler
@@ -42,9 +43,9 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny") ||
                 // player is on cooldown from a SpeedAdditionBlock
-                SpeedAdditionListener.additionCooldown.contains(player.getUniqueId()) ||
+                BlockManager.additionCooldown.contains(player.getUniqueId()) ||
                 // player is on cooldown from Multiplier Block
-                blockCooldown.contains(player.getUniqueId())) {
+                BlockManager.multiplierBlockCooldown.contains(player.getUniqueId())) {
             player.sendMessage("Multiplier block check! You are on cooldown!");
             return;
         }
@@ -78,16 +79,18 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         else if (result > material.getSpeedCap()) result = material.getSpeedCap();
 
         player.setWalkSpeed(result);
-        multiplierCooldown.add(player.getUniqueId());
-        blockCooldown.add(player.getUniqueId());
+        BlockManager.multiplierCooldown.add(player.getUniqueId());
+        BlockManager.multiplierBlockCooldown.add(player.getUniqueId());
 
         // TODO custom task
-        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-                blockCooldown.remove(player.getUniqueId()),
-                material.getCooldown());
+        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
+            if (BlockManager.multiplierBlockCooldown.contains(player.getUniqueId()))
+                BlockManager.multiplierBlockCooldown.remove(player.getUniqueId());
+            }, material.getCooldown());
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
             player.setWalkSpeed(material.getDefaultSpeed());
-            multiplierCooldown.remove(player.getUniqueId());
+            if (BlockManager.multiplierBlockCooldown.contains(player.getUniqueId()))
+                BlockManager.multiplierCooldown.remove(player.getUniqueId());
         }, material.getDuration() * 20);
     }
 

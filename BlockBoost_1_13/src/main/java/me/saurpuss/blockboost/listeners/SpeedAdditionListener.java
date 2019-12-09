@@ -2,6 +2,7 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedAdditionBlock;
+import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
 import org.bukkit.Bukkit;
@@ -15,16 +16,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.UUID;
 
 public class SpeedAdditionListener extends AbstractListener implements Listener {
 
     private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
-
-    static HashSet<UUID> additionCooldown = new HashSet<>();
 
     public SpeedAdditionListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
@@ -45,8 +42,8 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny") ||
                 // Player has an active speed effect from a BoostBlock
-                additionCooldown.contains(player.getUniqueId()) ||
-                SpeedMultiplierListener.multiplierCooldown.contains(player.getUniqueId())) {
+                BlockManager.additionCooldown.contains(player.getUniqueId()) ||
+                BlockManager.multiplierCooldown.contains(player.getUniqueId())) {
             player.sendMessage("Addition block check! You are on cooldown!");
             return;
         }
@@ -81,12 +78,13 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         if (result >= 1.0f) result = 1.0f;
 
         player.setWalkSpeed(result);
-        additionCooldown.add(player.getUniqueId());
+        BlockManager.additionCooldown.add(player.getUniqueId());
 
         // TODO custom task
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            additionCooldown.remove(player.getUniqueId());
             player.setWalkSpeed(playerSpeed);
+            if (BlockManager.additionCooldown.contains(player.getUniqueId()))
+                BlockManager.additionCooldown.remove(player.getUniqueId());
             }, material.getDuration() * 20);
     }
 
