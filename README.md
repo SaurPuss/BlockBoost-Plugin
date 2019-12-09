@@ -11,10 +11,16 @@ Read the config files for an in-depth explanation of each block effect.
   <li>/blockboost reload - Reload BlockBoost configuration</li>
 </ul>
 
+<ul>
+  <li>/bbspeed [player] - Set a player's walkSpeed to 0.2</li>
+  <li>/bbspeed [player] [number] - Set a player's walkSpeed to [number]</li>
+</ul>
+
 <h3>Permission nodes:</h3>
 <ul>
   <li>bb.use - Use /bb command, default: true</li>
-  <li>bb.admin - Use bb command to list active Boost Blocks, default: op</li>
-  <li>bb.reload - Use bb command to reload config files, default: false</li>
+  <li>bb.admin - Use /bb and /bbspeed commands, default
+  : op</li>
+  <li>bb.reload - Use /bb command to reload config files, default: false</li>
   <li>bb.deny - Stop Boost Block activations, default: false</li>
 </ul>
