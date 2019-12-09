@@ -24,6 +24,7 @@ public class BounceListener extends AbstractListener implements Listener {
     public BounceListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         Optional<AbstractBlock> test = blocks.values().stream().findFirst();
 
+        // Test validity of the blocks before registering listener
         if (test.isPresent() && test.get() instanceof BounceBlock) {
             BLOCKS = blocks;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -35,29 +36,28 @@ public class BounceListener extends AbstractListener implements Listener {
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
-        if (event.getPlayer().hasPermission("bb.deny"))
+        final Player player = event.getPlayer();
+        if (player.hasPermission("bb.deny"))
             return;
 
-        Block block = event.getPlayer().getLocation().getBlock();
+        Block block = player.getLocation().getBlock();
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN);
 
         if (!BLOCKS.containsKey(block.getType())) return;
-
-        Player player = event.getPlayer();
-        BounceBlock material = (BounceBlock) BLOCKS.get(block.getType());
+        final BounceBlock mat = (BounceBlock) BLOCKS.get(block.getType());
 
         // Check if allowed in this world
-        if (!material.getWorld().equalsIgnoreCase("global")) {
-            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
-                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+        if (!mat.getWorld().equalsIgnoreCase("global")) {
+            if ((!mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && mat.isIncludeWorld())
+                    || (mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !mat.isIncludeWorld())) {
                 return; // this specific world is disabled
             }
-        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+        } else if (mat.getWorld().equalsIgnoreCase("global") && !mat.isIncludeWorld()) {
             return; // all worlds are disabled
         }
 
-        triggerVelocity(player, material);
+        triggerVelocity(player, mat);
     }
 
 

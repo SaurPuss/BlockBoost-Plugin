@@ -16,25 +16,20 @@ import java.util.*;
 
 public class BlockManager {
 
-    private BlockBoost bb;
+    private final BlockBoost bb;
     private final CustomBlockSetup blockSetup;
 
-    private HashSet<BB> temp = new HashSet<>();
-
     public volatile HashSet<UUID> playerCooldown = new HashSet<>();
-
-    private final AbstractListener bounceListener, speedMultiplierListener, speedAdditionListener,
-            potionEffectListener;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
         blockSetup = new CustomBlockSetup(plugin);
 
         // Register all listeners that have valid blocks
-        bounceListener = getListener(BB.BOUNCE);
-        speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
-        speedAdditionListener = getListener(BB.SPEED_ADDITION);
-        potionEffectListener = getListener(BB.POTION);
+        final AbstractListener bounceListener = getListener(BB.BOUNCE);
+        final AbstractListener speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
+        final AbstractListener speedAdditionListener = getListener(BB.SPEED_ADDITION);
+        final AbstractListener potionEffectListener = getListener(BB.POTION);
     }
 
     public void unloadListeners() {
@@ -45,8 +40,6 @@ public class BlockManager {
         HashMap<Material, AbstractBlock> blocks = blockSetup.getBlockMap(type);
         if (blocks == null)
             return null;
-
-        temp.add(type);
 
         switch (type) {
             case BOUNCE:

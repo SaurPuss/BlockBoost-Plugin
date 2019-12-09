@@ -19,58 +19,55 @@ import java.util.Optional;
 
 public class SpeedMultiplierListener extends AbstractListener implements Listener {
 
-    private BlockBoost bb;
+    private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
 
     public SpeedMultiplierListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
-        BLOCKS = blocks;
-
-        // test first block in hash map before registering the listener
         Optional<AbstractBlock> test = blocks.values().stream().findFirst();
+
+        // Test validity of the blocks before registering listener
         if (test.isPresent() && test.get() instanceof SpeedMultiplierBlock) {
+            BLOCKS = blocks;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        }
+        } else
+            BLOCKS = null;
     }
 
     @EventHandler
     public void activateSpeedMultiplierBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
-        if (event.getPlayer().hasPermission("bb.deny") ||
-                bb.getBlockManager().playerCooldown.contains(event.getPlayer().getUniqueId()))
+        final Player player = event.getPlayer();
+        if (player.hasPermission("bb.deny") || bb.getBlockManager().playerCooldown.contains(player.getUniqueId()))
             return;
 
         // Get the block the player is standing on
-        Block block = event.getPlayer().getLocation().getBlock();
+        Block block = player.getLocation().getBlock();
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN);
 
         // Check speed block match
         if (!BLOCKS.containsKey(block.getType())) return;
-
-        Player player = event.getPlayer();
-        SpeedMultiplierBlock material = (SpeedMultiplierBlock) BLOCKS.get(block.getType());
+        final SpeedMultiplierBlock mat = (SpeedMultiplierBlock) BLOCKS.get(block.getType());
 
         // Check if allowed in this world
-        if (!material.getWorld().equalsIgnoreCase("global")) {
-            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
-                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+        if (!mat.getWorld().equalsIgnoreCase("global")) {
+            if ((!mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && mat.isIncludeWorld())
+                    || (mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !mat.isIncludeWorld())) {
                 return; // this specific world is disabled
             }
-        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+        } else if (mat.getWorld().equalsIgnoreCase("global") && !mat.isIncludeWorld()) {
             return; // all worlds are disabled
         }
 
-        triggerSpeed(player, material);
+        triggerSpeed(player, mat);
     }
 
     private void triggerSpeed(Player player, SpeedMultiplierBlock material) {
         float result = player.getWalkSpeed() * material.getSpeedMultiplier();
 
-        if (result > 1.0)
-            result = 1.0f;
-        else if (result > material.getSpeedCap())
-            result = material.getSpeedCap();
+        if (result > 1.0) result = 1.0f;
+        else if (result > material.getSpeedCap()) result = material.getSpeedCap();
 
         player.setWalkSpeed(result);
         bb.getBlockManager().playerCooldown.add(player.getUniqueId());

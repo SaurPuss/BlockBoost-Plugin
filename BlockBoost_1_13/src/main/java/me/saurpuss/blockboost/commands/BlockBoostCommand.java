@@ -14,7 +14,7 @@ import java.util.List;
 
 public class BlockBoostCommand implements CommandExecutor {
 
-    private BlockBoost bb;
+    private final BlockBoost bb;
 
     public BlockBoostCommand(BlockBoost plugin) {
         bb = plugin;
@@ -26,14 +26,11 @@ public class BlockBoostCommand implements CommandExecutor {
         if (!sender.hasPermission("bb.admin"))
             return Bukkit.dispatchCommand(sender, "version blockboost");
 
-
-        if (args.length < 1)
-            return false;
-
+        if (args.length < 1) return false;
 
         if (args[0].equalsIgnoreCase("reload")) {
             if (sender instanceof Player && !sender.hasPermission("bb.reload"))
-                sender.sendMessage(ChatColor.RED + "You do not have the bb.reload permission!");
+                sender.sendMessage(ChatColor.RED + "You do not have the §4bb.reload §cpermission!");
             else {
                 bb.reloadManagers();
                 sender.sendMessage(ChatColor.GREEN + "Reloaded BlockBoost Plugin! Use " +
@@ -47,8 +44,7 @@ public class BlockBoostCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("info"))
             return Bukkit.dispatchCommand(sender, "version blockboost");
 
-
-        if (args[0].equalsIgnoreCase("list")) {
+        else if (args[0].equalsIgnoreCase("list")) {
             // try to get a specific block to list
             if (args.length == 2) {
                 BB type;
@@ -57,7 +53,7 @@ public class BlockBoostCommand implements CommandExecutor {
                     type = BB.valueOf(args[1].toUpperCase());
                 } catch (IllegalArgumentException e) {
                     sender.sendMessage(ChatColor.RED + "BoostBlock " + ChatColor.DARK_RED +
-                            args[1] + ChatColor.RED +" does not exist!");
+                            args[1] + ChatColor.RED + " does not exist!");
                     return false;
                 }
 

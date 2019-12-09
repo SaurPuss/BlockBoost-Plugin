@@ -13,12 +13,13 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 
+/**
+ * Load configuration files for valid block creation.
+ */
 class CustomBlockSetup {
 
-    private BlockBoost bb;
-
+    private final BlockBoost bb;
     private YamlConfiguration bounceConfig, speedConfig, potionConfig;
-
     private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
             speedMultiplierBlockMap, potionEffectBlockMap;
 
@@ -32,7 +33,6 @@ class CustomBlockSetup {
             setup(type);
         }
     }
-
 
     private void setup(BB type) {
         File file = new File(bb.getDataFolder(), type.file());
@@ -51,7 +51,6 @@ class CustomBlockSetup {
         if (type.section() != null && hasValidKeys(type))
             populateBlockMap(type);
     }
-
 
     private void loadCustomConfig(BB type) {
         File file = new File(bb.getDataFolder(), type.file());
@@ -82,6 +81,8 @@ class CustomBlockSetup {
                 } catch (IOException e) {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
+            case SPEED_ADDITION: // Covered by SPEED
+            case SPEED_MULTIPLIER: // Covered by SPEED
                 break;
             case POTION:
                 potionConfig = config;
@@ -91,9 +92,6 @@ class CustomBlockSetup {
                     bb.getLogger().log(Level.SEVERE, "Could not save " + type.file() + "!");
                 }
                 break;
-            case SPEED_ADDITION:
-            case SPEED_MULTIPLIER:
-                break;
             default:
                 bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + " found in " +
                         "CustomBlockSetup#loadCustomConfig()! Please contact the developer!");
@@ -102,7 +100,6 @@ class CustomBlockSetup {
 
         bb.getLogger().log(Level.INFO, type.file() + " has been reloaded!");
     }
-
 
     private void saveCustomConfig(BB type) {
         File file = new File(bb.getDataFolder(), type.file());
@@ -152,7 +149,7 @@ class CustomBlockSetup {
                 return potionConfig;
             default:
                 bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
-                        "CustomBlockSetup#getCustomConfig()! Please contact the developer!");
+                        "CustomBlockSetup#getCustomConfig()!");
                 return null;
         }
     }
@@ -168,8 +165,8 @@ class CustomBlockSetup {
             case POTION:
                 return potionEffectBlockMap;
             default:
-                bb.getLogger().log(Level.WARNING, "Unknown BB of type " + type + "found in " +
-                        "CustomBlockSetup#getBlockMap()! Please contact the developer!");
+                bb.getLogger().log(Level.WARNING, "Unregistered or unknown BB of type " + type +
+                        "found in CustomBlockSetup#getBlockMap()!");
                 return null;
         }
     }
@@ -191,8 +188,7 @@ class CustomBlockSetup {
         }
 
         if (config == null || !config.isConfigurationSection(type.section())) {
-            bb.getLogger().log(Level.WARNING, type.section() + " not found in " +
-                    type.file() + "!");
+            bb.getLogger().log(Level.WARNING, type.section() + " not found in " + type.file() + "!");
             return false;
         }
 
@@ -205,6 +201,10 @@ class CustomBlockSetup {
         return true;
     }
 
+    /**
+     * Retrieve block map corresponding to sections in the config files.
+     * @param type BB enum
+     */
     private void populateBlockMap(BB type) {
         YamlConfiguration config = getConfig(type);
         if (config == null)
@@ -223,11 +223,14 @@ class CustomBlockSetup {
                 bb.getLogger().log(Level.WARNING, "Material " + key + " in " + type.file() +
                         ":" + type.section() + " is invalid! Ignoring " + key + "!");
             } else {
+                // Set the common variables
                 boolean consoleMessage = false;
                 AbstractBlock block = null;
                 String world = section.getString( key + ".world");
                 boolean include = section.getBoolean(key + ".include-world");
                 int duration = section.getInt(key + ".duration");
+
+                // Try to create a corresponding block type
                 switch (type) {
                     case BOUNCE:
                         consoleMessage = bounceConfig.getBoolean("console-message");

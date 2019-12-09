@@ -24,6 +24,7 @@ public class PotionEffectListener extends AbstractListener implements Listener {
     public PotionEffectListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         Optional<AbstractBlock> test = blocks.values().stream().findFirst();
 
+        // Test validity of the blocks before registering listener
         if (test.isPresent() && test.get() instanceof PotionEffectBlock) {
             BLOCKS = blocks;
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -35,33 +36,32 @@ public class PotionEffectListener extends AbstractListener implements Listener {
     @EventHandler
     public void activateBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
-        if (event.getPlayer().hasPermission("bb.deny"))
+        final Player player = event.getPlayer();
+        if (player.hasPermission("bb.deny"))
             return;
 
         // Get the block the player is standing on
-        Block block = event.getPlayer().getLocation().getBlock();
+        Block block = player.getLocation().getBlock();
         if (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)
             block = block.getRelative(BlockFace.DOWN); // Check in case of a block with < 1.0 height
 
         // Check for block match
         if (!BLOCKS.containsKey(block.getType())) return;
-
-        Player player = event.getPlayer();
-        PotionEffectBlock material = (PotionEffectBlock) BLOCKS.get(block.getType());
+        final PotionEffectBlock mat = (PotionEffectBlock) BLOCKS.get(block.getType());
 
         // Check if allowed in this world
-        if (!material.getWorld().equalsIgnoreCase("global")) {
-            if ((!material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && material.isIncludeWorld())
-                    || (material.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !material.isIncludeWorld())) {
+        if (!mat.getWorld().equalsIgnoreCase("global")) {
+            if ((!mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && mat.isIncludeWorld())
+                    || (mat.getWorld().equalsIgnoreCase(player.getWorld().getName()) && !mat.isIncludeWorld())) {
                 return; // current world is disabled
             }
-        } else if (material.getWorld().equalsIgnoreCase("global") && !material.isIncludeWorld()) {
+        } else if (mat.getWorld().equalsIgnoreCase("global") && !mat.isIncludeWorld()) {
             return; // all worlds are disabled
         }
 
         // Apply potion effect
-        player.addPotionEffect(new PotionEffect(material.getEffectType(), material.getDuration(),
-                material.getAmplifier()));
+        player.addPotionEffect(new PotionEffect(mat.getEffectType(), mat.getDuration(),
+                mat.getAmplifier()));
     }
 
     @Override
