@@ -35,7 +35,7 @@ public class ForceSpeed implements CommandExecutor {
             }
 
             player.setWalkSpeed(speed);
-            sender.sendMessage(ChatColor.GREEN + "Walkspeed for player: " + player.getName() +
+            sender.sendMessage(ChatColor.GREEN + "WalkSpeed for player: " + player.getName() +
                     " set to " + speed);
             return true;
         }

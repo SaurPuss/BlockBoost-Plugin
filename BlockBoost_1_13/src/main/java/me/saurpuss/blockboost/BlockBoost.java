@@ -29,7 +29,7 @@ public final class BlockBoost extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-        // Register reload command
+        // Register plugin commands
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
         getCommand("bbspeed").setExecutor(new ForceSpeed());
     }
