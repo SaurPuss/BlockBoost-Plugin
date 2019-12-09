@@ -39,7 +39,10 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
     public void activateBounceBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
         final Player player = event.getPlayer();
-        if (player.hasPermission("bb.deny") || bb.getBlockManager().playerCooldown.contains(player.getUniqueId()))
+        if (player.hasPermission("bb.deny") ||
+                // Player has an active speed effect from a BoostBlock
+                bb.getBlockManager().speedAdditionCooldown.contains(player.getUniqueId()) ||
+                bb.getBlockManager().speedMultiplierCooldown.contains(player.getUniqueId()))
             return;
 
         // Get block info & look for match
@@ -72,11 +75,11 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         if (result >= 1.0f) result = 1.0f;
 
         player.setWalkSpeed(result);
-        bb.getBlockManager().playerCooldown.add(player.getUniqueId());
+        bb.getBlockManager().speedAdditionCooldown.add(player.getUniqueId());
 
         // TODO custom task
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            bb.getBlockManager().playerCooldown.remove(player.getUniqueId());
+            bb.getBlockManager().speedAdditionCooldown.remove(player.getUniqueId());
             player.setWalkSpeed(playerSpeed);
             }, material.getDuration() * 20);
     }

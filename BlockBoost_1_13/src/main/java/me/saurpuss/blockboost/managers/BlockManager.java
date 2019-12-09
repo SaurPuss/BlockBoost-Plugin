@@ -19,39 +19,38 @@ public class BlockManager {
     private final BlockBoost bb;
     private final CustomBlockSetup blockSetup;
 
-    public volatile HashSet<UUID> playerCooldown = new HashSet<>();
+    // Cooldown checks to prevent multiple speedBlock types from overriding player walkSpeed
+    public volatile ArrayList<UUID> speedAdditionCooldown = new ArrayList<>();
+    public volatile ArrayList<UUID> speedMultiplierCooldown = new ArrayList<>();
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
         blockSetup = new CustomBlockSetup(plugin);
 
         // Register all listeners that have valid blocks
-        final AbstractListener bounceListener = getListener(BB.BOUNCE);
-        final AbstractListener speedMultiplierListener = getListener(BB.SPEED_MULTIPLIER);
-        final AbstractListener speedAdditionListener = getListener(BB.SPEED_ADDITION);
-        final AbstractListener potionEffectListener = getListener(BB.POTION);
+        setListener(BB.BOUNCE);
+        setListener(BB.SPEED_MULTIPLIER);
+        setListener(BB.SPEED_ADDITION);
+        setListener(BB.POTION);
     }
 
     public void unloadListeners() {
         HandlerList.unregisterAll(bb);
     }
 
-    private AbstractListener getListener(BB type) {
+    private void setListener(BB type) {
         HashMap<Material, AbstractBlock> blocks = blockSetup.getBlockMap(type);
-        if (blocks == null)
-            return null;
+        if (blocks == null) return;
 
         switch (type) {
             case BOUNCE:
-                return new BounceListener(bb, blocks);
+                new BounceListener(bb, blocks);
             case SPEED_MULTIPLIER:
-                return new SpeedMultiplierListener(bb, blocks);
+                new SpeedMultiplierListener(bb, blocks);
             case SPEED_ADDITION:
-                return new SpeedAdditionListener(bb, blocks);
+                new SpeedAdditionListener(bb, blocks);
             case POTION:
-                return new PotionEffectListener(bb, blocks);
-            default:
-                return null;
+                new PotionEffectListener(bb, blocks);
         }
     }
 
