@@ -1,6 +1,7 @@
 <h1>BlockBoost-Plugin</h1>
 <h4>Spigot Plugin for 1.13</h4>
 Add effects to blocks on your Minecraft server!
+Read the config files for an in-depth explanation of each block effect.
 
 <h3>Commands:</h3>
 <ul>
