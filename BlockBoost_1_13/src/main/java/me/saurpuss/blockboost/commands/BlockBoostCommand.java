@@ -32,7 +32,7 @@ public class BlockBoostCommand implements CommandExecutor {
             if (sender instanceof Player && !sender.hasPermission("bb.reload"))
                 sender.sendMessage(ChatColor.RED + "You do not have the §4bb.reload §cpermission!");
             else {
-                bb.reloadManagers();
+                bb.reloadBB();
                 sender.sendMessage(ChatColor.GREEN + "Reloaded BlockBoost Plugin! Use " +
                         ChatColor.YELLOW + "/bb list" + ChatColor.GREEN + " to display active" +
                         "Boost Blocks!");

@@ -21,7 +21,7 @@ public final class BlockBoost extends JavaPlugin {
     @Override
     public void onEnable() {
         // Load blockManager
-        reloadManagers();
+        reloadBB();
 
         if (blockManager == null) {
             getLogger().log(Level.SEVERE, "Block Manager failed to initialize during plugin " +
@@ -40,9 +40,9 @@ public final class BlockBoost extends JavaPlugin {
         HandlerList.unregisterAll(this);
     }
 
-    public void reloadManagers() {
+    public void reloadBB() {
         if (blockManager != null)
-            blockManager.unloadListeners();
+            HandlerList.unregisterAll(this);
 
         blockManager = new BlockManager(this);
     }

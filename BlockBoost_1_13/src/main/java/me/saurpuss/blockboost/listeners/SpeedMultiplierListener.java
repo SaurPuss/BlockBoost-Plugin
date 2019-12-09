@@ -2,10 +2,9 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedMultiplierBlock;
-import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
-import org.bukkit.Bukkit;
+import me.saurpuss.blockboost.util.SpeedTask;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -21,8 +20,6 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
 
     private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
-
-
 
     public SpeedMultiplierListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
@@ -42,10 +39,7 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         // Check if player is allowed to activate
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny") ||
-                // player is on cooldown from a SpeedAdditionBlock
-                BlockManager.additionCooldown.contains(player.getUniqueId()) ||
-                // player is on cooldown from Multiplier Block
-                BlockManager.multiplierBlockCooldown.contains(player.getUniqueId())) {
+                PlayerListener.isOnMultiplierCooldown(player.getUniqueId())) {
             player.sendMessage("Multiplier block check! You are on cooldown!");
             return;
         }
@@ -79,19 +73,12 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         else if (result > material.getSpeedCap()) result = material.getSpeedCap();
 
         player.setWalkSpeed(result);
-        BlockManager.multiplierCooldown.add(player.getUniqueId());
-        BlockManager.multiplierBlockCooldown.add(player.getUniqueId());
 
-        // TODO custom task
-        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            if (BlockManager.multiplierBlockCooldown.contains(player.getUniqueId()))
-                BlockManager.multiplierBlockCooldown.remove(player.getUniqueId());
-            }, material.getCooldown());
-        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            player.setWalkSpeed(material.getDefaultSpeed());
-            if (BlockManager.multiplierBlockCooldown.contains(player.getUniqueId()))
-                BlockManager.multiplierCooldown.remove(player.getUniqueId());
-        }, material.getDuration() * 20);
+        // TODO convert end time to projected millis
+        PlayerListener.multiplierCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+        PlayerListener.multiplierBlockCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+
+        new SpeedTask(player, material.getDefaultSpeed()).runTaskLater(bb, material.getDuration() * 20);
     }
 
     public void unregister() {

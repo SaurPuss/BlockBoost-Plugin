@@ -2,10 +2,9 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedAdditionBlock;
-import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.AbstractListener;
-import org.bukkit.Bukkit;
+import me.saurpuss.blockboost.util.SpeedTask;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -40,10 +39,7 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
     public void activateBounceBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
         final Player player = event.getPlayer();
-        if (player.hasPermission("bb.deny") ||
-                // Player has an active speed effect from a BoostBlock
-                BlockManager.additionCooldown.contains(player.getUniqueId()) ||
-                BlockManager.multiplierCooldown.contains(player.getUniqueId())) {
+        if (player.hasPermission("bb.deny") || PlayerListener.isOnAdditionCooldown(player.getUniqueId())) {
             player.sendMessage("Addition block check! You are on cooldown!");
             return;
         }
@@ -78,14 +74,11 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         if (result >= 1.0f) result = 1.0f;
 
         player.setWalkSpeed(result);
-        BlockManager.additionCooldown.add(player.getUniqueId());
 
-        // TODO custom task
-        Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            player.setWalkSpeed(playerSpeed);
-            if (BlockManager.additionCooldown.contains(player.getUniqueId()))
-                BlockManager.additionCooldown.remove(player.getUniqueId());
-            }, material.getDuration() * 20);
+        // TODO convert end time to projected millis
+        PlayerListener.additionCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+
+        new SpeedTask(player, playerSpeed).runTaskLater(bb, material.getDuration() * 20);
     }
 
     public void unregister() {
