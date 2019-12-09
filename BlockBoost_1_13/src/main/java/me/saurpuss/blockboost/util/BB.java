@@ -2,7 +2,7 @@ package me.saurpuss.blockboost.util;
 
 public enum BB {
     BOUNCE("bounceBlocks.yml", "bounce"),
-    SPEED("speedBlocks.yml", null),
+    SPEED("speedBlocks.yml", null), // should always be listed before subcategories
     SPEED_ADDITION("speedBlocks.yml", "addition"),
     SPEED_MULTIPLIER("speedBlocks.yml", "multiplier"),
     POTION("potionBlocks.yml", "potion");
