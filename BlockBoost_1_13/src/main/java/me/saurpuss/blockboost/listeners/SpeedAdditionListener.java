@@ -15,12 +15,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.UUID;
 
 public class SpeedAdditionListener extends AbstractListener implements Listener {
 
     private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
+
+    static HashSet<UUID> additionCooldown = new HashSet<>();
 
     public SpeedAdditionListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
@@ -41,9 +45,11 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny") ||
                 // Player has an active speed effect from a BoostBlock
-                bb.getBlockManager().speedAdditionCooldown.contains(player.getUniqueId()) ||
-                bb.getBlockManager().speedMultiplierCooldown.contains(player.getUniqueId()))
+                additionCooldown.contains(player.getUniqueId()) ||
+                SpeedMultiplierListener.multiplierCooldown.contains(player.getUniqueId())) {
+            player.sendMessage("Addition block check! You are on cooldown!");
             return;
+        }
 
         // Get block info & look for match
         Block block = player.getLocation().getBlock();
@@ -75,11 +81,11 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
         if (result >= 1.0f) result = 1.0f;
 
         player.setWalkSpeed(result);
-        bb.getBlockManager().speedAdditionCooldown.add(player.getUniqueId());
+        additionCooldown.add(player.getUniqueId());
 
         // TODO custom task
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
-            bb.getBlockManager().speedAdditionCooldown.remove(player.getUniqueId());
+            additionCooldown.remove(player.getUniqueId());
             player.setWalkSpeed(playerSpeed);
             }, material.getDuration() * 20);
     }

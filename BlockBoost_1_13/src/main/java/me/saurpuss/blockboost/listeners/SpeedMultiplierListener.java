@@ -14,16 +14,15 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class SpeedMultiplierListener extends AbstractListener implements Listener {
 
     private final BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
-    private volatile ArrayList<UUID> multiplierCooldown = new ArrayList<>();
+
+    static HashSet<UUID> multiplierCooldown = new HashSet<>();
+    private HashSet<UUID> blockCooldown = new HashSet<>();
 
     public SpeedMultiplierListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
@@ -43,10 +42,12 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny") ||
                 // player is on cooldown from a SpeedAdditionBlock
-                bb.getBlockManager().speedAdditionCooldown.contains(player.getUniqueId()) ||
+                SpeedAdditionListener.additionCooldown.contains(player.getUniqueId()) ||
                 // player is on cooldown from Multiplier Block
-                multiplierCooldown.contains(player.getUniqueId()))
+                blockCooldown.contains(player.getUniqueId())) {
+            player.sendMessage("Multiplier block check! You are on cooldown!");
             return;
+        }
 
         // Get the block the player is standing on
         Block block = player.getLocation().getBlock();
@@ -78,15 +79,15 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
 
         player.setWalkSpeed(result);
         multiplierCooldown.add(player.getUniqueId());
-        bb.getBlockManager().speedMultiplierCooldown.add(player.getUniqueId());
+        blockCooldown.add(player.getUniqueId());
 
         // TODO custom task
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () ->
-                multiplierCooldown.remove(player.getUniqueId()),
+                blockCooldown.remove(player.getUniqueId()),
                 material.getCooldown());
         Bukkit.getScheduler().scheduleSyncDelayedTask(bb, () -> {
             player.setWalkSpeed(material.getDefaultSpeed());
-            bb.getBlockManager().speedMultiplierCooldown.remove(player.getUniqueId());
+            multiplierCooldown.remove(player.getUniqueId());
         }, material.getDuration() * 20);
     }
 

@@ -19,10 +19,6 @@ public class BlockManager {
     private final BlockBoost bb;
     private final CustomBlockSetup blockSetup;
 
-    // Cooldown checks to prevent multiple speedBlock types from overriding player walkSpeed
-    public volatile ArrayList<UUID> speedAdditionCooldown = new ArrayList<>();
-    public volatile ArrayList<UUID> speedMultiplierCooldown = new ArrayList<>();
-
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
         blockSetup = new CustomBlockSetup(plugin);
