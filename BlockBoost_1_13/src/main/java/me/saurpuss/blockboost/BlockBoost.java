@@ -3,6 +3,8 @@ package me.saurpuss.blockboost;
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
 import me.saurpuss.blockboost.commands.ForceSpeed;
 import me.saurpuss.blockboost.managers.BlockManager;
+import me.saurpuss.blockboost.util.SpeedTask;
+import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,6 +38,9 @@ public final class BlockBoost extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Finish pending BB Tasks
+        doTasksNow();
+
         // Unload active listeners
         HandlerList.unregisterAll(this);
     }
@@ -49,5 +54,13 @@ public final class BlockBoost extends JavaPlugin {
 
     public BlockManager getBlockManager() {
         return blockManager;
+    }
+
+    public void doTasksNow() {
+        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
+            if (task.getOwner().equals(this)) {
+                ((Runnable) task).run();
+            }
+        });
     }
 }

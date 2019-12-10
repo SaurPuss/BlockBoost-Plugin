@@ -7,6 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+/**
+ * In case of emergency fire command! This will manually reset a player's walk speed.
+ */
 public class ForceSpeed implements CommandExecutor {
 
     @Override

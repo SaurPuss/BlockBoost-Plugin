@@ -12,6 +12,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Base plugin command for reloading the plugin as well as list active Boost Blocks for users
+ * with appropriate bb permission nodes.
+ */
 public class BlockBoostCommand implements CommandExecutor {
 
     private final BlockBoost bb;
@@ -19,7 +23,6 @@ public class BlockBoostCommand implements CommandExecutor {
     public BlockBoostCommand(BlockBoost plugin) {
         bb = plugin;
     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

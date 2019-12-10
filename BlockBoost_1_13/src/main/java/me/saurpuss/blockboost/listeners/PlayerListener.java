@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.util.SpeedTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,12 +16,14 @@ import java.util.UUID;
 
 public class PlayerListener implements Listener {
 
+    private BlockBoost bb;
     static HashMap<UUID, Long> additionCooldown;
     static HashMap<UUID, Long> multiplierCooldown;
     static HashMap<UUID, Long> multiplierBlockCooldown;
 
     public PlayerListener(BlockBoost plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        bb = plugin;
+        bb.getServer().getPluginManager().registerEvents(this, bb);
 
         // Set up player time trackers
         additionCooldown = new HashMap<>();
@@ -48,20 +51,28 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
+        Player player = event.getPlayer();
 
-        additionCooldown.remove(uuid);
-        multiplierCooldown.remove(uuid);
-        multiplierBlockCooldown.remove(uuid);
+        if (isOnMultiplierCooldown(player.getUniqueId()) ||
+                isOnAdditionCooldown(player.getUniqueId()))
+            doTaskNow(player);
+
+        additionCooldown.remove(player.getUniqueId());
+        multiplierCooldown.remove(player.getUniqueId());
+        multiplierBlockCooldown.remove(player.getUniqueId());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
+        Player player = event.getPlayer();
 
-        additionCooldown.remove(uuid);
-        multiplierCooldown.remove(uuid);
-        multiplierBlockCooldown.remove(uuid);
+        if (isOnMultiplierCooldown(player.getUniqueId()) ||
+                isOnAdditionCooldown(player.getUniqueId()))
+            doTaskNow(player);
+
+        additionCooldown.remove(player.getUniqueId());
+        multiplierCooldown.remove(player.getUniqueId());
+        multiplierBlockCooldown.remove(player.getUniqueId());
     }
 
     public static boolean isOnAdditionCooldown(UUID player) {
@@ -76,6 +87,15 @@ public class PlayerListener implements Listener {
 
     public void unregister() {
         HandlerList.unregisterAll(this);
+    }
+
+    private void doTaskNow(Player player) {
+        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
+            // player has a matching pending task
+            if (task.getOwner().equals(bb) && ((SpeedTask) task).getPlayer() == player) {
+                ((Runnable) task).run();
+            }
+        });
     }
 
 }
