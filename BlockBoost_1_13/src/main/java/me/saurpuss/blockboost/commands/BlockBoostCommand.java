@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.commands;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.listeners.PlayerListener;
 import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,10 +36,14 @@ public class BlockBoostCommand implements CommandExecutor {
             if (sender instanceof Player && !sender.hasPermission("bb.reload"))
                 sender.sendMessage(ChatColor.RED + "You do not have the §4bb.reload §cpermission!");
             else {
+                sender.sendMessage(ChatColor.GREEN + "Reloading BlockBoost plugin!");
+                sender.sendMessage(ChatColor.GRAY + "Completing pending tasks!");
+                bb.doTasksNow();
+                sender.sendMessage(ChatColor.GRAY + "Resetting player cooldowns!");
+                PlayerListener.registerOnlinePlayers();
+                sender.sendMessage(ChatColor.GRAY + "Refreshing configuration files!");
                 bb.reloadBB();
-                sender.sendMessage(ChatColor.GREEN + "Reloaded BlockBoost Plugin! Use " +
-                        ChatColor.YELLOW + "/bb list" + ChatColor.GREEN + " to display active" +
-                        "Boost Blocks!");
+                sender.sendMessage(ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
             }
 
             return true;

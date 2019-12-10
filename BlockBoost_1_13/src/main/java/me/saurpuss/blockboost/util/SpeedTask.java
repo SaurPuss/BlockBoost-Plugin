@@ -15,6 +15,7 @@ public class SpeedTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        player.sendMessage("speed: " + speed);
         player.setWalkSpeed(speed);
     }
 

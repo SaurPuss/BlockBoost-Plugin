@@ -2,9 +2,11 @@ package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
 import me.saurpuss.blockboost.commands.ForceSpeed;
+import me.saurpuss.blockboost.listeners.PlayerListener;
 import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.SpeedTask;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 

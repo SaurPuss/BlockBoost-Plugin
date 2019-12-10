@@ -17,9 +17,9 @@ import java.util.UUID;
 public class PlayerListener implements Listener {
 
     private BlockBoost bb;
-    static HashMap<UUID, Long> additionCooldown;
-    static HashMap<UUID, Long> multiplierCooldown;
-    static HashMap<UUID, Long> multiplierBlockCooldown;
+    public static HashMap<UUID, Long> additionCooldown;
+    public static HashMap<UUID, Long> multiplierCooldown;
+    public static HashMap<UUID, Long> multiplierBlockCooldown;
 
     public PlayerListener(BlockBoost plugin) {
         bb = plugin;
@@ -30,13 +30,7 @@ public class PlayerListener implements Listener {
         multiplierCooldown = new HashMap<>();
         multiplierBlockCooldown = new HashMap<>();
 
-        // Add players already online
-        Long time = System.currentTimeMillis() + 2000;
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            additionCooldown.put(player.getUniqueId(), time);
-            multiplierCooldown.put(player.getUniqueId(), time);
-            multiplierBlockCooldown.put(player.getUniqueId(), time);
-        }
+        registerOnlinePlayers();
     }
 
     @EventHandler
@@ -51,28 +45,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-
-        if (isOnMultiplierCooldown(player.getUniqueId()) ||
-                isOnAdditionCooldown(player.getUniqueId()))
-            doTaskNow(player);
-
-        additionCooldown.remove(player.getUniqueId());
-        multiplierCooldown.remove(player.getUniqueId());
-        multiplierBlockCooldown.remove(player.getUniqueId());
+        finishPlayerTasks(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-        Player player = event.getPlayer();
-
-        if (isOnMultiplierCooldown(player.getUniqueId()) ||
-                isOnAdditionCooldown(player.getUniqueId()))
-            doTaskNow(player);
-
-        additionCooldown.remove(player.getUniqueId());
-        multiplierCooldown.remove(player.getUniqueId());
-        multiplierBlockCooldown.remove(player.getUniqueId());
+        finishPlayerTasks(event.getPlayer());
     }
 
     public static boolean isOnAdditionCooldown(UUID player) {
@@ -85,17 +63,39 @@ public class PlayerListener implements Listener {
                 multiplierBlockCooldown.get(player) > System.currentTimeMillis();
     }
 
+    private void finishPlayerTasks(Player player) {
+        // If player is on cooldown check for pending task
+        if (isOnMultiplierCooldown(player.getUniqueId()) ||
+                isOnAdditionCooldown(player.getUniqueId())) {
+            Bukkit.getScheduler().getPendingTasks().forEach(task -> {
+                // player has a matching pending task
+                if (task.getOwner().equals(bb) && ((SpeedTask) task).getPlayer() == player) {
+                    ((Runnable) task).run();
+                }
+            });
+        }
+
+        // Clean up cooldown maps
+        additionCooldown.remove(player.getUniqueId());
+        multiplierCooldown.remove(player.getUniqueId());
+        multiplierBlockCooldown.remove(player.getUniqueId());
+    }
+
+    public static void registerOnlinePlayers() {
+        additionCooldown.clear();
+        multiplierBlockCooldown.clear();
+        multiplierBlockCooldown.clear();
+
+        // Add players already online and set their time 2 seconds into the future
+        Long time = System.currentTimeMillis() + 2000;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            additionCooldown.put(player.getUniqueId(), time);
+            multiplierCooldown.put(player.getUniqueId(), time);
+            multiplierBlockCooldown.put(player.getUniqueId(), time);
+        }
+    }
+
     public void unregister() {
         HandlerList.unregisterAll(this);
     }
-
-    private void doTaskNow(Player player) {
-        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
-            // player has a matching pending task
-            if (task.getOwner().equals(bb) && ((SpeedTask) task).getPlayer() == player) {
-                ((Runnable) task).run();
-            }
-        });
-    }
-
 }
