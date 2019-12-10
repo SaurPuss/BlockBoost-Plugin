@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -75,8 +76,8 @@ public class SpeedAdditionListener extends AbstractListener implements Listener 
 
         player.setWalkSpeed(result);
 
-        // TODO convert end time to projected millis
-        PlayerListener.additionCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+        PlayerListener.additionCooldown.put(player.getUniqueId(),
+                System.currentTimeMillis() + (material.getDuration() * 1000));
 
         new SpeedTask(player, playerSpeed).runTaskLater(bb, material.getDuration() * 20);
     }

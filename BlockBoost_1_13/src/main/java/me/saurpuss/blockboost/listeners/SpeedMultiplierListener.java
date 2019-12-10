@@ -74,9 +74,10 @@ public class SpeedMultiplierListener extends AbstractListener implements Listene
 
         player.setWalkSpeed(result);
 
-        // TODO convert end time to projected millis
-        PlayerListener.multiplierCooldown.put(player.getUniqueId(), System.currentTimeMillis());
-        PlayerListener.multiplierBlockCooldown.put(player.getUniqueId(), System.currentTimeMillis());
+        PlayerListener.multiplierCooldown.put(player.getUniqueId(), System.currentTimeMillis() +
+                (material.getDuration() * 1000)); // duration in seconds
+        PlayerListener.multiplierBlockCooldown.put(player.getUniqueId(), System.currentTimeMillis() +
+                (material.getCooldown() * 50)); // cooldown in ticks
 
         new SpeedTask(player, material.getDefaultSpeed()).runTaskLater(bb, material.getDuration() * 20);
     }

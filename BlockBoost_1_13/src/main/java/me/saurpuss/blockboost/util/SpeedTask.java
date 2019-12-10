@@ -17,8 +17,4 @@ public class SpeedTask extends BukkitRunnable {
     public void run() {
         player.setWalkSpeed(speed);
     }
-
-    public void stop() {
-        run();
-    }
 }
