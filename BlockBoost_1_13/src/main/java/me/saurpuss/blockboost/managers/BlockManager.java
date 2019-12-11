@@ -13,6 +13,7 @@ public class BlockManager {
 
     private final BlockBoost bb;
     private final CustomBlockSetup blockSetup;
+    public static HashMap<UUID, Long> speedTaskCooldown;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
@@ -23,8 +24,7 @@ public class BlockManager {
 
         // Register all valid block listeners
         setListener(BB.BOUNCE);
-        setListener(BB.SPEED_MULTIPLIER);
-        setListener(BB.SPEED_ADDITION);
+        setListener(BB.SPEED);
         setListener(BB.POTION);
     }
 
@@ -35,10 +35,8 @@ public class BlockManager {
         switch (type) {
             case BOUNCE:
                 new BounceListener(bb, blocks);
-            case SPEED_MULTIPLIER:
-                new SpeedMultiplierListener(bb, blocks);
-            case SPEED_ADDITION:
-                new SpeedAdditionListener(bb, blocks);
+            case SPEED:
+                new SpeedListener(bb, blocks);
             case POTION:
                 new PotionEffectListener(bb, blocks);
         }
@@ -55,5 +53,9 @@ public class BlockManager {
         }
 
         return list;
+    }
+
+    public static boolean isOnSpeedTaskCooldown(UUID uuid) {
+        return speedTaskCooldown.get(uuid) > System.currentTimeMillis();
     }
 }

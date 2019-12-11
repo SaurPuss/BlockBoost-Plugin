@@ -39,8 +39,6 @@ public class BlockBoostCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.GREEN + "Reloading BlockBoost plugin!");
                 sender.sendMessage(ChatColor.GRAY + "Completing pending tasks!");
                 bb.doTasksNow();
-                sender.sendMessage(ChatColor.GRAY + "Resetting player cooldowns!");
-                PlayerListener.registerOnlinePlayers();
                 sender.sendMessage(ChatColor.GRAY + "Refreshing configuration files!");
                 bb.reloadBB();
                 sender.sendMessage(ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
@@ -68,14 +66,9 @@ public class BlockBoostCommand implements CommandExecutor {
                 List<String> list = new ArrayList<>();
                 switch (type) {
                     case BOUNCE:
-                    case SPEED_ADDITION:
-                    case SPEED_MULTIPLIER:
+                    case SPEED:
                     case POTION:
                         list.addAll(bb.getBlockManager().getBlockList(type));
-                        break;
-                    case SPEED:
-                        list.addAll(bb.getBlockManager().getBlockList(BB.SPEED_ADDITION));
-                        list.addAll(bb.getBlockManager().getBlockList(BB.SPEED_MULTIPLIER));
                         break;
                     default:
                         sender.sendMessage(ChatColor.RED + args[1] + " is not registered as a " +

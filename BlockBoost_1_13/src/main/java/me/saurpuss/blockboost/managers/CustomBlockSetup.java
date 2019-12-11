@@ -4,6 +4,7 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.*;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
+import me.saurpuss.blockboost.util.BBSubType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,8 +21,7 @@ class CustomBlockSetup {
 
     private final BlockBoost bb;
     private YamlConfiguration bounceConfig, speedConfig, potionConfig;
-    private HashMap<Material, AbstractBlock> bounceBlockMap, speedAdditionBlockMap,
-            speedMultiplierBlockMap, potionEffectBlockMap;
+    private HashMap<Material, AbstractBlock> bounceBlockMap, speedBlockMap, potionEffectBlockMap;
 
     CustomBlockSetup(BlockBoost plugin) {
         bb = plugin;
@@ -48,17 +48,11 @@ class CustomBlockSetup {
 
         loadCustomConfig(type);
 
-        if (type.section() != null && hasValidKeys(type))
+        if (hasValidKeys(type))
             populateBlockMap(type);
     }
 
     private void loadCustomConfig(BB type) {
-        switch(type) {
-            case SPEED_ADDITION:
-            case SPEED_MULTIPLIER:
-                return; // covered by BB.SPEED below
-        }
-
         File file = new File(bb.getDataFolder(), type.file());
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
@@ -118,8 +112,6 @@ class CustomBlockSetup {
                 }
                 break;
             case SPEED:
-            case SPEED_ADDITION:
-            case SPEED_MULTIPLIER:
                 if (speedConfig == null) return;
                 try {
                     speedConfig.save(file);
@@ -146,8 +138,6 @@ class CustomBlockSetup {
             case BOUNCE:
                 return bounceConfig;
             case SPEED:
-            case SPEED_ADDITION:
-            case SPEED_MULTIPLIER:
                 return speedConfig;
             case POTION:
                 return potionConfig;
@@ -162,16 +152,13 @@ class CustomBlockSetup {
         switch (type) {
             case BOUNCE:
                 return bounceBlockMap;
-            case SPEED_ADDITION:
-                return speedAdditionBlockMap;
-            case SPEED_MULTIPLIER:
-                return speedMultiplierBlockMap;
+            case SPEED:
+                return speedBlockMap;
             case POTION:
                 return potionEffectBlockMap;
             default:
                 bb.getLogger().log(Level.WARNING, "Unregistered or unknown BB of type " + type +
                         " found in CustomBlockSetup#getBlockMap()!");
-            case SPEED:
                 return null;
         }
     }
@@ -246,24 +233,18 @@ class CustomBlockSetup {
                                 .withIncludeWorld(include).withHeight(height)
                                 .withNormalize(normalize).build();
                         break;
-                    case SPEED_ADDITION:
+                    case SPEED:
                         consoleMessage = speedConfig.getBoolean("console-message");
-                        float addition = (float) section.getDouble(key + ".addition");
-                        block = new SpeedAdditionBlock.Builder(material).withWorld(world)
-                                .withIncludeWorld(include).withAddition(addition)
-                                .withDuration(duration).build();
-                        break;
-                    case SPEED_MULTIPLIER:
-                        consoleMessage = speedConfig.getBoolean("console-message");
-                        float defaultSpeed = (float) section.getDouble(key + ".default");
-                        float speedMultiplier = (float) section.getDouble(key + ".multiplier");
-                        float speedCap = (float) section.getDouble(key + ".cap");
+                        float amount = (float) section.getDouble(key + ".amount");
+                        float cap = (float)  section.getDouble(key + ".cap");
                         int cooldown = section.getInt(key + ".cooldown");
-
-                        block = new SpeedMultiplierBlock.Builder(material).withWorld(world)
-                                .withIncludeWorld(include).withDefaultSpeed(defaultSpeed)
-                                .withSpeedMultiplier(speedMultiplier).withCap(speedCap)
-                                .withDuration(duration).withCooldown(cooldown).build();
+                        BBSubType subType = BBSubType.getByName(speedConfig.getString(key + ".type"));
+                        if (subType != null) {
+                            block = new SpeedBlock.Builder(material).withWorld(world)
+                                    .withIncludeWorld(include).withType(subType).withAmount(amount)
+                                    .withCap(cap).withDuration(duration).withCooldown(cooldown)
+                                    .build();
+                        }
                         break;
                     case POTION:
                         consoleMessage = potionConfig.getBoolean("console-message");
@@ -301,8 +282,7 @@ class CustomBlockSetup {
         } else {
             switch (type) {
                 case BOUNCE: bounceBlockMap = validMats; break;
-                case SPEED_ADDITION: speedAdditionBlockMap = validMats; break;
-                case SPEED_MULTIPLIER: speedMultiplierBlockMap = validMats; break;
+                case SPEED: speedBlockMap = validMats; break;
                 case POTION: potionEffectBlockMap = validMats; break;
             }
         }
