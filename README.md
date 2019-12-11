@@ -5,7 +5,7 @@ Read the config files for an in-depth explanation of each block effect.
 
 <h3>Commands:</h3>
 <ul>
-  <li>/blockboost - Display plugin information</li>
+  <li>/blockboost - Display plugin information or usage</li>
   <li>/blockboost info - Display plugin information</li>
   <li>/blockboost type - List available blocktypes</li>
   <li>/blockboost list - List active Boost Blocks</li>
