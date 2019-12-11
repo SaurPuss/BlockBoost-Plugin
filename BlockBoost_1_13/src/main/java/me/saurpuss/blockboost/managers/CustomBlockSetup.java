@@ -235,7 +235,7 @@ class CustomBlockSetup {
                         break;
                     case SPEED:
                         consoleMessage = speedConfig.getBoolean("console-message");
-                        String typeString = speedConfig.getString(key + ".type");
+                        String typeString = section.getString(key + ".type");
                         float amount = (float) section.getDouble(key + ".amount");
                         float cap = (float)  section.getDouble(key + ".cap");
                         int cooldown = section.getInt(key + ".cooldown");
@@ -254,7 +254,7 @@ class CustomBlockSetup {
                         } else {
                             bb.getLogger().log(Level.WARNING,
                                     "Missing SpeedBlockType in " + type.file() + ":" + type.section() +
-                                            "! Ignoring " + key + "!");
+                                            "! Ignoring " + key + "! ");
                         }
                         break;
                     case POTION:

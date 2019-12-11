@@ -4,9 +4,8 @@
 #### Added:
 ##### Block types:
 * Bounce Block
-* Speed Multiplier Block
-* Speed Addition Block
+* Speed Block
 * Potion Effect Block
 ##### Commands:
-* /bb - list active blocks and reload the plugin
+* /bb - list active blocks, plugin info, and reload the plugin
 * /bbspeed - command to force an online player's walkSpeed to an acceptable value

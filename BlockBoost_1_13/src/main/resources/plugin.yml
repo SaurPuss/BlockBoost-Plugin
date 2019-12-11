@@ -12,6 +12,8 @@ commands:
     description: BlockBoost command
     usage: |
       §6BoostBlock plugin usage:
+        §3/<command> §r- Display /<command> usage
+        §3/<command> §binfo§r - Display BlockBoost plugin info
         §3/<command> §btype§r - Display valid Boost Block types
         §3/<command> §blist§r - List all active Boost Blocks
         §3/<command> §blist §e[§bblocktype§e]§r - List active §eblocktype§r Boost Blocks

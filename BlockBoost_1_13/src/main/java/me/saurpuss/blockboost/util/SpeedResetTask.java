@@ -18,7 +18,7 @@ public class SpeedResetTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        player.sendMessage("SpeedTask speed: " + speed);
+        player.sendMessage("Activating SpeedTask for speed: " + speed);
         Bukkit.getServer().getLogger().log(Level.INFO, "Running SpeedTask on " + player.getName());
         player.setWalkSpeed(speed);
     }

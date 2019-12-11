@@ -1,7 +1,6 @@
 package me.saurpuss.blockboost.commands;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.listeners.PlayerListener;
 import me.saurpuss.blockboost.util.BB;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Base plugin command for reloading the plugin as well as list active Boost Blocks for users
@@ -49,6 +49,17 @@ public class BlockBoostCommand implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("info"))
             return Bukkit.dispatchCommand(sender, "version blockboost");
+
+        if (args[0].equalsIgnoreCase("type")) {
+            StringJoiner joiner = new StringJoiner("§a, §2", ChatColor.GREEN +
+                    "Available BlockBoost types: §2", "§a.");
+            for (BB type : BB.values()) {
+                joiner.add(type.toString());
+            }
+
+            sender.sendMessage(joiner.toString());
+            return true;
+        }
 
         else if (args[0].equalsIgnoreCase("list")) {
             // try to get a specific block to list

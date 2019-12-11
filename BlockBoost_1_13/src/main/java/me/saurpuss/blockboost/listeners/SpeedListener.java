@@ -80,6 +80,7 @@ public class SpeedListener implements Listener {
         if (resultSpeed >= 1.0f || resultSpeed > material.getCap())
             resultSpeed = material.getCap();
 
+        player.sendMessage("activating speedblock of type " + material.getType());
         player.setWalkSpeed(resultSpeed);
         cooldown.put(player.getUniqueId(),
                 System.currentTimeMillis() + (material.getCooldown() * 20));
@@ -89,6 +90,7 @@ public class SpeedListener implements Listener {
             BlockManager.speedTaskCooldown.put(player.getUniqueId(),
                     System.currentTimeMillis() + (material.getDuration() * 1000));
 
+            player.sendMessage("adding speed task");
             new SpeedResetTask(player, playerSpeed).runTaskLater(bb, material.getDuration() * 20);
         }
     }

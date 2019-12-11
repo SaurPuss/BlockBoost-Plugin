@@ -6,6 +6,8 @@ Read the config files for an in-depth explanation of each block effect.
 <h3>Commands:</h3>
 <ul>
   <li>/blockboost - Display plugin information</li>
+  <li>/blockboost info - Display plugin information</li>
+  <li>/blockboost type - List available blocktypes</li>
   <li>/blockboost list - List active Boost Blocks</li>
   <li>/blockboost list [blocktype] - List active Boost Blocks of blocktype</li>
   <li>/blockboost reload - Reload BlockBoost configuration</li>
