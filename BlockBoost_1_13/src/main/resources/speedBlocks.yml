@@ -1,15 +1,29 @@
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                             -------- Speed Block Setup --------
 # -
-# Speed Blocks are blocks that will either multiply a player's current speed with a set duration
-# before resetting it back to the default. Or they can add speed on top of the player's current
-# speed after which it will be set back to the speed a player had before getting boosted.
+# Speed Blocks are blocks that will either multiply a player's current speed or add speed on top
+# of the player's current speed after which it will be set back to the speed a player had before
+# activating the effect once the duration has passed. Duration is counted in seconds.
 # -
 # Minecraft default walk speed is 0.2, a player's speed can range from 0.0 to 1.0, any attempts
 # to go past 1.0 will automatically cap out at 1.0.
 # -
-# While a player is on cooldown from any of the Speed Blocks, they can't trigger blocks of a
-# different Material. (In the case of Speed Addition Blocks the cooldown matches the full duration!)
+# When type is set to MULTIPLIER, the player's current walk speed will be multiplied by the amount.
+# Amounts set lower than 1 will decrease the speed, and higher will increase speed. So if the player
+# speed is 0.2 * 1.5 that will result in a 0.3 walk speed for the duration listed.
+# -
+# When the type is set to ADDITION the amount is added on top of the player's current walk speed.
+# So a player with speed 0.2 and an amount of 0.2 will result in a 0.4 speed for the duration of
+# the boost.
+# -
+# The cap will make sure the maximum speed never exceeds your set number, even if the boost is
+# triggered multiple times before being reset. The duration is set in seconds, after which the
+# default walk speed will be reapplied to the player.
+# -
+# To prevent triggering the speed blocks too fast, a cooldown is set up. The cooldown is in ticks
+# (20 ticks per second). If set to zero the block will activate 3 times while a player is passing
+# over a single block! If you don't want to have consecutive speed boost triggered by one or more
+# blocks simply set the cooldown as the duration * 20.
 # -
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
@@ -26,31 +40,6 @@
 # -
 # Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 # -
-#                             -------- Speed Multiplier Blocks --------
-# -
-# The multiplier blocks have a preset default walk speed, which is manipulated by the multiplier
-# for the speed boost. Multipliers set lower than 1 will decrease the speed, and higher will
-# increase speed. So if default is 0.2 * 1.5 that will result in a 0.3 walk speed for the duration
-# listed.
-# -
-# The cap will make sure the maximum speed never exceeds your set number, even if the boost is
-# triggered multiple times before being reset. The duration is set in seconds, after which the
-# default walk speed will be reapplied to the player.
-# -
-# To prevent triggering the multiplier too fast, a cooldown is set up. The cooldown is in ticks
-# (20 ticks per second). If set to zero the block will activate 3 times while a player is passing
-# over a single block! If you don't want to have consecutive multipliers triggered by one or more
-# blocks simply set the cooldown as the duration * 20.
-# -
-#                             -------- Speed Addition Blocks --------
-# -
-# Speed additions are added on top of the player's current walk speed. While this effect is active
-# the are automatically player on cooldown preventing them from gaining boosts from other Speed
-# Blocks. After the duration has passed their walk speed will be set back to the speed they had
-# when they received the boost.
-# -
-# Duration is counted in seconds.
-# -
 #                                   -------- Warning --------
 # -
 # The blocks defined in this configuration affect the player's walk speed! This means it can
@@ -59,21 +48,23 @@
 # -
 #                               -------- Example Config --------
 # -
-# multiplier:
-#   EMERALD_BLOCK:
-#     world: global
-#     include-world: true
-#     multiplier: 1.5
-#     cap: 1.0
-#     duration: 5
-#     cooldown: 10
-# -
-# addition:
-#   EMERALD_ORE:
-#     world: global
-#     include-world: true
-#     duration: 5
-#     addition: 0.2
+# speed:
+#  EMERALD_BLOCK:
+#    world: global
+#    include-world: true
+#    type: MULTIPLIER
+#    amount: 1.5
+#    cap: 1.0
+#    duration: 5
+#    cooldown: 10
+#  EMERALD_ORE:
+#    world: global
+#    include-world: true
+#    type: ADDITION
+#    amount: 0.2
+#    cap: 0.5
+#    duration: 5
+#    cooldown: 10
 # -
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 console-message: true
@@ -86,21 +77,4 @@ speed:
     amount: 1.5
     cap: 1.0
     duration: 5
-    activation-cooldown: 10
-
-
-multiplier:
-  EXAMPLE_BLOCK:
-    world: global
-    include-world: true
-    multiplier: 1.5
-    cap: 1.0
-    duration: 5
     cooldown: 10
-
-addition:
-  EXAMPLE_BLOCK:
-    world: global
-    include-world: true
-    addition: 0.2
-    duration: 5

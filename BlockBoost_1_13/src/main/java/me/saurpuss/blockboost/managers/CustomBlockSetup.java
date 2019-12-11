@@ -235,15 +235,26 @@ class CustomBlockSetup {
                         break;
                     case SPEED:
                         consoleMessage = speedConfig.getBoolean("console-message");
+                        String typeString = speedConfig.getString(key + ".type");
                         float amount = (float) section.getDouble(key + ".amount");
                         float cap = (float)  section.getDouble(key + ".cap");
                         int cooldown = section.getInt(key + ".cooldown");
-                        BBSubType subType = BBSubType.getByName(speedConfig.getString(key + ".type"));
-                        if (subType != null) {
-                            block = new SpeedBlock.Builder(material).withWorld(world)
-                                    .withIncludeWorld(include).withType(subType).withAmount(amount)
-                                    .withCap(cap).withDuration(duration).withCooldown(cooldown)
-                                    .build();
+                        if (typeString != null) {
+                            BBSubType subType = BBSubType.getByName(typeString);
+                            if (subType != null) {
+                                block = new SpeedBlock.Builder(material).withWorld(world)
+                                        .withIncludeWorld(include).withType(subType).withAmount(amount)
+                                        .withCap(cap).withDuration(duration).withCooldown(cooldown)
+                                        .build();
+                            } else {
+                                bb.getLogger().log(Level.WARNING, "SpeedBlockType " + typeString +
+                                        " in " + type.file() + ":" + type.section() + " is invalid! " +
+                                        "Ignoring " + key + "!");
+                            }
+                        } else {
+                            bb.getLogger().log(Level.WARNING,
+                                    "Missing SpeedBlockType in " + type.file() + ":" + type.section() +
+                                            "! Ignoring " + key + "!");
                         }
                         break;
                     case POTION:
