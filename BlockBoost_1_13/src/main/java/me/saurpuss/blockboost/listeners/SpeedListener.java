@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class SpeedListener implements Listener {
 
@@ -86,14 +85,12 @@ public class SpeedListener implements Listener {
         if (resultSpeed >= 1.0f || resultSpeed > material.getCap())
             resultSpeed = material.getCap();
 
-        player.sendMessage("activating speedblock of type " + material.getType());
         player.setWalkSpeed(resultSpeed);
         speedBlockCooldown.put(player.getUniqueId(),
                 System.currentTimeMillis() + (material.getCooldown() * 20));
 
         // Create a reset task to go back to original speed
         if (!isOnSpeedTaskCooldown(player.getUniqueId())) {
-            player.sendMessage("adding speed task");
             speedTasks.put(player.getUniqueId(), playerSpeed);
             new SpeedResetTask(player, playerSpeed)
                     .runTaskLater(bb, material.getDuration() * 20);
@@ -113,13 +110,11 @@ public class SpeedListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        bb.getLogger().log(Level.INFO, "player quit event");
         resetSpeedEarly(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-        bb.getLogger().log(Level.INFO, "player kick event");
         resetSpeedEarly(event.getPlayer());
     }
 
