@@ -2,7 +2,7 @@
 #                             -------- Bounce Block Setup --------
 # -
 # Bounce Blocks are blocks that will increase a player's velocity when a player is on top of it
-# while moving. The block specific settings are height and normalize. If normalize is set to true
+# (while moving). The block specific settings are height and normalize. If normalize is set to true
 # the height will determine how many additional blocks the player will be boosted up into the air.
 # While normalize is off the effects are somewhat more volatile.
 # -
