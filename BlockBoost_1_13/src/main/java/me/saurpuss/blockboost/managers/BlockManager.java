@@ -13,14 +13,10 @@ public class BlockManager {
 
     private final BlockBoost bb;
     private final CustomBlockSetup blockSetup;
-    public static HashMap<UUID, Long> speedTaskCooldown;
 
     public BlockManager(BlockBoost plugin) {
         bb = plugin;
         blockSetup = new CustomBlockSetup(plugin);
-
-        // Register PlayerListener
-        new PlayerListener(bb);
 
         // Register all valid block listeners
         setListener(BB.BOUNCE);
@@ -53,9 +49,5 @@ public class BlockManager {
         }
 
         return list;
-    }
-
-    public static boolean isOnSpeedTaskCooldown(UUID uuid) {
-        return speedTaskCooldown.get(uuid) > System.currentTimeMillis();
     }
 }

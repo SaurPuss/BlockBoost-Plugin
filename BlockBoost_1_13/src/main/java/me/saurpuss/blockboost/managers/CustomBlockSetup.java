@@ -220,7 +220,7 @@ class CustomBlockSetup {
                 AbstractBlock block = null;
                 String world = section.getString( key + ".world");
                 boolean include = section.getBoolean(key + ".include-world");
-                int duration = section.getInt(key + ".duration");
+                long duration = section.getLong(key + ".duration");
 
                 // Try to create a corresponding block type
                 switch (type) {
@@ -238,7 +238,7 @@ class CustomBlockSetup {
                         String typeString = section.getString(key + ".type");
                         float amount = (float) section.getDouble(key + ".amount");
                         float cap = (float)  section.getDouble(key + ".cap");
-                        int cooldown = section.getInt(key + ".cooldown");
+                        long cooldown = section.getLong(key + ".cooldown");
                         if (typeString != null) {
                             BBSubType subType = BBSubType.getByName(typeString);
                             if (subType != null) {
@@ -266,7 +266,7 @@ class CustomBlockSetup {
                             if (effectType != null) {
                                 block = new PotionEffectBlock.Builder(material).withWorld(world)
                                         .withIncludeWorld(include).withEffectType(effectType)
-                                        .withDuration(duration).withAmplifier(amplifier).build();
+                                        .withDuration((int)duration).withAmplifier(amplifier).build();
                             } else {
                                 bb.getLogger().log(Level.WARNING, "PotionEffectType " + effect +
                                         " in " + type.file() + ":" + type.section() + " is invalid! " +

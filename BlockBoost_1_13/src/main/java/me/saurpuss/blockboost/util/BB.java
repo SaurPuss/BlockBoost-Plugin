@@ -13,6 +13,15 @@ public enum BB {
         this.configSection = configSection;
     }
 
+    public BB getByName(String name) {
+        switch (name.toUpperCase()) {
+            case "BOUNCE": return BOUNCE;
+            case "SPEED": return SPEED;
+            case "POTION": return POTION;
+            default: return null;
+        }
+    }
+
     public String file() {
         return fileName;
     }

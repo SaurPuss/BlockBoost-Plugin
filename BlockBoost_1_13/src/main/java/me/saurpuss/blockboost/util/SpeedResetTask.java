@@ -1,10 +1,8 @@
 package me.saurpuss.blockboost.util;
 
-import org.bukkit.Bukkit;
+import me.saurpuss.blockboost.listeners.SpeedListener;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.logging.Level;
 
 public class SpeedResetTask extends BukkitRunnable {
 
@@ -18,12 +16,7 @@ public class SpeedResetTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        player.sendMessage("Activating SpeedTask for speed: " + speed);
-        Bukkit.getServer().getLogger().log(Level.INFO, "Running SpeedTask on " + player.getName());
         player.setWalkSpeed(speed);
-    }
-
-    public Player getPlayer() {
-        return player;
+        SpeedListener.finishTask(player.getUniqueId());
     }
 }

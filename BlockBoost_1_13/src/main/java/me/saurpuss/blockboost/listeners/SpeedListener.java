@@ -2,7 +2,6 @@ package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedBlock;
-import me.saurpuss.blockboost.managers.BlockManager;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BBSubType;
 import me.saurpuss.blockboost.util.SpeedResetTask;
@@ -13,17 +12,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SpeedListener implements Listener {
 
     private BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
-    private HashMap<UUID, Long> cooldown;
+    private HashMap<UUID, Long> speedBlockCooldown;
+    public static volatile HashMap<UUID, Float> speedTasks;
 
     public SpeedListener(BlockBoost plugin, HashMap<Material, AbstractBlock> blocks) {
         bb = plugin;
@@ -32,7 +35,8 @@ public class SpeedListener implements Listener {
         // Test validity of the blocks
         if (test.isPresent() && test.get() instanceof SpeedBlock) {
             BLOCKS = blocks;
-            cooldown = new HashMap<>();
+            speedBlockCooldown = new HashMap<>();
+            speedTasks = new HashMap<>();
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
         } else
             BLOCKS = null;
@@ -42,7 +46,9 @@ public class SpeedListener implements Listener {
     public void activateSpeedBlock(PlayerMoveEvent event) {
         // Check if player is allowed to activate
         final Player player = event.getPlayer();
-        if (player.hasPermission("bb.deny") || isOnBlockCooldown(player.getUniqueId())) return;
+
+        if (player.hasPermission("bb.deny") || isOnBlockCooldown(player.getUniqueId()))
+            return;
 
         // Get block info & look for match
         Block block = player.getLocation().getBlock();
@@ -82,24 +88,53 @@ public class SpeedListener implements Listener {
 
         player.sendMessage("activating speedblock of type " + material.getType());
         player.setWalkSpeed(resultSpeed);
-        cooldown.put(player.getUniqueId(),
+        speedBlockCooldown.put(player.getUniqueId(),
                 System.currentTimeMillis() + (material.getCooldown() * 20));
 
         // Create a reset task to go back to original speed
-        if (!BlockManager.isOnSpeedTaskCooldown(player.getUniqueId())) {
-            BlockManager.speedTaskCooldown.put(player.getUniqueId(),
-                    System.currentTimeMillis() + (material.getDuration() * 1000));
-
+        if (!isOnSpeedTaskCooldown(player.getUniqueId())) {
             player.sendMessage("adding speed task");
-            new SpeedResetTask(player, playerSpeed).runTaskLater(bb, material.getDuration() * 20);
+            speedTasks.put(player.getUniqueId(), playerSpeed);
+            new SpeedResetTask(player, playerSpeed)
+                    .runTaskLater(bb, material.getDuration() * 20);
         }
     }
 
     private boolean isOnBlockCooldown(UUID uuid) {
-        return cooldown.get(uuid) > System.currentTimeMillis();
+        if (!speedBlockCooldown.containsKey(uuid))
+            return false;
+
+        return speedBlockCooldown.get(uuid) > System.currentTimeMillis();
     }
 
     public void unregister() {
         HandlerList.unregisterAll(this);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        bb.getLogger().log(Level.INFO, "player quit event");
+        resetSpeedEarly(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerKick(PlayerKickEvent event) {
+        bb.getLogger().log(Level.INFO, "player kick event");
+        resetSpeedEarly(event.getPlayer());
+    }
+
+    public static void finishTask(UUID uuid) {
+        speedTasks.remove(uuid);
+    }
+
+    private void resetSpeedEarly(Player player) {
+        if (speedTasks.containsKey(player.getUniqueId())) {
+            player.setWalkSpeed(speedTasks.get(player.getUniqueId()));
+            speedTasks.remove(player.getUniqueId());
+        }
+    }
+
+    public boolean isOnSpeedTaskCooldown(UUID uuid) {
+        return speedTasks.containsKey(uuid);
     }
 }

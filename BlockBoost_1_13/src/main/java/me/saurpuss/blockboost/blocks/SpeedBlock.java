@@ -14,8 +14,8 @@ public class SpeedBlock extends AbstractBlock {
         private BBSubType type;
         private float amount;
         private float cap;
-        private int duration;
-        private int cooldown;
+        private long duration;
+        private long cooldown;
 
         public Builder(Material material) {
             this.material = material;
@@ -51,13 +51,13 @@ public class SpeedBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withDuration(int duration) {
+        public Builder withDuration(long duration) {
             this.duration = Math.abs(duration);
 
             return this;
         }
 
-        public Builder withCooldown(int cooldown) {
+        public Builder withCooldown(long cooldown) {
             this.cooldown = Math.abs(cooldown);
 
             return this;
@@ -84,8 +84,8 @@ public class SpeedBlock extends AbstractBlock {
     private BBSubType type;
     private float amount;
     private float cap;
-    private int duration;
-    private int cooldown;
+    private long duration;
+    private long cooldown;
 
     private SpeedBlock() {}
 
@@ -146,19 +146,19 @@ public class SpeedBlock extends AbstractBlock {
         this.cap = cap;
     }
 
-    public int getDuration() {
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(long duration) {
         this.duration = Math.abs(duration);
     }
 
-    public int getCooldown() {
+    public long getCooldown() {
         return cooldown;
     }
 
-    public void setCooldown(int cooldown) {
+    public void setCooldown(long cooldown) {
         this.cooldown = Math.abs(cooldown);
     }
 

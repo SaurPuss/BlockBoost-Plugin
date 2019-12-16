@@ -44,6 +44,9 @@ public final class BlockBoost extends JavaPlugin {
         HandlerList.unregisterAll(this);
     }
 
+    /**
+     * Unregister any existing BlockBoost event listeners and create a new BlockManager
+     */
     public void reloadBB() {
         if (blockManager != null)
             HandlerList.unregisterAll(this);
@@ -55,6 +58,9 @@ public final class BlockBoost extends JavaPlugin {
         return blockManager;
     }
 
+    /**
+     * Make any pending tasks scheduled by this BlockBoost run now instead of later.
+     */
     public void doTasksNow() {
         Bukkit.getScheduler().getPendingTasks().forEach(task -> {
             if (task.getOwner().equals(this)) {
