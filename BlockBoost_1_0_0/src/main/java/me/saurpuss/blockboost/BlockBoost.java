@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Level;
 
 /**
- * BlockBoost Plugin for Spigot
+ * BlockBoost Plugin for Spigot 1.13+
  *
  * @author SaurPuss
  * Source: https://github.com/SaurPuss/BlockBoost-Plugin

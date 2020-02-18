@@ -1,6 +1,7 @@
 #BlockBoost Plugin Changelog
 
 ### 1.0 - Initial version
+For Spigot 1.13+
 #### Added:
 ##### Block types:
 * Bounce Block

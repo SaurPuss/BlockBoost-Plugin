@@ -4,6 +4,7 @@ import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BBSubType;
 import me.saurpuss.blockboost.util.SpeedResetTask;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -84,15 +85,16 @@ public class SpeedBlock extends AbstractBlock {
         }
     }
 
-    private static HashMap<UUID, Float> speedReset;
+    private static BlockBoost plugin;
+    private static HashMap<UUID, SpeedResetTask> scheduledSpeedTasks;
     private static HashMap<UUID, Long> onCooldown;
 
     static {
-        speedReset = new HashMap<>();
-        onCooldown = new HashMap<>();
+        plugin = BlockBoost.getPlugin(BlockBoost.class);
 
-        // TODO make additions and removals for the maps
-        // TODO synchronize
+        // TODO threadsafety
+        scheduledSpeedTasks = new HashMap<>();
+        onCooldown = new HashMap<>();
     }
 
     private Material material;
@@ -195,25 +197,45 @@ public class SpeedBlock extends AbstractBlock {
 
     @Override
     public void activate(Player player) {
-        final float playerSpeed = player.getWalkSpeed();
-        float resultSpeed;
-
-        // Calculate result speed
-        if (getSubType() == BBSubType.SPEED_MULTIPLIER) resultSpeed = playerSpeed * getAmount();
-        else resultSpeed = playerSpeed + getAmount();
-        if (resultSpeed >= 1.0f || resultSpeed > getCap()) resultSpeed = getCap();
-        // TODO negative cap?
-
-        player.setWalkSpeed(resultSpeed);
-
-        // TODO map stuff
+        if (onCooldown.get(player.getUniqueId()) >= System.currentTimeMillis())
+            return;
         onCooldown.put(player.getUniqueId(), System.currentTimeMillis() + (getCooldown() * 20));
 
-        // Create a reset task to go back to original speed
-        if (!onCooldown.containsKey(player.getUniqueId())) {
-            speedReset.put(player.getUniqueId(), playerSpeed);
-            new SpeedResetTask(player, playerSpeed).runTaskLater( // TODO replace plugin reference
-                    BlockBoost.getPlugin(BlockBoost.class), getDuration() * 20);
+        // Get playerSpeed
+        final float playerSpeed;
+        SpeedResetTask oldTask;
+        if (scheduledSpeedTasks.containsKey(player.getUniqueId())) {
+            oldTask = scheduledSpeedTasks.get(player.getUniqueId());
+            if (Bukkit.getScheduler().isQueued(oldTask.getTaskId())) {
+                playerSpeed = oldTask.getSpeed();
+                oldTask.cancel();
+            } else
+                playerSpeed = player.getWalkSpeed();
+        } else
+            playerSpeed = player.getWalkSpeed();
+
+        // Calculate result speed
+        float resultSpeed;
+        if (getSubType() == BBSubType.SPEED_MULTIPLIER)
+            resultSpeed = playerSpeed * getAmount();
+        else
+            resultSpeed = playerSpeed + getAmount();
+
+        // Double check caps
+        if (resultSpeed >= 1.0f || resultSpeed > getCap())
+            resultSpeed = getCap(); // TODO negative cap?
+
+        SpeedResetTask task = new SpeedResetTask(player, playerSpeed);
+        scheduledSpeedTasks.put(player.getUniqueId(), task); // TODO concurrency
+        player.setWalkSpeed(resultSpeed);
+        task.runTaskLater(plugin, getDuration() * 20);
+    }
+
+    public static void resetSpeedNow(final Player player) {
+        if (scheduledSpeedTasks.containsKey(player.getUniqueId())) {
+            SpeedResetTask savedTask = scheduledSpeedTasks.get(player.getUniqueId());
+            if (Bukkit.getScheduler().isQueued(savedTask.getTaskId()))
+                player.setWalkSpeed(savedTask.getSpeed());
         }
     }
 }

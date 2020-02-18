@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.blocks.SpeedBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -39,12 +40,12 @@ public class CommonBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        // TODO handle any unfinished tasks
+        SpeedBlock.resetSpeedNow(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
-        // TODO handle any unfinished tasks
+        SpeedBlock.resetSpeedNow(event.getPlayer());
     }
 
     private void iterate(final Material material, final Player player) {
@@ -54,7 +55,7 @@ public class CommonBlockListener implements Listener {
                     if (block.getWorld().equalsIgnoreCase("global") ||
                             block.getWorld().equalsIgnoreCase(player.getWorld().getName()))
                         block.activate(player);
-                } else { // blacklist check
+                } else { // blacklist check TODO double check && vs ||
                     if (!block.getWorld().equalsIgnoreCase("global") &&
                             !block.getWorld().equalsIgnoreCase(player.getWorld().getName()))
                         block.activate(player);

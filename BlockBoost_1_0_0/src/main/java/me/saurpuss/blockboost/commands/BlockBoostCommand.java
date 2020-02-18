@@ -19,6 +19,9 @@ import java.util.StringJoiner;
  */
 public class BlockBoostCommand implements CommandExecutor {
 
+    // TODO command manager
+    // TODO add single blocks in game -> conversation right click target block maybe?
+
     private final BlockBoost bb;
 
     public BlockBoostCommand(BlockBoost plugin) {

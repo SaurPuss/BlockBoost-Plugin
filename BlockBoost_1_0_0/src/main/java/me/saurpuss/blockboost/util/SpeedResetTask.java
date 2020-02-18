@@ -6,6 +6,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class SpeedResetTask extends BukkitRunnable {
 
+    // TODO everything
+
     private Player player;
     private float speed;
 
@@ -18,5 +20,9 @@ public class SpeedResetTask extends BukkitRunnable {
     public void run() {
         player.setWalkSpeed(speed);
         SpeedListener.finishTask(player.getUniqueId());
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }

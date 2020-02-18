@@ -1,0 +1,45 @@
+# HEADER / intro
+
+
+
+
+
+
+
+
+# BLOCK TYPES
+# get readme for example blocks
+
+
+bounce-blocks:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    height: 0
+    normalize: true
+
+speed-blocks:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    type: MULTIPLIER
+    amount: 1.5
+    cap: 1.0
+    duration: 5
+    cooldown: 10
+
+potion-blocks:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    effect: POTION_EFFECT_TYPE
+    duration: 1
+    amplifier: 1
+
+command-blocks:
+
+
+
+
+
+
