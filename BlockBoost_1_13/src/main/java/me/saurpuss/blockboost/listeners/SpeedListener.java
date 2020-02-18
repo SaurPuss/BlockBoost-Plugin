@@ -3,6 +3,7 @@ package me.saurpuss.blockboost.listeners;
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.SpeedBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
+import me.saurpuss.blockboost.util.AbstractListener;
 import me.saurpuss.blockboost.util.BBSubType;
 import me.saurpuss.blockboost.util.SpeedResetTask;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SpeedListener implements Listener {
+public class SpeedListener extends AbstractListener implements Listener {
 
     private BlockBoost bb;
     private final HashMap<Material, AbstractBlock> BLOCKS;
@@ -77,7 +78,7 @@ public class SpeedListener implements Listener {
         float resultSpeed;
 
         // Calculate result speed
-        if (material.getType() == BBSubType.SPEED_MULTIPLIER) {
+        if (material.getSubType() == BBSubType.SPEED_MULTIPLIER) {
             resultSpeed = playerSpeed * material.getAmount();
         } else
             resultSpeed = playerSpeed + material.getAmount();

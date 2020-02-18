@@ -61,7 +61,7 @@ public class BounceListener extends AbstractListener implements Listener {
     }
 
 
-    private void triggerVelocity(Player player, BounceBlock bounceBlock) {
+    private void triggerVelocity(final Player player, final BounceBlock bounceBlock) {
         Vector direction = player.getLocation().getDirection();
         direction.setY(bounceBlock.getHeight());
         direction.setX(player.getVelocity().getX());

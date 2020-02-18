@@ -3,7 +3,6 @@ package me.saurpuss.blockboost;
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
 import me.saurpuss.blockboost.commands.ForceSpeed;
 import me.saurpuss.blockboost.managers.BlockManager;
-import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -62,10 +61,12 @@ public final class BlockBoost extends JavaPlugin {
      * Make any pending tasks scheduled by this BlockBoost run now instead of later.
      */
     public void doTasksNow() {
-        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
-            if (task.getOwner().equals(this)) {
-                ((Runnable) task).run();
-            }
-        });
+        // TODO just use the maps with the speeds if they are still active?
+//        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
+//            if (task.getOwner().equals(this)) {
+////                Bukkit.getScheduler().runTask(this, (Runnable) task);
+//                ((Runnable) task).run();
+//            }
+//        });
     }
 }

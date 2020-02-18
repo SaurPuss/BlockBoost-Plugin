@@ -1,9 +1,15 @@
 package me.saurpuss.blockboost.blocks;
 
+import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BBSubType;
+import me.saurpuss.blockboost.util.SpeedResetTask;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class SpeedBlock extends AbstractBlock {
 
@@ -11,7 +17,7 @@ public class SpeedBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private BBSubType type;
+        private BBSubType subtype;
         private float amount;
         private float cap;
         private long duration;
@@ -33,8 +39,8 @@ public class SpeedBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withType(BBSubType type) {
-            this.type = type;
+        public Builder withType(BBSubType subtype) {
+            this.subtype = subtype;
 
             return this;
         }
@@ -68,7 +74,7 @@ public class SpeedBlock extends AbstractBlock {
             block.material = this.material;
             block.world = this.world;
             block.includeWorld = this.includeWorld;
-            block.type = this.type;
+            block.subType = this.subtype;
             block.amount = this.amount;
             block.cap = this.cap;
             block.duration = this.duration;
@@ -78,10 +84,21 @@ public class SpeedBlock extends AbstractBlock {
         }
     }
 
+    private static HashMap<UUID, Float> speedReset;
+    private static HashMap<UUID, Long> onCooldown;
+
+    static {
+        speedReset = new HashMap<>();
+        onCooldown = new HashMap<>();
+
+        // TODO make additions and removals for the maps
+        // TODO synchronize
+    }
+
     private Material material;
     private String world;
     private boolean includeWorld;
-    private BBSubType type;
+    private BBSubType subType;
     private float amount;
     private float cap;
     private long duration;
@@ -119,12 +136,12 @@ public class SpeedBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    public BBSubType getType() {
-        return type;
+    public BBSubType getSubType() {
+        return subType;
     }
 
-    public void setType(BBSubType type) {
-        this.type = type;
+    public void setSubType(BBSubType subType) {
+        this.subType = subType;
     }
 
     public float getAmount() {
@@ -140,8 +157,7 @@ public class SpeedBlock extends AbstractBlock {
     }
 
     public void setCap(float cap) {
-        if (cap < -1.0 || cap > 1.0)
-            cap = 1.0f;
+        if (cap < -1.0 || cap > 1.0) cap = 1.0f;
 
         this.cap = cap;
     }
@@ -165,7 +181,7 @@ public class SpeedBlock extends AbstractBlock {
     @Override
     public String toColorString() {
         return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
-                ", include: " + includeWorld + ", type: " + type + ", amount: " + amount +
+                ", include: " + includeWorld + ", subtype: " + subType + ", amount: " + amount +
                 ", cap: " + cap + ", duration: " + duration + " seconds, cooldown: " +
                 cooldown + " ticks)";
     }
@@ -173,7 +189,31 @@ public class SpeedBlock extends AbstractBlock {
     @Override
     public String toString() {
         return material.toString() + " (world: " + world + ", include: " + includeWorld +
-                ", type: " + type + ", amount: " + amount + ", cap: " + cap + ", duration: " +
+                ", subtype: " + subType + ", amount: " + amount + ", cap: " + cap + ", duration: " +
                 duration + " seconds, cooldown: " + cooldown + " ticks)";
+    }
+
+    @Override
+    public void activate(Player player) {
+        final float playerSpeed = player.getWalkSpeed();
+        float resultSpeed;
+
+        // Calculate result speed
+        if (getSubType() == BBSubType.SPEED_MULTIPLIER) resultSpeed = playerSpeed * getAmount();
+        else resultSpeed = playerSpeed + getAmount();
+        if (resultSpeed >= 1.0f || resultSpeed > getCap()) resultSpeed = getCap();
+        // TODO negative cap?
+
+        player.setWalkSpeed(resultSpeed);
+
+        // TODO map stuff
+        onCooldown.put(player.getUniqueId(), System.currentTimeMillis() + (getCooldown() * 20));
+
+        // Create a reset task to go back to original speed
+        if (!onCooldown.containsKey(player.getUniqueId())) {
+            speedReset.put(player.getUniqueId(), playerSpeed);
+            new SpeedResetTask(player, playerSpeed).runTaskLater( // TODO replace plugin reference
+                    BlockBoost.getPlugin(BlockBoost.class), getDuration() * 20);
+        }
     }
 }

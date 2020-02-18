@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.util;
 
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 public abstract class AbstractBlock {
 
@@ -19,5 +20,7 @@ public abstract class AbstractBlock {
     public abstract String toColorString();
 
     public abstract String toString();
+
+    public abstract void activate(final Player player);
 
 }

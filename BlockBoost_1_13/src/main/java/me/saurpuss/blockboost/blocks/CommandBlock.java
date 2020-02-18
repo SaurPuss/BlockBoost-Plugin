@@ -4,16 +4,15 @@ import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
-public class BounceBlock extends AbstractBlock {
+public class CommandBlock extends AbstractBlock {
 
     public static class Builder {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private int height;
-        private boolean normalize;
+        private String command;
+        private String permission;
 
         public Builder(Material material) {
             this.material = material;
@@ -31,25 +30,25 @@ public class BounceBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withHeight(int height) {
-            this.height = height;
+        public Builder withCommand(String command) {
+            this.command = command;
 
             return this;
         }
 
-        public Builder withNormalize(boolean normalize) {
-            this.normalize = normalize;
+        public Builder withPermission(String permission) {
+            this.permission = permission;
 
             return this;
         }
 
-        public BounceBlock build() {
-            BounceBlock block = new BounceBlock();
+        public CommandBlock build() {
+            CommandBlock block = new CommandBlock();
             block.material = this.material;
             block.world = this.world;
             block.includeWorld = this.includeWorld;
-            block.height = this.height;
-            block.normalize = this.normalize;
+            block.command = this.command;
+            block.permission = this.permission;
 
             return block;
         }
@@ -58,10 +57,10 @@ public class BounceBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
-    private int height;
-    private boolean normalize;
+    private String command;
+    private String permission;
 
-    private BounceBlock() {}
+    private CommandBlock() {}
 
     @Override
     public Material getMaterial() {
@@ -93,43 +92,40 @@ public class BounceBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    public int getHeight() {
-        return height;
+    public String getCommand() {
+        return command;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setCommand(String command) {
+        this.command = command;
     }
 
-    public boolean isNormalize() {
-        return normalize;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setNormalize(boolean normalize) {
-        this.normalize = normalize;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     @Override
     public String toColorString() {
         return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
-                ", include: " + includeWorld + ", height: " + height + ", normalize: " +
-                normalize + ")";
+                ", include: " + includeWorld + ", command: " + command + ", permission node: " +
+                permission + ")";
     }
 
     @Override
     public String toString() {
         return material.toString() + " (world: " + world + ", include: " + includeWorld +
-                ", height: " + height + ", normalize: " + normalize + ")";
+                ", command: " + command + ", permission node: " + permission + ")";
     }
 
     @Override
     public void activate(final Player player) {
-        Vector direction = player.getLocation().getDirection();
-        direction.setY(getHeight());
-        direction.setX(player.getVelocity().getX());
-        direction.setZ(player.getVelocity().getZ());
-        if (isNormalize()) direction.normalize();
 
-        player.setVelocity(direction);
+
+
+
     }
 }
