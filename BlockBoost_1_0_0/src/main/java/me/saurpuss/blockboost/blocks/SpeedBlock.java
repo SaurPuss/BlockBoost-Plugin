@@ -85,12 +85,12 @@ public class SpeedBlock extends AbstractBlock {
         }
     }
 
-    private static BlockBoost plugin;
+    private static final BlockBoost PLUGIN;
     private static HashMap<UUID, SpeedResetTask> scheduledSpeedTasks;
     private static HashMap<UUID, Long> onCooldown;
 
     static {
-        plugin = BlockBoost.getPlugin(BlockBoost.class);
+        PLUGIN = BlockBoost.getInstance();
 
         // TODO thread safety
         scheduledSpeedTasks = new HashMap<>();
@@ -197,9 +197,8 @@ public class SpeedBlock extends AbstractBlock {
 
     @Override
     public void activate(Player player) {
-        if (onCooldown.get(player.getUniqueId()) >= System.currentTimeMillis())
-            return;
-        onCooldown.put(player.getUniqueId(), System.currentTimeMillis() + (getCooldown() * 20));
+        if (onCooldown.get(player.getUniqueId()) >= System.currentTimeMillis()) return;
+        onCooldown.put(player.getUniqueId(), System.currentTimeMillis() + (cooldown * 20));
 
         // Get playerSpeed
         final float playerSpeed;
@@ -217,9 +216,9 @@ public class SpeedBlock extends AbstractBlock {
         // Calculate result speed
         float resultSpeed;
         if (getSubType() == BBSubType.SPEED_MULTIPLIER)
-            resultSpeed = playerSpeed * getAmount();
+            resultSpeed = playerSpeed * amount;
         else
-            resultSpeed = playerSpeed + getAmount();
+            resultSpeed = playerSpeed + amount;
 
         // Double check caps
         if (resultSpeed >= 1.0f || resultSpeed > getCap() || resultSpeed < -1.0f)
@@ -228,7 +227,7 @@ public class SpeedBlock extends AbstractBlock {
         SpeedResetTask task = new SpeedResetTask(player, playerSpeed);
         scheduledSpeedTasks.put(player.getUniqueId(), task); // TODO concurrency
         player.setWalkSpeed(resultSpeed);
-        task.runTaskLater(plugin, getDuration() * 20);
+        task.runTaskLater(PLUGIN, getDuration() * 20);
     }
 
     public static void resetSpeedNow(final Player player) {
@@ -240,8 +239,9 @@ public class SpeedBlock extends AbstractBlock {
         }
     }
 
-    public static void removeScheduledTask(final UUID uuid) {
+    public static void removePlayerInfo(final UUID uuid) {
         // TODO sync
         scheduledSpeedTasks.remove(uuid);
+        onCooldown.remove(uuid);
     }
 }

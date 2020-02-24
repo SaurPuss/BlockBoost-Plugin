@@ -43,14 +43,14 @@ public class CommonBlockListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removeScheduledTask(event.getPlayer().getUniqueId());
+        SpeedBlock.removePlayerInfo(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
         // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removeScheduledTask(event.getPlayer().getUniqueId());
+        SpeedBlock.removePlayerInfo(event.getPlayer().getUniqueId());
     }
 
     private void iterate(final Material material, final Player player) {

@@ -15,10 +15,14 @@ import java.util.logging.Level;
  */
 public final class BlockBoost extends JavaPlugin {
 
+    private static BlockBoost instance;
     private BlockManager blockManager;
 
     @Override
     public void onEnable() {
+        // For that static speed block plugin requirement
+        instance = this;
+
         // Load blockManager
         reloadBB();
 
@@ -44,6 +48,10 @@ public final class BlockBoost extends JavaPlugin {
 
         // Unload active listeners
         HandlerList.unregisterAll(this);
+    }
+
+    public static BlockBoost getInstance() {
+        return instance;
     }
 
     /**

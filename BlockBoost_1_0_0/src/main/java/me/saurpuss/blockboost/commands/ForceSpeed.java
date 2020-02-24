@@ -22,6 +22,9 @@ public class ForceSpeed implements CommandExecutor {
                 return true;
             }
 
+            // TODO check if speed is still saved in a list
+            // TODO reset cooldown to now?
+
             if (args.length == 2) {
                 try {
                     speed = Float.parseFloat(args[1]);

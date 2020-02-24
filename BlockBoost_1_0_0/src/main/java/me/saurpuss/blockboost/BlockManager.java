@@ -1,6 +1,5 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.blocks.BounceBlock;
 import me.saurpuss.blockboost.blocks.CommandBlock;
 import me.saurpuss.blockboost.blocks.PotionEffectBlock;
@@ -44,12 +43,11 @@ public class BlockManager {
     }
 
     private HashMap<Material, AbstractBlock> fillBlockMap(BB type) {
-        HashMap<Material, AbstractBlock> map = new HashMap<>();
-
         ConfigurationSection section = config.getConfigurationSection(type.section());
         if (section == null) return new HashMap<>();
 
         Set<String> keys = section.getKeys(false);
+        HashMap<Material, AbstractBlock> map = new HashMap<>();
         keys.forEach(key -> {
             Material material = Material.getMaterial(key.toUpperCase());
             if (material == null || !material.isBlock()) {
@@ -126,7 +124,6 @@ public class BlockManager {
 
         if (map.isEmpty())
             bb.getLogger().log(Level.WARNING, "No valid entries in " + type.section() + " found!");
-
 
         return map;
     }
