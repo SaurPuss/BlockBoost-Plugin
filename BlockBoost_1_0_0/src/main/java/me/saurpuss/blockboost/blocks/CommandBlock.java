@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost.blocks;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ public class CommandBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
+        private boolean consoleSender;
         private String command;
         private String permission;
 
@@ -26,6 +28,12 @@ public class CommandBlock extends AbstractBlock {
 
         public Builder withIncludeWorld(boolean includeWorld) {
             this.includeWorld = includeWorld;
+
+            return this;
+        }
+
+        public Builder withConsoleSender(boolean consoleSender) {
+            this.consoleSender = consoleSender;
 
             return this;
         }
@@ -47,6 +55,7 @@ public class CommandBlock extends AbstractBlock {
             block.material = this.material;
             block.world = this.world;
             block.includeWorld = this.includeWorld;
+            block.consoleSender = this.consoleSender;
             block.command = this.command;
             block.permission = this.permission;
 
@@ -57,6 +66,7 @@ public class CommandBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
+    private boolean consoleSender;
     private String command;
     private String permission;
 
@@ -92,6 +102,14 @@ public class CommandBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
+    public boolean getConsoleSender() {
+        return consoleSender;
+    }
+
+    public void setConsoleSender(boolean consoleSender) {
+        this.consoleSender = consoleSender;
+    }
+
     public String getCommand() {
         return command;
     }
@@ -123,9 +141,14 @@ public class CommandBlock extends AbstractBlock {
 
     @Override
     public void activate(final Player player) {
+        // Permission check
+        if (!player.hasPermission(permission) && permission != null && !permission.equals("")) {
+            return;
+        }
 
+        String cmd = command.replaceAll("%PLAYER%", player.getName())
+                .replaceAll("%PLAYERUUID", player.getUniqueId().toString());
 
-
-
+        Bukkit.dispatchCommand((consoleSender ? Bukkit.getConsoleSender() : player), cmd);
     }
 }

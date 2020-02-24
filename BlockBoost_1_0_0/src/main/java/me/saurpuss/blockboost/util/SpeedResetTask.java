@@ -1,6 +1,5 @@
 package me.saurpuss.blockboost.util;
 
-import me.saurpuss.blockboost.listeners.SpeedListener;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

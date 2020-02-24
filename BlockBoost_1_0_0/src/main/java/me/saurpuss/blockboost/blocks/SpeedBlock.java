@@ -92,7 +92,7 @@ public class SpeedBlock extends AbstractBlock {
     static {
         plugin = BlockBoost.getPlugin(BlockBoost.class);
 
-        // TODO threadsafety
+        // TODO thread safety
         scheduledSpeedTasks = new HashMap<>();
         onCooldown = new HashMap<>();
     }
@@ -222,8 +222,8 @@ public class SpeedBlock extends AbstractBlock {
             resultSpeed = playerSpeed + getAmount();
 
         // Double check caps
-        if (resultSpeed >= 1.0f || resultSpeed > getCap())
-            resultSpeed = getCap(); // TODO negative cap?
+        if (resultSpeed >= 1.0f || resultSpeed > getCap() || resultSpeed < -1.0f)
+            resultSpeed = getCap();
 
         SpeedResetTask task = new SpeedResetTask(player, playerSpeed);
         scheduledSpeedTasks.put(player.getUniqueId(), task); // TODO concurrency
@@ -234,8 +234,14 @@ public class SpeedBlock extends AbstractBlock {
     public static void resetSpeedNow(final Player player) {
         if (scheduledSpeedTasks.containsKey(player.getUniqueId())) {
             SpeedResetTask savedTask = scheduledSpeedTasks.get(player.getUniqueId());
-            if (Bukkit.getScheduler().isQueued(savedTask.getTaskId()))
+            if (Bukkit.getScheduler().isQueued(savedTask.getTaskId())) {
                 player.setWalkSpeed(savedTask.getSpeed());
+            }
         }
+    }
+
+    public static void removeScheduledTask(final UUID uuid) {
+        // TODO sync
+        scheduledSpeedTasks.remove(uuid);
     }
 }

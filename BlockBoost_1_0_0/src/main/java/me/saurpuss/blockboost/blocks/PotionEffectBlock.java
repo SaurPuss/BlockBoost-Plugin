@@ -3,6 +3,8 @@ package me.saurpuss.blockboost.blocks;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class PotionEffectBlock extends AbstractBlock {
@@ -140,7 +142,11 @@ public class PotionEffectBlock extends AbstractBlock {
     public String toString() {
         return material.toString() + " (world: " + world + ", include: " + includeWorld +
                 ", effect: " + effectType + ", duration: " + (duration / 20) + " seconds, " +
-                "amplifier: " +
-                amplifier + ")";
+                "amplifier: " + amplifier + ")";
+    }
+
+    @Override
+    public void activate(Player player) {
+        player.addPotionEffect(new PotionEffect(effectType, duration, amplifier));
     }
 }

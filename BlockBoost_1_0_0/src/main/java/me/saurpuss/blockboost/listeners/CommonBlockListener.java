@@ -21,7 +21,8 @@ public class CommonBlockListener implements Listener {
 
     public CommonBlockListener(final BlockBoost plugin, final Set<AbstractBlock> BLOCKS) {
         this.BLOCKS = BLOCKS;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        if (!BLOCKS.isEmpty())
+            plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -40,12 +41,16 @@ public class CommonBlockListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
+        SpeedBlock.removeScheduledTask(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
+        // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
+        SpeedBlock.removeScheduledTask(event.getPlayer().getUniqueId());
     }
 
     private void iterate(final Material material, final Player player) {
