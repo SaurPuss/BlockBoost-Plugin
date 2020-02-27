@@ -24,6 +24,8 @@ bounce-blocks:
 #    height: 0
 #    normalize: true
 
+explosion-blocks:
+
 command-blocks:
 #  EXAMPLE_BLOCK:
 #    world: global
@@ -31,6 +33,8 @@ command-blocks:
 #    console-sender: true
 #    command: bbspeed %PLAYERNAME% 0.2
 #    permission: bb.use
+
+particle-blocks:
 
 potion-blocks:
 #  EXAMPLE_BLOCK:

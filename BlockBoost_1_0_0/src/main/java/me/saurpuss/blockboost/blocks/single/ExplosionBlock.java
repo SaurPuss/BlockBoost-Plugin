@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-public class ExplodingBlock extends AbstractBlock {
+public class ExplosionBlock extends AbstractBlock {
 
     public static class Builder {
         private Material material;
@@ -65,8 +65,8 @@ public class ExplodingBlock extends AbstractBlock {
             return this;
         }
 
-        public ExplodingBlock build() {
-            ExplodingBlock block = new ExplodingBlock();
+        public ExplosionBlock build() {
+            ExplosionBlock block = new ExplosionBlock();
             block.material = this.material;
             block.world = this.world;
             block.includeWorld = this.includeWorld;
@@ -88,7 +88,6 @@ public class ExplodingBlock extends AbstractBlock {
     private boolean breakBlocks;
     private double playerDamage;
     private boolean playerKill;
-
 
     @Override
     public Material getMaterial() {

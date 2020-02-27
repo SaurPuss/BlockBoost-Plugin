@@ -1,13 +1,14 @@
 package me.saurpuss.blockboost.util;
 
 public enum BB {
+
     BOUNCE( "bounce-blocks"),
     COMMAND("command-blocks"),
+    EXPLOSION("explosion-blocks"),
     POTION("potion-blocks"),
     SPEED("speed-blocks");
 
     private String configSection;
-    private AbstractBlock type;
 
     BB(String configSection) {
         this.configSection = configSection;
@@ -16,4 +17,5 @@ public enum BB {
     public String section() {
         return configSection;
     }
+
 }

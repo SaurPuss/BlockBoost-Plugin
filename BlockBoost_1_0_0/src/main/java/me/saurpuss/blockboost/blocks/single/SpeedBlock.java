@@ -3,7 +3,6 @@ package me.saurpuss.blockboost.blocks.single;
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import me.saurpuss.blockboost.util.AbstractBlock;
-import me.saurpuss.blockboost.util.BBSubType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class SpeedBlock extends AbstractBlock {
 
@@ -18,7 +18,7 @@ public class SpeedBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private BBSubType subtype;
+        private String subtype;
         private float amount;
         private float cap;
         private long duration;
@@ -40,8 +40,14 @@ public class SpeedBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withType(BBSubType subtype) {
-            this.subtype = subtype;
+        public Builder withType(String subtype) {
+            if (subtype.equalsIgnoreCase("addition") ||
+                    subtype.equalsIgnoreCase("multiplier"))
+                this.subtype = subtype;
+            else {
+                // TODO throw illegal subtype exception
+                this.subtype = "addition";
+            }
 
             return this;
         }
@@ -53,7 +59,12 @@ public class SpeedBlock extends AbstractBlock {
         }
 
         public Builder withCap(float cap) {
-            this.cap = cap;
+            if (cap >= -1.0 || cap <= 1.0)
+                this.cap = cap;
+            else {
+                // TODO throw exception
+                this.cap = 0.5f;
+            }
 
             return this;
         }
@@ -65,7 +76,12 @@ public class SpeedBlock extends AbstractBlock {
         }
 
         public Builder withCooldown(long cooldown) {
-            this.cooldown = Math.abs(cooldown);
+            if (cooldown >= 0)
+                this.cooldown = Math.abs(cooldown);
+            else  {
+                // TODO warning / exception
+                this.cooldown = 10;
+            }
 
             return this;
         }
@@ -100,7 +116,7 @@ public class SpeedBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
-    private BBSubType subType;
+    private String subType;
     private float amount;
     private float cap;
     private long duration;
@@ -138,11 +154,11 @@ public class SpeedBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    public BBSubType getSubType() {
+    public String getSubType() {
         return subType;
     }
 
-    public void setSubType(BBSubType subType) {
+    public void setSubType(String subType) {
         this.subType = subType;
     }
 
@@ -215,10 +231,16 @@ public class SpeedBlock extends AbstractBlock {
 
         // Calculate result speed
         float resultSpeed;
-        if (getSubType() == BBSubType.SPEED_MULTIPLIER)
+        if (subType.equalsIgnoreCase("multiplier"))
             resultSpeed = playerSpeed * amount;
-        else
+        else if (subType.equalsIgnoreCase("addition"))
             resultSpeed = playerSpeed + amount;
+        else {
+            // TODO throw exception
+            BlockBoost.getInstance().getLogger().log(Level.WARNING,
+                    "Illegal SpeedBlock subtype found!");
+            return;
+        }
 
         // Double check caps
         if (resultSpeed >= 1.0f || resultSpeed > getCap() || resultSpeed < -1.0f)

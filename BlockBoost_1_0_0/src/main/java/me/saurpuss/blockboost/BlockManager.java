@@ -7,7 +7,6 @@ import me.saurpuss.blockboost.blocks.single.SpeedBlock;
 import me.saurpuss.blockboost.listeners.CommonBlockListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
-import me.saurpuss.blockboost.util.BBSubType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,8 +30,10 @@ public class BlockManager {
         blocks = new LinkedHashSet<>();
         for (BB bb : BB.values()) {
             HashMap<Material, AbstractBlock> temp = fillBlockMap(bb);
-            if (!temp.isEmpty())
+            if (!temp.isEmpty()) {
                 blocks.addAll(temp.values());
+                // TODO send their strings to the list blocks command class?
+            }
         }
 
         if (!blocks.isEmpty())
@@ -94,22 +95,16 @@ public class BlockManager {
                         }
                         break;
                     case SPEED:
-                        String typeString = section.getString(key + ".type");
+                        String subType = section.getString(key + ".type");
                         float amount = (float) section.getDouble(key + ".amount");
                         float cap = (float)  section.getDouble(key + ".cap");
                         long cooldown = section.getLong(key + ".cooldown");
 
-                        BBSubType subType = BBSubType.getByName(Objects.requireNonNull(typeString,
-                                        "SPEED_ADDITION"));
-                        if (subType != null) {
-                            block = new SpeedBlock.Builder(material).withWorld(world)
-                                    .withIncludeWorld(include).withType(subType).withAmount(amount)
-                                    .withCap(cap).withDuration(duration).withCooldown(cooldown)
-                                    .build();
-                        } else {
-                            bb.getLogger().log(Level.WARNING, "SpeedBlockType " + typeString +
-                                    " in " + type.section() + " is invalid! Ignoring " + key + "!");
-                        }
+                        block = new SpeedBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withType(Objects.requireNonNull(subType,
+                                        "Speed Block type cannot be null!"))
+                                .withAmount(amount).withCap(cap).withDuration(duration)
+                                .withCooldown(cooldown).build();
                         break;
                 }
 
