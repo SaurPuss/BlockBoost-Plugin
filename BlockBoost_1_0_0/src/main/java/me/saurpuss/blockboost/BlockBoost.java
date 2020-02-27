@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
+import me.saurpuss.blockboost.listeners.EventListener;
 import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -30,13 +31,16 @@ public final class BlockBoost extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        // Register plugin commands
+        // Register plugin commands & events
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
+        // TODO only if speedblocks are involved
+        getServer().getPluginManager().registerEvents(new EventListener(), this);
 
         // TODO create example_config.yml
 
-
         // TODO worldguard depend for region specific effects, maybe API hook or extension plugin?
+
+
     }
 
     @Override

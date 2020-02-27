@@ -1,7 +1,6 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.single.SpeedBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -9,9 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.Set;
 
@@ -26,7 +23,7 @@ public class CommonBlockListener implements Listener {
     }
 
     @EventHandler
-    public void activateBlock(PlayerMoveEvent event) {
+    public void activateBlock(final PlayerMoveEvent event) {
         // Check if player is allowed to activate
         final Player player = event.getPlayer();
         if (player.hasPermission("bb.deny"))
@@ -37,23 +34,6 @@ public class CommonBlockListener implements Listener {
             material = player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType();
 
         iterate(material, player);
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        // Handle speed related storage
-        SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removeSpeedTask(event.getPlayer().getUniqueId());
-        SpeedBlock.removeSpeedCooldown(event.getPlayer().getUniqueId());
-
-    }
-
-    @EventHandler
-    public void onPlayerKick(PlayerKickEvent event) {
-        // Handle speed related storage
-        SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removeSpeedTask(event.getPlayer().getUniqueId());
-        SpeedBlock.removeSpeedCooldown(event.getPlayer().getUniqueId());
     }
 
     private void iterate(final Material material, final Player player) {
