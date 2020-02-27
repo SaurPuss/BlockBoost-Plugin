@@ -1,10 +1,7 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
-import me.saurpuss.blockboost.commands.SetSpeedCommand;
-import me.saurpuss.blockboost.util.SpeedResetTask;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import me.saurpuss.blockboost.commands.ForceSpeed;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,19 +22,23 @@ public final class BlockBoost extends JavaPlugin {
     public void onEnable() {
         // For that static speed block plugin requirement
         instance = this;
-        blockManager = new BlockManager(this);
+
+        // Load blockManager
+        reloadBB();
 
         // Default config setup
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+
+        if (blockManager == null) {
+            getLogger().log(Level.SEVERE, "Block Manager failed to initialize during plugin " +
+                    "startup! Disabling BlockBoost plugin!");
+            getServer().getPluginManager().disablePlugin(this);
+        }
 
         // Register plugin commands
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
+        getCommand("bbspeed").setExecutor(new ForceSpeed());
 
         // TODO create example_config.yml
-
-
-        // TODO worldguard depend for region specific effects, maybe API hook or extension plugin?
     }
 
     @Override
@@ -71,15 +72,12 @@ public final class BlockBoost extends JavaPlugin {
      * Make any pending tasks scheduled by this BlockBoost run now instead of later.
      */
     public void doTasksNow() {
-        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
-            if (task.getOwner().equals(this)) {
-                Player player = ((SpeedResetTask) task).getPlayer();
-                float speed = ((SpeedResetTask) task).getSpeed();
-                getLogger().log(Level.INFO,
-                        "Completing Speed Reset task for id " + task.getTaskId() + "! Setting " +
-                                "speed for player " + player.getName() + " to " + speed + "!");
-                player.setWalkSpeed(speed);
-            }
-        });
+        // TODO just use the maps with the speeds if they are still active?
+//        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
+//            if (task.getOwner().equals(this)) {
+////                Bukkit.getScheduler().runTask(this, (Runnable) task);
+//                ((Runnable) task).run();
+//            }
+//        });
     }
 }

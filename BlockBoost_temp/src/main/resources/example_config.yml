@@ -1,0 +1,139 @@
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                        -------- Welcome to the Example Config --------
+# -
+
+
+# -
+# All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
+# said world. If you want this block to be available in all worlds, set the world to global and
+# leave include-world on true. If you want to disable this in all just toggle the include to false.
+# Adding a specific world name will give you the option to either enable the effect only in that
+# world or excluding it there specifically.
+
+# -
+# Add a block to your list by using the Bukkit Material name. A block can only appear in a block
+# list once! However, you can still combine effects by setting up the same block in multiple Block
+# Yaml Configs with their specific effects. Non-Block Materials will be ignored.
+
+
+
+# -
+# If you don't want to display each valid block creation in the console at plugin start-up and
+# reload set the console-messages to false.
+# -
+#                                 -------- Useful Links --------
+# -
+# Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# Potion Effect Types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+console-messages:
+  bounce-blocks: true
+  command-blocks: true
+  potion-blocks: true
+  speed-blocks: true
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                             -------- Bounce Block Setup --------
+# -
+# Bounce Blocks are blocks that will increase a player's velocity when a player is (moving) on top
+# of it. The block specific settings are height and normalize. If normalize is set to true the
+# height will determine how many additional blocks the player will be boosted up into the air.
+# While normalize is off the effects are somewhat more volatile.
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+bounce-blocks:
+  SPONGE:
+    world: global
+    include-world: true
+    height: 10
+    normalize: true
+  WET_SPONGE:
+    world: world
+    include-world: true
+    height: 5
+    normalize: true
+
+
+# TODO Available replacements: %PLAYERNAME%, %PLAYERUUID%
+command-blocks:
+  EXAMPLE_BLOCK:
+    world: global
+    include-world: true
+    console-sender: true
+    command: bbspeed %PLAYERNAME% 0.2
+    permission: bb.use
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                             -------- Potion Block Setup --------
+# -
+# Potion Blocks that will apply a Potion Effect Type to a player as they pass over it. The duration
+# of the effect is in seconds, and the amplifier will determine the strength. Any valid effect from
+# the Spigot Potion Effect Types listed below can be applied.
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+potion-blocks:
+  BRAIN_CORAL_BLOCK:
+    world: global
+    include-world: true
+    effect: CONFUSION
+    duration: 3
+    amplifier: 1
+  WET_SPONGE:
+    world: world
+    include-world: true
+    effect: DOLPHINS_GRACE
+    duration: 5
+    amplifier: 2
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                             -------- Speed Block Setup --------
+# -
+# Speed Blocks are blocks that will either multiply a player's current speed or add speed on top
+# of the player's current speed after which it will be set back to the speed a player had before
+# activating the effect once the duration has passed. Duration is counted in seconds.
+# -
+# Minecraft default walk speed is 0.2, a player's speed can range from 0.0 to 1.0, any attempts
+# to go past 1.0 will automatically cap out at 1.0.
+# -
+# When type is set to MULTIPLIER, the player's current walk speed will be multiplied by the amount.
+# Amounts set lower than 1 will decrease the speed, and higher will increase speed. So if the player
+# speed is 0.2 * 1.5 that will result in a 0.3 walk speed for the duration listed.
+# -
+# When the type is set to ADDITION the amount is added on top of the player's current walk speed.
+# So a player with speed 0.2 and an amount of 0.2 will result in a 0.4 speed for the duration of
+# the boost.
+# -
+# The cap will make sure the maximum speed never exceeds your set number, even if the boost is
+# triggered multiple times before being reset. The duration is set in seconds, after which the
+# default walk speed will be reapplied to the player.
+# -
+# To prevent triggering the speed blocks too fast, a cooldown is set up. The cooldown is in ticks
+# (20 ticks per second). If set to zero the block will activate 3 times while a player is passing
+# over a single block! If you don't want to have consecutive speed boost triggered by one or more
+# blocks simply set the cooldown as the duration * 20.
+# -
+#                                   -------- Warning --------
+# -
+# The blocks defined in this configuration affect the player's walk speed! This means it can
+# interfere with walk speed manipulated by other plugins! If this is happening on your server you
+# can also choose to utilize the Potion Blocks instead. Add a speed potion effect instead!
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+speed-blocks:
+  EMERALD_BLOCK:
+    world: global
+    include-world: true
+    type: MULTIPLIER
+    amount: 1.5
+    cap: 1.0
+    duration: 5
+    cooldown: 10
+  EMERALD_ORE:
+    world: global
+    include-world: true
+    type: ADDITION
+    amount: 0.2
+    cap: 0.5
+    duration: 5
+    cooldown: 10

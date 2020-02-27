@@ -21,15 +21,15 @@ commands:
     aliases: [bb]
     permission: bb.use
     permission-message: 'Unknown command. Type "/help" for help.'
-#  bbspeed:
-#    description: Force an online player's walkSpeed to a number between -1.0 and 1.0
-#    usage: |
-#      §6BoostBlock bbSpeed usage:
-#        §3/<command> §b[player]§r - Force a player's walk speed to the 0.2 default
-#        §3/<command> §b[player] [x]§r - Force a player's walk speed to x
-#    aliases: [forcespeed, bbforcespeed]
-#    permission: bb.admin
-#    permission-message: 'Unknown command. Type "/help" for help.'
+  bbspeed:
+    description: Force an online player's walkSpeed to a number between -1.0 and 1.0
+    usage: |
+      §6BoostBlock bbSpeed usage:
+        §3/<command> §b[player]§r - Force a player's walk speed to the 0.2 default
+        §3/<command> §b[player] [x]§r - Force a player's walk speed to x
+    aliases: [forcespeed, bbforcespeed]
+    permission: bb.admin
+    permission-message: 'Unknown command. Type "/help" for help.'
 
 permissions:
   bb.admin:

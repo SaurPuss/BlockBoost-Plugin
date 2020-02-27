@@ -1,9 +1,9 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.blocks.basic.BounceBlock;
-import me.saurpuss.blockboost.blocks.basic.CommandBlock;
-import me.saurpuss.blockboost.blocks.basic.PotionEffectBlock;
-import me.saurpuss.blockboost.blocks.basic.SpeedBlock;
+import me.saurpuss.blockboost.blocks.BounceBlock;
+import me.saurpuss.blockboost.blocks.CommandBlock;
+import me.saurpuss.blockboost.blocks.PotionEffectBlock;
+import me.saurpuss.blockboost.blocks.SpeedBlock;
 import me.saurpuss.blockboost.listeners.CommonBlockListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
@@ -13,10 +13,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
-
-import static java.util.stream.Collectors.toList;
 
 public class BlockManager {
 
@@ -125,29 +126,5 @@ public class BlockManager {
             bb.getLogger().log(Level.WARNING, "No valid entries in " + type.section() + " found!");
 
         return map;
-    }
-
-    public List<AbstractBlock> getBlockList(BB type) {
-        List<AbstractBlock> list = new ArrayList<>();
-
-        switch (type) {
-            case BOUNCE:
-                list = blocks.stream().filter(BounceBlock.class::isInstance)
-                        .map(BounceBlock.class::cast).collect(toList());
-                break;
-            case COMMAND:
-                list = blocks.stream().filter(CommandBlock.class::isInstance)
-                        .map(CommandBlock.class::cast).collect(toList());
-                break;
-            case POTION:
-                list = blocks.stream().filter(PotionEffectBlock.class::isInstance)
-                        .map(PotionEffectBlock.class::cast).collect(toList());
-                break;
-            case SPEED:
-                list = blocks.stream().filter(SpeedBlock.class::isInstance)
-                        .map(SpeedBlock.class::cast).collect(toList());
-        }
-
-        return list;
     }
 }

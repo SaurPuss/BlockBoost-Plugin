@@ -1,7 +1,7 @@
 package me.saurpuss.blockboost.commands;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.util.BB;
+import me.saurpuss.blockboost.util.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -10,8 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * Base plugin command for reloading the plugin as well as list active Boost Blocks for users
@@ -19,95 +19,78 @@ import java.util.StringJoiner;
  */
 public class BlockBoostCommand implements CommandExecutor {
 
-    // TODO command manager
     // TODO add single blocks in game -> conversation right click target block maybe?
 
     private final BlockBoost bb;
+    private List<SubCommand> commands = new ArrayList<>();
 
     public BlockBoostCommand(BlockBoost plugin) {
         bb = plugin;
+
+        commands.add(new ReloadCommand(bb));
+        commands.add(new ListBlocksCommand(bb));
+        commands.add(new SetSpeedCommand());
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!sender.hasPermission("bb.admin"))
+        if (!sender.hasPermission("bb.admin") ||
+                (args.length >= 1 && args[0].equalsIgnoreCase("info")))
             return Bukkit.dispatchCommand(sender, "version blockboost");
 
-        if (args.length < 1) return false;
+        else if (args.length == 0)
+            return false;
 
-        if (args[0].equalsIgnoreCase("reload")) {
-            if (sender instanceof Player && !sender.hasPermission("bb.reload"))
-                sender.sendMessage(ChatColor.RED + "You do not have the §4bb.reload §cpermission!");
-            else {
-                sender.sendMessage(ChatColor.GREEN + "Reloading BlockBoost plugin!");
-                sender.sendMessage(ChatColor.GRAY + "Completing pending tasks!");
-                bb.doTasksNow();
-                sender.sendMessage(ChatColor.GRAY + "Refreshing configuration files!");
-                bb.reloadBB();
-                sender.sendMessage(ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
+
+        ArrayList<String> list;
+        Player player;
+        if (sender instanceof Player) {
+            list = new ArrayList<>(Arrays.asList(args));
+
+            // Determine player to perform this on
+            player = Bukkit.getPlayer(list.get(0));
+            if (player == null)
+                player = (Player) sender; // first arg is not a player
+            else
+                list.remove(0); // remove player arg
+        } else {
+            if (args[0].equalsIgnoreCase("reload")) {
+                SubCommand sub = getSubCommand("reload");
+                return sub.onCommand(null, args);
             }
 
-            return true;
+            player = Bukkit.getPlayer(args[0]);
+            if (player == null) {
+                sender.sendMessage(ChatColor.DARK_RED + args[0] + " is not a valid player!");
+                return true;
+            }
+
+            list = new ArrayList<>(Arrays.asList(args));
+            list.remove(0); // remove player arg
         }
 
-        if (args[0].equalsIgnoreCase("info"))
-            return Bukkit.dispatchCommand(sender, "version blockboost");
+        // Get SubCommand
+        SubCommand target = getSubCommand(list.get(0));
+        if (target == null)
+            return false;
+        list.remove(0); // remove subCommand arg
 
-        if (args[0].equalsIgnoreCase("type")) {
-            StringJoiner joiner = new StringJoiner("§a, §2", ChatColor.GREEN +
-                    "Available BlockBoost types: §2", "§a.");
-            for (BB type : BB.values()) {
-                joiner.add(type.toString());
+        return target.onCommand(player, (String[]) list.toArray());
+    }
+
+    private SubCommand getSubCommand(String name) {
+        for (SubCommand subCommand : commands) {
+            if (subCommand.name().equalsIgnoreCase(name))
+                return subCommand;
+
+            String[] aliases;
+            int length = (aliases = subCommand.aliases()).length;
+            for (int i = 0; i < length; ++i) {
+                if (name.equalsIgnoreCase(aliases[i]))
+                    return subCommand;
             }
-
-            sender.sendMessage(joiner.toString());
-            return true;
         }
 
-        else if (args[0].equalsIgnoreCase("list")) {
-            // try to get a specific block to list
-            if (args.length == 2) {
-                BB type;
-
-                try {
-                    type = BB.valueOf(args[1].toUpperCase());
-                } catch (IllegalArgumentException e) {
-                    sender.sendMessage(ChatColor.RED + "BoostBlock " + ChatColor.DARK_RED +
-                            args[1] + ChatColor.RED + " does not exist!");
-                    return false;
-                }
-
-                List<String> list = new ArrayList<>();
-                switch (type) {
-                    case BOUNCE:
-                    case SPEED:
-                    case POTION:
-                        list.addAll(bb.getBlockManager().getBlockList(type));
-                        break;
-                    default:
-                        sender.sendMessage(ChatColor.RED + args[1] + " is not registered as a " +
-                                "Boost Block type!");
-                        return true;
-                }
-
-                if (list.isEmpty()) {
-                    sender.sendMessage(ChatColor.RED + "No matching Boost Blocks found!");
-                    return true;
-                }
-
-                list.forEach(sender::sendMessage);
-            }
-            // Display all active boost blocks
-            else {
-                List<String> list = new ArrayList<>();
-                for (BB type : BB.values())
-                    list.addAll(bb.getBlockManager().getBlockList(type));
-
-                list.forEach(sender::sendMessage);
-            }
-            return true;
-        }
-
-        return false;
+        return null;
     }
 }

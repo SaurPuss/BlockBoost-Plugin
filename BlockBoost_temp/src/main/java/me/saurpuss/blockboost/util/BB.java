@@ -1,5 +1,7 @@
 package me.saurpuss.blockboost.util;
 
+import com.google.common.base.Enums;
+
 public enum BB {
     BOUNCE( "bounce-blocks"),
     COMMAND("command-blocks"),
@@ -7,7 +9,6 @@ public enum BB {
     SPEED("speed-blocks");
 
     private String configSection;
-    private AbstractBlock type;
 
     BB(String configSection) {
         this.configSection = configSection;
