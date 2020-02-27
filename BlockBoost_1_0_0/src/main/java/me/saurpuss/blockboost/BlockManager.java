@@ -1,9 +1,9 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.blocks.basic.BounceBlock;
-import me.saurpuss.blockboost.blocks.basic.CommandBlock;
-import me.saurpuss.blockboost.blocks.basic.PotionEffectBlock;
-import me.saurpuss.blockboost.blocks.basic.SpeedBlock;
+import me.saurpuss.blockboost.blocks.single.BounceBlock;
+import me.saurpuss.blockboost.blocks.single.CommandBlock;
+import me.saurpuss.blockboost.blocks.single.PotionEffectBlock;
+import me.saurpuss.blockboost.blocks.single.SpeedBlock;
 import me.saurpuss.blockboost.listeners.CommonBlockListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;

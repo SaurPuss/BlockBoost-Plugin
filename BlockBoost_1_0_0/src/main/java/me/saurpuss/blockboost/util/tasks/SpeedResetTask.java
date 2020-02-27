@@ -1,6 +1,6 @@
-package me.saurpuss.blockboost.util;
+package me.saurpuss.blockboost.util.tasks;
 
-import me.saurpuss.blockboost.blocks.basic.SpeedBlock;
+import me.saurpuss.blockboost.blocks.single.SpeedBlock;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -20,12 +20,14 @@ public class SpeedResetTask extends BukkitRunnable {
     public void run() {
         player.setWalkSpeed(speed);
 
-        // TODO double check & do I want this to  be a weak reference?
-        SpeedBlock.nullMapEntry(player.getUniqueId());
+        SpeedBlock.removeSpeedTask(player.getUniqueId());
     }
 
     public float getSpeed() {
         return speed;
     }
-    public Player getPlayer() { return player; }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

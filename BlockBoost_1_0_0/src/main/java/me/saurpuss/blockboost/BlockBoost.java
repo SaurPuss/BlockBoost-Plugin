@@ -1,8 +1,7 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
-import me.saurpuss.blockboost.commands.SetSpeedCommand;
-import me.saurpuss.blockboost.util.SpeedResetTask;
+import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;

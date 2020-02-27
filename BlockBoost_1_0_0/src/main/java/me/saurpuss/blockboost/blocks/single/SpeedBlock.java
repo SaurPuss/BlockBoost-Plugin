@@ -1,9 +1,9 @@
-package me.saurpuss.blockboost.blocks.basic;
+package me.saurpuss.blockboost.blocks.single;
 
 import me.saurpuss.blockboost.BlockBoost;
+import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BBSubType;
-import me.saurpuss.blockboost.util.SpeedResetTask;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -230,14 +230,8 @@ public class SpeedBlock extends AbstractBlock {
         task.runTaskLater(PLUGIN, getDuration() * 20);
     }
 
-    public static void nullMapEntry(final UUID uuid) {
-        // TODO use this on task completion
-        if (scheduledSpeedTasks.containsKey(uuid))
-            scheduledSpeedTasks.put(uuid, null);
-    }
-
     public static void resetSpeedNow(final Player player) {
-        if (scheduledSpeedTasks.get(player.getUniqueId()) != null ) {
+        if (scheduledSpeedTasks.containsKey(player.getUniqueId())) {
             SpeedResetTask savedTask = scheduledSpeedTasks.get(player.getUniqueId());
             if (Bukkit.getScheduler().isQueued(savedTask.getTaskId())) {
                 player.setWalkSpeed(savedTask.getSpeed());
@@ -245,9 +239,11 @@ public class SpeedBlock extends AbstractBlock {
         }
     }
 
-    public static void removePlayerInfo(final UUID uuid) {
-        // TODO sync
+    public static void removeSpeedTask(final UUID uuid) {
         scheduledSpeedTasks.remove(uuid);
+    }
+
+    public static void removeSpeedCooldown(final UUID uuid) {
         onCooldown.remove(uuid);
     }
 }

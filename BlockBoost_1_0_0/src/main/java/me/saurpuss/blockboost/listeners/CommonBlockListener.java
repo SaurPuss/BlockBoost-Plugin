@@ -1,7 +1,7 @@
 package me.saurpuss.blockboost.listeners;
 
 import me.saurpuss.blockboost.BlockBoost;
-import me.saurpuss.blockboost.blocks.basic.SpeedBlock;
+import me.saurpuss.blockboost.blocks.single.SpeedBlock;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -43,14 +43,17 @@ public class CommonBlockListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removePlayerInfo(event.getPlayer().getUniqueId());
+        SpeedBlock.removeSpeedTask(event.getPlayer().getUniqueId());
+        SpeedBlock.removeSpeedCooldown(event.getPlayer().getUniqueId());
+
     }
 
     @EventHandler
     public void onPlayerKick(PlayerKickEvent event) {
         // Handle speed related storage
         SpeedBlock.resetSpeedNow(event.getPlayer());
-        SpeedBlock.removePlayerInfo(event.getPlayer().getUniqueId());
+        SpeedBlock.removeSpeedTask(event.getPlayer().getUniqueId());
+        SpeedBlock.removeSpeedCooldown(event.getPlayer().getUniqueId());
     }
 
     private void iterate(final Material material, final Player player) {

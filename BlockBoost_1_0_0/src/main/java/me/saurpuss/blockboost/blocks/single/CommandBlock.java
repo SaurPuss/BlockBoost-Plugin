@@ -1,4 +1,4 @@
-package me.saurpuss.blockboost.blocks.basic;
+package me.saurpuss.blockboost.blocks.single;
 
 import me.saurpuss.blockboost.util.AbstractBlock;
 import org.bukkit.Bukkit;
