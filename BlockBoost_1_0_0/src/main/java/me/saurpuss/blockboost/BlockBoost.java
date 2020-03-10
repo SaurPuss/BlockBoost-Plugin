@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
+import me.saurpuss.blockboost.commands.ExampleConfigCommand;
 import me.saurpuss.blockboost.listeners.EventListener;
 import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Level;
 
 /**
@@ -33,6 +35,7 @@ public final class BlockBoost extends JavaPlugin {
 
         // Register plugin commands & events
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
+        getCommand("bbgenerate").setExecutor(new ExampleConfigCommand(this));
         // TODO only if speedblocks are involved
         getServer().getPluginManager().registerEvents(new EventListener(), this);
 
