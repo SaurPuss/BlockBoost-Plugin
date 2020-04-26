@@ -1,0 +1,35 @@
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                        -------- Welcome to the BlockBoost Config --------
+# -
+# If this is your first time setting up, please refer to the example_config.yml for a detailed
+# explanation of each block type set up. You can generate the example config with the /bb example
+# command from the console (or in game with the bb.example permission).
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                          -------- Global BlockBoost Settings --------
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+# Display block creation on plugin start or reload
+console-messages:
+  bounce-blocks: true
+  command-blocks: true
+  potion-blocks: true
+  speed-blocks: true
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                          -------- BlockBoost Block Setup --------
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+bounce-blocks:
+#  EXAMPLE_BLOCK:
+#    world: global
+#    include-world: true
+#    height: 0
+#    normalize: true
+
+potion-blocks:
+#  EXAMPLE_BLOCK:
+#    world: global
+#    include-world: true
+#    effect: POTION_EFFECT_TYPE
+#    duration: 1
+#    amplifier: 1
+

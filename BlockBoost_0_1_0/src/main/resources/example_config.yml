@@ -1,0 +1,75 @@
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                        -------- Welcome to the Example Config --------
+# -
+
+
+# -
+# All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
+# said world. If you want this block to be available in all worlds, set the world to global and
+# leave include-world on true. If you want to disable this in all just toggle the include to false.
+# Adding a specific world name will give you the option to either enable the effect only in that
+# world or excluding it there specifically.
+
+# -
+# Add a block to your list by using the Bukkit Material name. A block can only appear in a block
+# list once! However, you can still combine effects by setting up the same block in multiple Block
+# Yaml Configs with their specific effects. Non-Block Materials will be ignored.
+
+# -
+# If you don't want to display each valid block creation in the console at plugin start-up and
+# reload set the console-messages to false.
+# -
+#                                 -------- Useful Links --------
+# -
+# Bukkit Materials: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+# Potion Effect Types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+console-messages:
+  bounce-blocks: true
+  command-blocks: true
+  potion-blocks: true
+  speed-blocks: true
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                             -------- Bounce Block Setup --------
+# -
+# Bounce Blocks are blocks that will increase a player's velocity when a player is (moving) on top
+# of it. The block specific settings are height and normalize. If normalize is set to true the
+# height will determine how many additional blocks the player will be boosted up into the air.
+# While normalize is off the effects are somewhat more volatile.
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+bounce-blocks:
+  SPONGE:
+    world: global
+    include-world: true
+    height: 10
+    normalize: true
+  WET_SPONGE:
+    world: world
+    include-world: true
+    height: 5
+    normalize: true
+
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+#                             -------- Potion Block Setup --------
+# -
+# Potion Blocks that will apply a Potion Effect Type to a player as they pass over it. The duration
+# of the effect is in seconds, and the amplifier will determine the strength. Any valid effect from
+# the Spigot Potion Effect Types listed below can be applied.
+# -
+#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
+potion-blocks:
+  BRAIN_CORAL_BLOCK:
+    world: global
+    include-world: true
+    effect: CONFUSION
+    duration: 3
+    amplifier: 1
+  WET_SPONGE:
+    world: world
+    include-world: true
+    effect: DOLPHINS_GRACE
+    duration: 5
+    amplifier: 2
