@@ -59,7 +59,7 @@ command-blocks:
     world: global
     include-world: true
     console-sender: true
-    command: bbspeed %PLAYERNAME% 0.2
+    command: bb speed %PLAYERNAME% 0.2
     permission: bb.use
 
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #

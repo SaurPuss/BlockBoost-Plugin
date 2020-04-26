@@ -25,6 +25,12 @@ bounce-blocks:
 #    normalize: true
 
 explosion-blocks:
+#  EXAMPLE_BLOCK:
+#    power: 2.0
+#    set-fire: false
+#    break-blocks: true
+#    player-damage: 4.0
+#    player-kill: false
 
 command-blocks:
 #  EXAMPLE_BLOCK:

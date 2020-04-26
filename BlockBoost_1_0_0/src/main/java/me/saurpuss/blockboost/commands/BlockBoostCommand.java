@@ -3,7 +3,6 @@ package me.saurpuss.blockboost.commands;
 import me.saurpuss.blockboost.BlockBoost;
 import me.saurpuss.blockboost.util.SubCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +27,7 @@ public class BlockBoostCommand implements CommandExecutor {
         bb = plugin;
 
         commands.add(new ReloadCommand(bb));
+        commands.add(new ExampleConfigCommand(bb));
         commands.add(new ListBlocksCommand(bb));
         commands.add(new SetSpeedCommand());
     }
@@ -42,11 +42,9 @@ public class BlockBoostCommand implements CommandExecutor {
             return false;
 
 
-        ArrayList<String> list;
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(args));
         Player player;
         if (sender instanceof Player) {
-            list = new ArrayList<>(Arrays.asList(args));
-
             // Determine player to perform this on
             player = Bukkit.getPlayer(list.get(0));
             if (player == null)
@@ -54,19 +52,16 @@ public class BlockBoostCommand implements CommandExecutor {
             else
                 list.remove(0); // remove player arg
         } else {
-            if (args[0].equalsIgnoreCase("reload")) {
-                SubCommand sub = getSubCommand("reload");
-                return sub.onCommand(null, args);
-            }
-
             player = Bukkit.getPlayer(args[0]);
             if (player == null) {
-                sender.sendMessage(ChatColor.DARK_RED + args[0] + " is not a valid player!");
-                return true;
-            }
+                SubCommand sub = getSubCommand(args[0]);
+                if (sub == null)
+                    return false;
 
-            list = new ArrayList<>(Arrays.asList(args));
-            list.remove(0); // remove player arg
+                String[] subArgs = Arrays.copyOfRange(args, 1, args.length);
+                return sub.onCommand(Bukkit.getConsoleSender(), subArgs);
+            } else
+                list.remove(0); // remove player arg
         }
 
         // Get SubCommand

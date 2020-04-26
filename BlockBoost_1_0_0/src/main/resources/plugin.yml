@@ -14,13 +14,19 @@ commands:
       §6BoostBlock plugin usage:
         §3/<command> §r- Display /<command> usage
         §3/<command> §binfo§r - Display BlockBoost plugin info
-        §3/<command> §btype§r - Display valid Boost Block types
         §3/<command> §blist§r - List all active Boost Blocks
+        §3/<command> §blist type§r - Display valid Boost Block types
         §3/<command> §blist §e[§bblocktype§e]§r - List active §eblocktype§r Boost Blocks
         §3/<command> §creload§r - Reload BlockBoost plugin, requires permission
+        §3/<command> §cexample§r - Generate or reload example_config.yml, requires permission
     aliases: [bb]
     permission: bb.use
     permission-message: 'Unknown command. Type "/help" for help.'
+#  bbgenerate:
+#    description: Generate an example configuration for Boost Block setup
+#    usage: /<command> - Create example_config.yml in the plugin folder
+#    permission: bb.admin
+#    permission-message: 'Unknown command. Type "/help" for help.'
 #  bbspeed:
 #    description: Force an online player's walkSpeed to a number between -1.0 and 1.0
 #    usage: |
@@ -39,6 +45,9 @@ permissions:
     default: op
   bb.reload:
     description: Permission to reload the BlockBoost plugin
+    default: false
+  bb.example:
+    description: Permission to generate or reload example_config.yml
     default: false
   bb.use:
     description: Get bb plugin info when using /bb

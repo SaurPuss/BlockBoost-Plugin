@@ -1,9 +1,6 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.blocks.single.BounceBlock;
-import me.saurpuss.blockboost.blocks.single.CommandBlock;
-import me.saurpuss.blockboost.blocks.single.PotionEffectBlock;
-import me.saurpuss.blockboost.blocks.single.SpeedBlock;
+import me.saurpuss.blockboost.blocks.single.*;
 import me.saurpuss.blockboost.listeners.CommonBlockListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
@@ -80,6 +77,18 @@ public class BlockManager {
                                 .withIncludeWorld(include).withConsoleSender(consoleSender)
                                 .withCommand(command).withPermission(permission).build();
                         break;
+                    case EXPLOSION:
+                        float power = (float) section.getDouble(key + ".power");
+                        boolean setFire = section.getBoolean(key + ".set-fire");
+                        boolean breakBlocks = section.getBoolean(key + ".break-blocks");
+                        double playerDamage = section.getDouble(key + ".player-damage");
+                        boolean playerKill = section.getBoolean(key + ".player-kill");
+
+                        block = new ExplosionBlock.Builder(material).withWorld(world)
+                                .withIncludeWorld(include).withPower(power).withSetFire(setFire)
+                                .withBreakBlocks(breakBlocks).withPlayerDamage(playerDamage)
+                                .withPlayerKill(playerKill).build();
+                        break;
                     case POTION:
                         String effect = section.getString(key + ".effect");
                         int amplifier = section.getInt(key + ".amplifier");
@@ -133,6 +142,10 @@ public class BlockManager {
             case COMMAND:
                 list = blocks.stream().filter(CommandBlock.class::isInstance)
                         .map(CommandBlock.class::cast).collect(toList());
+                break;
+            case EXPLOSION:
+                list = blocks.stream().filter(ExplosionBlock.class::isInstance)
+                        .map(ExplosionBlock.class::cast).collect(toList());
                 break;
             case POTION:
                 list = blocks.stream().filter(PotionEffectBlock.class::isInstance)

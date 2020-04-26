@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.logging.Level;
 
 /**
@@ -35,15 +34,11 @@ public final class BlockBoost extends JavaPlugin {
 
         // Register plugin commands & events
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
-        getCommand("bbgenerate").setExecutor(new ExampleConfigCommand(this));
-        // TODO only if speedblocks are involved
+//        getCommand("bbgenerate").setExecutor(new ExampleConfigCommand(this));
+
         getServer().getPluginManager().registerEvents(new EventListener(), this);
 
-        // TODO create example_config.yml
-
         // TODO worldguard depend for region specific effects, maybe API hook or extension plugin?
-
-
     }
 
     @Override
