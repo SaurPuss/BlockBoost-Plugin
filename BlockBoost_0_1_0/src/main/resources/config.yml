@@ -6,28 +6,7 @@
 # command from the console (or in game with the bb.example permission).
 # -
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
-#                          -------- Global BlockBoost Settings --------
-#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 # Display block creation on plugin start or reload
-console-messages:
+display-on-startup:
   bounce-blocks: true
   potion-blocks: true
-
-#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
-#                          -------- BlockBoost Block Setup --------
-#  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
-bounce-blocks:
-#  EXAMPLE_BLOCK:
-#    world: global
-#    include-world: true
-#    height: 0
-#    normalize: true
-
-potion-blocks:
-#  EXAMPLE_BLOCK:
-#    world: global
-#    include-world: true
-#    effect: POTION_EFFECT_TYPE
-#    duration: 1
-#    amplifier: 1
-

@@ -21,17 +21,15 @@ public class ReloadCommand extends SubCommand {
             return false;
         }
 
-        sender.sendMessage(ChatColor.GREEN + "Reloading BlockBoost plugin!");
-        sender.sendMessage(ChatColor.GRAY + "Completing pending tasks!");
-
-        bb.doTasksNow();
-
-        sender.sendMessage(ChatColor.GRAY + "Refreshing configuration files!");
+        sender.sendMessage("[BB]" + ChatColor.GREEN + "Reloading BlockBoost plugin!");
+        sender.sendMessage("[BB]" + ChatColor.GRAY + "Refreshing configuration files!");
 
         bb.reloadConfig();
+
+        sender.sendMessage("[BB]" + ChatColor.GRAY + "Reloading Boost Block Manager!");
         bb.reloadBB();
 
-        sender.sendMessage(ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
+        sender.sendMessage("[BB]" + ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
 
         return true;
     }
@@ -39,11 +37,6 @@ public class ReloadCommand extends SubCommand {
     @Override
     public String name() {
         return "reload";
-    }
-
-    @Override
-    public String[] getUsage() {
-        return new String[0];
     }
 
     @Override

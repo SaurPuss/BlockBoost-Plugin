@@ -52,7 +52,7 @@ public class BlockManager {
                         " is invalid! Ignoring " + key + "!");
             } else {
                 // Set the common variables
-                boolean consoleMessage = config.getBoolean("console-messages." + type.section());
+                boolean consoleMessage = config.getBoolean("display-on-startup." + type.section());
                 AbstractBlock block = null;
                 String world = section.getString( key + ".world");
                 boolean include = section.getBoolean(key + ".include-world");

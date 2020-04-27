@@ -77,11 +77,6 @@ public class ListBlocksCommand extends SubCommand {
     }
 
     @Override
-    public String[] getUsage() {
-        return new String[0];
-    }
-
-    @Override
     public String[] aliases() {
         return new String[0];
     }

@@ -1,23 +1,18 @@
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                        -------- Welcome to the Example Config --------
 # -
-
-
-# -
 # All blocks in the BoostBlock plugin have the option to add a world and whether or not to include
 # said world. If you want this block to be available in all worlds, set the world to global and
 # leave include-world on true. If you want to disable this in all just toggle the include to false.
 # Adding a specific world name will give you the option to either enable the effect only in that
 # world or excluding it there specifically.
-
 # -
 # Add a block to your list by using the Bukkit Material name. A block can only appear in a block
-# list once! However, you can still combine effects by setting up the same block in multiple Block
-# Yaml Configs with their specific effects. Non-Block Materials will be ignored.
-
+# list once! However, you can still combine effects by setting up the same material in multiple Block
+# types with their specific effects. Non-Block Materials will be ignored.
 # -
 # If you don't want to display each valid block creation in the console at plugin start-up and
-# reload set the console-messages to false.
+# reload set the display-on-startup to false.
 # -
 #                                 -------- Useful Links --------
 # -
@@ -25,7 +20,8 @@
 # Potion Effect Types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
 # -
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
-console-messages:
+# Display block creation
+display-on-startup:
   bounce-blocks: true
   potion-blocks: true
 
@@ -42,13 +38,18 @@ bounce-blocks:
   SPONGE:
     world: global
     include-world: true
-    height: 10
+    height: 50
     normalize: true
   WET_SPONGE:
     world: world
     include-world: true
-    height: 5
+    height: 10
     normalize: true
+  EMERALD_ORE:
+    world: world
+    include-world: true
+    height: 5
+    normalize: false
 
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                             -------- Potion Block Setup --------

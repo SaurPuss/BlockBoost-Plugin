@@ -8,8 +8,6 @@ public abstract class SubCommand {
 
     public abstract String name();
 
-    public abstract String[] getUsage();
-
     public abstract String[] aliases();
 
 }
