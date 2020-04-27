@@ -11,9 +11,7 @@
 # Display block creation on plugin start or reload
 console-messages:
   bounce-blocks: true
-  command-blocks: true
   potion-blocks: true
-  speed-blocks: true
 
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                          -------- BlockBoost Block Setup --------

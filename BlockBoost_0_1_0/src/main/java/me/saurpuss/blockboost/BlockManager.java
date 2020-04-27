@@ -68,27 +68,6 @@ public class BlockManager {
                                 .withIncludeWorld(include).withHeight(height)
                                 .withNormalize(normalize).build();
                         break;
-//                    case COMMAND:
-//                        boolean consoleSender = section.getBoolean(key + ".console-sender");
-//                        String command = section.getString(key + ".command");
-//                        String permission = section.getString(key + ".permission");
-//
-//                        block = new CommandBlock.Builder(material).withWorld(world)
-//                                .withIncludeWorld(include).withConsoleSender(consoleSender)
-//                                .withCommand(command).withPermission(permission).build();
-//                        break;
-//                    case EXPLOSION:
-//                        float power = (float) section.getDouble(key + ".power");
-//                        boolean setFire = section.getBoolean(key + ".set-fire");
-//                        boolean breakBlocks = section.getBoolean(key + ".break-blocks");
-//                        double playerDamage = section.getDouble(key + ".player-damage");
-//                        boolean playerKill = section.getBoolean(key + ".player-kill");
-//
-//                        block = new ExplosionBlock.Builder(material).withWorld(world)
-//                                .withIncludeWorld(include).withPower(power).withSetFire(setFire)
-//                                .withBreakBlocks(breakBlocks).withPlayerDamage(playerDamage)
-//                                .withPlayerKill(playerKill).build();
-//                        break;
                     case POTION:
                         String effect = section.getString(key + ".effect");
                         int amplifier = section.getInt(key + ".amplifier");
@@ -103,18 +82,6 @@ public class BlockManager {
                                     " in " + type.section() + " is invalid! Ignoring " + key + "!");
                         }
                         break;
-//                    case SPEED:
-//                        String subType = section.getString(key + ".type");
-//                        float amount = (float) section.getDouble(key + ".amount");
-//                        float cap = (float)  section.getDouble(key + ".cap");
-//                        long cooldown = section.getLong(key + ".cooldown");
-//
-//                        block = new SpeedBlock.Builder(material).withWorld(world)
-//                                .withIncludeWorld(include).withType(Objects.requireNonNull(subType,
-//                                        "Speed Block type cannot be null!"))
-//                                .withAmount(amount).withCap(cap).withDuration(duration)
-//                                .withCooldown(cooldown).build();
-//                        break;
                 }
 
                 if (block != null) {
@@ -139,21 +106,9 @@ public class BlockManager {
                 list = blocks.stream().filter(BounceBlock.class::isInstance)
                         .map(BounceBlock.class::cast).collect(toList());
                 break;
-//            case COMMAND:
-//                list = blocks.stream().filter(CommandBlock.class::isInstance)
-//                        .map(CommandBlock.class::cast).collect(toList());
-//                break;
-//            case EXPLOSION:
-//                list = blocks.stream().filter(ExplosionBlock.class::isInstance)
-//                        .map(ExplosionBlock.class::cast).collect(toList());
-//                break;
             case POTION:
                 list = blocks.stream().filter(PotionEffectBlock.class::isInstance)
                         .map(PotionEffectBlock.class::cast).collect(toList());
-                break;
-//            case SPEED:
-//                list = blocks.stream().filter(SpeedBlock.class::isInstance)
-//                        .map(SpeedBlock.class::cast).collect(toList());
         }
 
         return list;

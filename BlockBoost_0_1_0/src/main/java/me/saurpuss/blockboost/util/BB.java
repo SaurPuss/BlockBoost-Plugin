@@ -4,11 +4,8 @@ import com.google.common.base.Enums;
 
 public enum BB {
 
-    BOUNCE( "bounce-blocks"),
-//    COMMAND("command-blocks"),
-//    EXPLOSION("explosion-blocks"),
+    BOUNCE("bounce-blocks"),
     POTION("potion-blocks");
-//    SPEED("speed-blocks");
 
     private String configSection;
 

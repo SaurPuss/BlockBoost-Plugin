@@ -1,9 +1,6 @@
 package me.saurpuss.blockboost;
 
 import me.saurpuss.blockboost.commands.BlockBoostCommand;
-import me.saurpuss.blockboost.commands.ExampleConfigCommand;
-import me.saurpuss.blockboost.listeners.EventListener;
-import me.saurpuss.blockboost.util.tasks.SpeedResetTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -34,18 +31,12 @@ public final class BlockBoost extends JavaPlugin {
 
         // Register plugin commands & events
         getCommand("blockboost").setExecutor(new BlockBoostCommand(this));
-//        getCommand("bbgenerate").setExecutor(new ExampleConfigCommand(this));
-
-        getServer().getPluginManager().registerEvents(new EventListener(), this);
 
         // TODO worldguard depend for region specific effects, maybe API hook or extension plugin?
     }
 
     @Override
     public void onDisable() {
-        // Finish pending BB Tasks
-        doTasksNow();
-
         // Unload active listeners
         HandlerList.unregisterAll(this);
     }
@@ -66,21 +57,5 @@ public final class BlockBoost extends JavaPlugin {
 
     public BlockManager getBlockManager() {
         return blockManager;
-    }
-
-    /**
-     * Make any pending tasks scheduled by this BlockBoost run now instead of later.
-     */
-    public void doTasksNow() {
-        Bukkit.getScheduler().getPendingTasks().forEach(task -> {
-            if (task.getOwner().equals(this)) {
-                Player player = ((SpeedResetTask) task).getPlayer();
-                float speed = ((SpeedResetTask) task).getSpeed();
-                getLogger().log(Level.INFO,
-                        "Completing Speed Reset task for id " + task.getTaskId() + "! Setting " +
-                                "speed for player " + player.getName() + " to " + speed + "!");
-                player.setWalkSpeed(speed);
-            }
-        });
     }
 }
