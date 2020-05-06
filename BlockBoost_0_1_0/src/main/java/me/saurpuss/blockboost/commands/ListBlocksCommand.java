@@ -27,7 +27,7 @@ public class ListBlocksCommand extends SubCommand {
             for (BB type : BB.values()) {
                 list = new ArrayList<>(bb.getBlockManager().getBlockList(type));
                 if (!list.isEmpty()) {
-                    temp.add(ChatColor.BLUE + type.toString());
+                    temp.add(ChatColor.BLUE + "Registered " + type.toString() + " blocks: ");
                     list.forEach(block -> temp.add(block.toColorString()));
                 }
             }
@@ -49,23 +49,19 @@ public class ListBlocksCommand extends SubCommand {
 
         else {
             BB type = BB.getIfPresent(args[0]);
-            switch (type) {
-                case BOUNCE:
-//                case SPEED:
-                case POTION:
-                    list = new ArrayList<>(bb.getBlockManager().getBlockList(type));
-                    break;
-                default:
-                    sender.sendMessage(ChatColor.RED + "BoostBlock " + ChatColor.DARK_RED +
-                            args[1] + ChatColor.RED + " does not exist!");
-                    return false;
+            if (type == null) {
+                sender.sendMessage(ChatColor.RED + args[0] + " is not a valid Boost Block! Use §2/bb list " +
+                        "type §cto see available BlockBoost types!");
+                return false;
             }
 
+            list = new ArrayList<>(bb.getBlockManager().getBlockList(type));
             if (list.isEmpty()) {
-                sender.sendMessage(ChatColor.RED + "No matching Boost Blocks found!");
+                sender.sendMessage(ChatColor.RED + "No registered " + type.name() + " Boost Blocks found!");
                 return true;
             }
 
+            sender.sendMessage(ChatColor.BLUE + "Registered " + type.toString() + " blocks: ");
             list.forEach(block -> sender.sendMessage(block.toColorString())); // TODO pagination
             return true;
         }
