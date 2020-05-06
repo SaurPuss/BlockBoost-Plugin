@@ -18,18 +18,18 @@ public class ReloadCommand extends SubCommand {
     public boolean onCommand(CommandSender sender, String[] args) {
         if (sender instanceof Player && !sender.hasPermission("bb.reload")) {
             sender.sendMessage(ChatColor.RED + "You do not have the §4bb.reload §cpermission!");
-            return false;
+            return true;
         }
 
-        sender.sendMessage("[BB]" + ChatColor.GREEN + "Reloading BlockBoost plugin!");
-        sender.sendMessage("[BB]" + ChatColor.GRAY + "Refreshing configuration files!");
+        sender.sendMessage(ChatColor.GREEN + "Reloading BlockBoost plugin!");
+        sender.sendMessage(ChatColor.GRAY + "Refreshing configuration files!");
 
         bb.reloadConfig();
 
-        sender.sendMessage("[BB]" + ChatColor.GRAY + "Reloading Boost Block Manager!");
+        sender.sendMessage(ChatColor.GRAY + "Reloading Boost Block Manager!");
         bb.reloadBB();
 
-        sender.sendMessage("[BB]" + ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
+        sender.sendMessage(ChatColor.GREEN + "Finished reloading BlockBoost Plugin!");
 
         return true;
     }

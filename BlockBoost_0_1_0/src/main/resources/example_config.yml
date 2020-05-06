@@ -29,27 +29,19 @@ display-on-startup:
 #                             -------- Bounce Block Setup --------
 # -
 # Bounce Blocks are blocks that will increase a player's velocity when a player is (moving) on top
-# of it. The block specific settings are height and normalize. If normalize is set to true the
-# height will determine how many additional blocks the player will be boosted up into the air.
-# While normalize is off the effects are somewhat more volatile.
+# of it. The height can vary between 0.0 and 5.0, with mildly volatile effects when maxed out. Any height
+# below 0.5 is not recommended. Bounce blocks do not adjust a player's existing X or Z velocity.
 # -
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 bounce-blocks:
   SPONGE:
     world: global
     include-world: true
-    height: 50
-    normalize: true
+    height: 5.0
   WET_SPONGE:
     world: world
     include-world: true
-    height: 10
-    normalize: true
-  EMERALD_ORE:
-    world: world
-    include-world: true
-    height: 5
-    normalize: false
+    height: 1.0
 
 #  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-  #
 #                             -------- Potion Block Setup --------

@@ -12,8 +12,7 @@ public class BounceBlock extends AbstractBlock {
         private Material material;
         private String world;
         private boolean includeWorld;
-        private int height;
-        private boolean normalize;
+        private double height;
 
         public Builder(Material material) {
             this.material = material;
@@ -31,14 +30,8 @@ public class BounceBlock extends AbstractBlock {
             return this;
         }
 
-        public Builder withHeight(int height) {
+        public Builder withHeight(double height) {
             this.height = height;
-
-            return this;
-        }
-
-        public Builder withNormalize(boolean normalize) {
-            this.normalize = normalize;
 
             return this;
         }
@@ -49,7 +42,6 @@ public class BounceBlock extends AbstractBlock {
             block.world = this.world;
             block.includeWorld = this.includeWorld;
             block.height = this.height;
-            block.normalize = this.normalize;
 
             return block;
         }
@@ -58,8 +50,7 @@ public class BounceBlock extends AbstractBlock {
     private Material material;
     private String world;
     private boolean includeWorld;
-    private int height;
-    private boolean normalize;
+    private double height;
 
     private BounceBlock() {}
 
@@ -93,33 +84,24 @@ public class BounceBlock extends AbstractBlock {
         this.includeWorld = includeWorld;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
-    }
-
-    public boolean isNormalize() {
-        return normalize;
-    }
-
-    public void setNormalize(boolean normalize) {
-        this.normalize = normalize;
     }
 
     @Override
     public String toColorString() {
         return ChatColor.GREEN + material.toString() + ChatColor.GRAY + " (world: " + world +
-                ", include: " + includeWorld + ", height: " + height + ", normalize: " +
-                normalize + ")";
+                ", include: " + includeWorld + ", height: " + height + ")";
     }
 
     @Override
     public String toString() {
         return material.toString() + " (world: " + world + ", include: " + includeWorld +
-                ", height: " + height + ", normalize: " + normalize + ")";
+                ", height: " + height + ")";
     }
 
     @Override
@@ -128,7 +110,7 @@ public class BounceBlock extends AbstractBlock {
         direction.setY(getHeight());
         direction.setX(player.getVelocity().getX());
         direction.setZ(player.getVelocity().getZ());
-        if (isNormalize()) direction.normalize();
+//        if (isNormalize()) direction.normalize();
 
         player.setVelocity(direction);
     }

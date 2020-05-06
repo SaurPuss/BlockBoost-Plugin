@@ -1,6 +1,7 @@
 package me.saurpuss.blockboost;
 
-import me.saurpuss.blockboost.blocks.single.*;
+import me.saurpuss.blockboost.blocks.single.BounceBlock;
+import me.saurpuss.blockboost.blocks.single.PotionEffectBlock;
 import me.saurpuss.blockboost.listeners.CommonBlockListener;
 import me.saurpuss.blockboost.util.AbstractBlock;
 import me.saurpuss.blockboost.util.BB;
@@ -36,7 +37,7 @@ public class BlockManager {
         if (!blocks.isEmpty())
             new CommonBlockListener(bb, blocks);
         else
-            bb.getLogger().log(Level.INFO, "No valid Boost Blocks found!");
+            bb.getLogger().log(Level.WARNING, "No valid Boost Blocks found!");
     }
 
     private HashMap<Material, AbstractBlock> fillBlockMap(BB type) {
@@ -61,12 +62,10 @@ public class BlockManager {
                 // Try to create a corresponding block type
                 switch (type) {
                     case BOUNCE:
-                        int height = section.getInt(key + ".height");
-                        boolean normalize = section.getBoolean(key + ".normalize");
+                        double height = section.getDouble(key + ".height");
 
                         block = new BounceBlock.Builder(material).withWorld(world)
-                                .withIncludeWorld(include).withHeight(height)
-                                .withNormalize(normalize).build();
+                                .withIncludeWorld(include).withHeight(height).build();
                         break;
                     case POTION:
                         String effect = section.getString(key + ".effect");
