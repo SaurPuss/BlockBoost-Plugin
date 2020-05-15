@@ -10,16 +10,42 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CommonBlockListener implements Listener {
 
     private final Set<AbstractBlock> BLOCKS;
+    private final HashSet<Material> ignored = new HashSet<>();
 
     public CommonBlockListener(final BlockBoost plugin, final Set<AbstractBlock> BLOCKS) {
         this.BLOCKS = BLOCKS;
-        if (!BLOCKS.isEmpty())
+
+        if (!BLOCKS.isEmpty()) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+            // Ignore air and cave air by default as a block to check
+            ignored.add(Material.AIR);
+            ignored.add(Material.CAVE_AIR);
+
+            // ignore carpet, todo config selection instead
+            ignored.add(Material.CYAN_CARPET);
+            ignored.add(Material.BLACK_CARPET);
+            ignored.add(Material.BLUE_CARPET);
+            ignored.add(Material.BROWN_CARPET);
+            ignored.add(Material.GRAY_CARPET);
+            ignored.add(Material.GREEN_CARPET);
+            ignored.add(Material.LIGHT_BLUE_CARPET);
+            ignored.add(Material.LIGHT_GRAY_CARPET);
+            ignored.add(Material.LIME_CARPET);
+            ignored.add(Material.MAGENTA_CARPET);
+            ignored.add(Material.ORANGE_CARPET);
+            ignored.add(Material.PINK_CARPET);
+            ignored.add(Material.PURPLE_CARPET);
+            ignored.add(Material.RED_CARPET);
+            ignored.add(Material.WHITE_CARPET);
+            ignored.add(Material.YELLOW_CARPET);
+        }
     }
 
     @EventHandler
@@ -30,7 +56,7 @@ public class CommonBlockListener implements Listener {
             return;
 
         Material material = player.getLocation().getBlock().getType();
-        if (material == Material.AIR || material == Material.CAVE_AIR)
+        if (ignored.contains(material))
             material = player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType();
 
         iterate(material, player);
